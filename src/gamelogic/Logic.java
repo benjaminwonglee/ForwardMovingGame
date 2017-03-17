@@ -5,6 +5,7 @@ import tiles.Tile;
 public class Logic {
 	private Player currentPlayer;
 	private Board board;
+	private boolean gameOver = false;
 
 	/**
 	 * Constructs the Logic of the game. The Board and Player are also created
@@ -13,6 +14,11 @@ public class Logic {
 	public Logic() {
 		this.board = new Board(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
+		if (currentPlayer.getLife() == 0) {
+			setGameOver(true);
+			new GameOverScreen();
+		}
+		
 	}
 
 	public Player getCurrentPlayer() {
@@ -37,6 +43,14 @@ public class Logic {
 
 	public int getPlayerXPos() {
 		return currentPlayer.getXPos();
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
 	}
 
 }

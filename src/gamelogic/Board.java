@@ -79,7 +79,7 @@ public class Board {
 		}
 		if (!tiles[newX][height - 1].isTraversable(player)) {
 			// new Tile is not traversable
-			new GameOver();
+			new GameOverScreen();
 			return false;
 		}
 		// Change the position of the player and return true

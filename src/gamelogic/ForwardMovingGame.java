@@ -2,13 +2,13 @@ package gamelogic;
 
 import graphics.Frame;
 
-public class WalkingGame {
-	public WalkingGame(){
+public class ForwardMovingGame {
+	public ForwardMovingGame(){
 		Logic l = new Logic();
-		new Frame(l);
+		new ClockRunner(new Frame(l));
 	}
 
 	public static void main(String args[]) {
-		new WalkingGame();
+		new ForwardMovingGame();
 	}
 }

@@ -8,14 +8,15 @@ public class Player {
 	private int xPos;
 	private List<Item> inventory;
 	private int maxInventorySize;
+	private int life = 3;
 
 	/**
 	 * Creates a new Player with parameters of the Player's initial x position
 	 * (in squares) on the board, and the total number of items allowed in the
 	 * player inventory (specified by total number of items in the game
 	 * excluding the Blank item, duplicated from Board). Does not check for
-	 * creation of Player outside board dimensions since Player object does not know
-	 * Board object.
+	 * creation of Player outside board dimensions since Player object does not
+	 * know Board object.
 	 * 
 	 * @param x
 	 *            The initial position of the player in squares on the board (y
@@ -97,5 +98,13 @@ public class Player {
 
 	public List<Item> getInventory() {
 		return inventory;
+	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
 	}
 }

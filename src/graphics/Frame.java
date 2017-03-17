@@ -31,8 +31,8 @@ public class Frame {
 	public Frame(Logic l) {
 		this.logic = l;
 		this.frame = new JFrame();
-		this.drawing = new Drawing(frameWidth - eastPanelWidth, frameHeight, logic.getBoard().getWidth(), logic.getBoard().getHeight(),
-				logic);
+		this.drawing = new Drawing(frameWidth - eastPanelWidth, frameHeight, logic.getBoard().getWidth(),
+				logic.getBoard().getHeight(), logic);
 
 		frame.setPreferredSize(new Dimension(frameWidth + 100, frameHeight + 100));
 		JPanel southPanel = new JPanel();
@@ -93,8 +93,7 @@ public class Frame {
 	}
 
 	private void defineSouthPanel(JPanel southPanel) {
-		southPanel.setPreferredSize(new Dimension(southPanelWidth,
-		southPanelHeight));
+		southPanel.setPreferredSize(new Dimension(southPanelWidth, southPanelHeight));
 		southPanel.setBackground(new Color(100, 100, 100));
 	}
 
@@ -103,8 +102,8 @@ public class Frame {
 	}
 
 	/**
-	 * Final stages of setting up the properties of the frame such as the title, focus,
-	 * and visibility.
+	 * Final stages of setting up the properties of the frame such as the title,
+	 * focus, and visibility.
 	 */
 	private void setFrameProperties() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,4 +119,7 @@ public class Frame {
 		return drawing;
 	}
 
+	public Logic getLogic() {
+		return logic;
+	}
 }

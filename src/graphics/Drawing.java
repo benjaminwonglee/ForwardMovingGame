@@ -3,11 +3,13 @@ package graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.text.html.ImageView;
 
 import gamelogic.Logic;
 import tiles.*;
@@ -20,7 +22,9 @@ public class Drawing extends JPanel {
 	private int boardHigh;
 	private Logic game; // Controller
 	private int colorTone = 0;
+	private int colorToneChange = 3;
 	private boolean reverse = false;
+	private boolean debug = true;
 
 	public Drawing(int width, int height, int boardWide, int boardHigh, Logic game) {
 		this.setPreferredSize(new Dimension(width, height));
@@ -31,17 +35,20 @@ public class Drawing extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		if (colorTone < 20 && !reverse) {
-			// ColorTone 0 to 20
-			colorTone += 2;
-		} else if (colorTone > 0) {
-			// colorTone 20 to 0 (reverse)
+		if (colorTone < 30 && !reverse) {
+			// ColorTone 0 to 30
+			colorTone += colorToneChange;
+		} else if (colorTone > -15) {
+			// colorTone 30 to -15 (reverse)
 			reverse = true;
-			colorTone -= 2;
+			colorTone -= colorToneChange;
 		} else {
 			// colorTone equals 0
 			reverse = false;
-			colorTone += 2;
+			colorTone += colorToneChange;
+		}
+		if (debug) {
+			System.out.println("ColorTone: " + colorTone);
 		}
 		super.paintComponent(g);
 		double sqH = this.getHeight() / boardHigh;
@@ -62,10 +69,17 @@ public class Drawing extends JPanel {
 					g.setColor(new Color(0, 0, 220 + colorTone));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
-					
 					// Draw a monster
-				}else if (game.checkSquare(row, col) instanceof Mountain) {
-						
+					java.awt.Image monsterImg = null;
+					try {
+						monsterImg = ImageIO.read(new File("images/monster.bmp"));
+					} catch (IOException e) {
+						System.err.println("Couldn't read image file of monster");
+						e.printStackTrace();
+					}
+					g.drawImage(monsterImg, row * w, (col * h), w, h, this);
+				} else if (game.checkSquare(row, col) instanceof Mountain) {
+					// Draw a mountain
 					g.setColor(new Color(150, 120, 50));
 					g.fillRect(row * w, col * h, w, h);
 					g.setColor(new Color(180, 120, 50));

@@ -3,6 +3,12 @@ package gamelogic;
 import graphics.Frame;
 
 public class ClockRunner {
+	
+	/**
+	 * Creates a clock 'tick' for the game progression. 
+	 * 
+	 * @param frame
+	 */
 	public ClockRunner(Frame frame) {
 		while (true) {
 			try {

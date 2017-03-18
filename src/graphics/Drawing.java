@@ -19,6 +19,8 @@ public class Drawing extends JPanel {
 	private int boardWide;
 	private int boardHigh;
 	private Logic game; // Controller
+	private int colorTone = 0;
+	private boolean reverse = false;
 
 	public Drawing(int width, int height, int boardWide, int boardHigh, Logic game) {
 		this.setPreferredSize(new Dimension(width, height));
@@ -29,6 +31,18 @@ public class Drawing extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		if (colorTone < 20 && !reverse) {
+			// ColorTone 0 to 20
+			colorTone += 2;
+		} else if (colorTone > 0) {
+			// colorTone 20 to 0 (reverse)
+			reverse = true;
+			colorTone -= 2;
+		} else {
+			// colorTone equals 0
+			reverse = false;
+			colorTone += 2;
+		}
 		super.paintComponent(g);
 		double sqH = this.getHeight() / boardHigh;
 		double sqW = this.getWidth() / boardWide;
@@ -38,17 +52,20 @@ public class Drawing extends JPanel {
 			for (int col = 0; col < boardHigh; col++) {
 				if (game.checkSquare(row, col) instanceof Plain) {
 					// Draw an empty plain
-					g.setColor(new Color(0, 180, 20));
+					g.setColor(new Color(0, 180 + colorTone, 20 + colorTone));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof Desert) {
-					g.setColor(new Color(220, 220, 0));
+					g.setColor(new Color(220 + colorTone, 220 + colorTone, 0));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof Sea) {
 					// Draw a sea panel
-					g.setColor(new Color(0, 0, 250));
+					g.setColor(new Color(0, 0, 220 + colorTone));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
-					// Draw a mountain
+					
+					// Draw a monster
+				}else if (game.checkSquare(row, col) instanceof Mountain) {
+						
 					g.setColor(new Color(150, 120, 50));
 					g.fillRect(row * w, col * h, w, h);
 					g.setColor(new Color(180, 120, 50));

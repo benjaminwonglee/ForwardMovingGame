@@ -13,7 +13,7 @@ public class Board {
 	private Tile[][] tiles;
 	private int width = 3;
 	private int height = 6;
-	private int maxInventorySize = 2;
+	private int maxInventorySize = 3;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.

@@ -32,6 +32,8 @@ public class EastPanel extends JPanel {
 
 	private Set<JLabel> invSlots;
 
+	private boolean debug = true;
+
 	public EastPanel(Frame frame, Board board, ClockRunner clock) {
 		invSlots = new HashSet<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
@@ -78,23 +80,35 @@ public class EastPanel extends JPanel {
 	}
 
 	private void createInventoryLabels(Frame frame, Board board) {
-		Dimension preferredSize = new Dimension(100, 100);
+		Dimension preferredSize = new Dimension(130, 130);
 		for (int i = 0; i < maxInventorySize; i++) {
+
+			// TODO: remove once tested
 			/* Read the image */
 			BufferedImage invPic = null;
-			String item = board.getPlayer().getInventory().get(i).getName();
+			String item = "flippers";
 			try {
 				invPic = ImageIO.read(new File("images/" + item + ".bmp"));
 			} catch (IOException e) {
+				System.err.println("There was an error reading an inventory image");
 				e.printStackTrace();
 			}
+
+			// /* Read the image */
+			// BufferedImage invPic = null;
+			// String item = board.getPlayer().getInventory().get(i).getName();
+			// try {
+			// invPic = ImageIO.read(new File("images/" + item + ".bmp"));
+			// } catch (IOException e) {
+			// e.printStackTrace();
+			// }
+
 			/* Scale the image */
 			Image img = (Image) invPic;
 			Image scaled = img.getScaledInstance(preferredSize.width, preferredSize.height, 0);
 
 			ImageIcon invItem = new ImageIcon(scaled);
 			JLabel invSlot = new JLabel(invItem);
-			invSlot.setText(item.substring(0, 1).toUpperCase() + item.substring(1));
 			
 			invSlot.setFocusable(false);
 			invSlot.setPreferredSize(preferredSize);
@@ -102,6 +116,7 @@ public class EastPanel extends JPanel {
 			this.add(invSlot, this.getLayout());
 			this.invSlots.add(invSlot);
 		}
+
 	}
 
 	// private void updateInventoryIcons(Frame frame, Board board) {

@@ -1,5 +1,6 @@
 package gamelogic;
 
+import tiles.ItemTile;
 import tiles.Tile;
 
 public class Logic {
@@ -18,7 +19,20 @@ public class Logic {
 			setGameOver(true);
 			new GameOverScreen();
 		}
-		
+	}
+
+	public boolean pickUpItem() {
+		Tile t = checkSquare(board.getHeight(), currentPlayer.getXPos());
+		if (t instanceof ItemTile) {
+			ItemTile itemTile = (ItemTile) t;
+			currentPlayer.addToInventory(itemTile.containedItem());
+			return true;
+		}
+		return false;
+	}
+
+	public Tile checkSquare(int row, int col) {
+		return board.returnSquare(row, col);
 	}
 
 	public Player getCurrentPlayer() {
@@ -35,10 +49,6 @@ public class Logic {
 
 	public void setBoard(Board board) {
 		this.board = board;
-	}
-
-	public Tile checkSquare(int row, int col) {
-		return board.returnSquare(row, col);
 	}
 
 	public int getPlayerXPos() {

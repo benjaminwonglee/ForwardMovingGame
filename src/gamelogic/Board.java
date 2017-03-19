@@ -3,7 +3,8 @@ package gamelogic;
 import tiles.*;
 
 /**
- * A class representing the game board
+ * A class representing the game board. Responsible for movement of Player and
+ * Board.
  * 
  * @author Benjamin Wong-Lee
  *
@@ -13,7 +14,7 @@ public class Board {
 	private Tile[][] tiles;
 	private int width = 3;
 	private int height = 6;
-	private int maxInventorySize = 3;
+	private static final int maxInventorySize = 3;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
@@ -30,6 +31,8 @@ public class Board {
 			for (int col = 0; col < height; col++) {
 				tiles[row][col] = new Plain();
 				// TODO: Make more complex
+				// TODO: Make all ItemTiles created with MaxInventoryNumber as
+				// parameter.
 			}
 		}
 	}

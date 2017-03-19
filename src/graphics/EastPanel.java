@@ -32,12 +32,12 @@ public class EastPanel extends JPanel {
 
 	private Set<JLabel> invSlots;
 
-	private boolean debug = true;
+	private ClockRunner clock;
 
 	public EastPanel(Frame frame, Board board, ClockRunner clock) {
 		invSlots = new HashSet<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
-
+		this.clock = clock;
 		addButtons(frame, board);
 		createInventoryLabels(frame, board);
 	}
@@ -83,7 +83,7 @@ public class EastPanel extends JPanel {
 		Dimension preferredSize = new Dimension(130, 130);
 		for (int i = 0; i < maxInventorySize; i++) {
 
-			// TODO: remove once tested
+			// TODO: remove once fully tested
 			/* Read the image */
 			BufferedImage invPic = null;
 			String item = "flippers";
@@ -109,7 +109,7 @@ public class EastPanel extends JPanel {
 
 			ImageIcon invItem = new ImageIcon(scaled);
 			JLabel invSlot = new JLabel(invItem);
-			
+
 			invSlot.setFocusable(false);
 			invSlot.setPreferredSize(preferredSize);
 

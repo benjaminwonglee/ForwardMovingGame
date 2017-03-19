@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gamelogic.Board;
+import gamelogic.ClockRunner;
 
 public class EastPanel extends JPanel {
 
@@ -31,7 +32,7 @@ public class EastPanel extends JPanel {
 
 	private Set<JLabel> invSlots;
 
-	public EastPanel(Frame frame, Board board) {
+	public EastPanel(Frame frame, Board board, ClockRunner clock) {
 		invSlots = new HashSet<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
 
@@ -81,10 +82,9 @@ public class EastPanel extends JPanel {
 		for (int i = 0; i < maxInventorySize; i++) {
 			/* Read the image */
 			BufferedImage invPic = null;
+			String item = board.getPlayer().getInventory().get(i).getName();
 			try {
-				String item = board.getPlayer().getInventory().get(i).getName();
 				invPic = ImageIO.read(new File("images/" + item + ".bmp"));
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -94,7 +94,8 @@ public class EastPanel extends JPanel {
 
 			ImageIcon invItem = new ImageIcon(scaled);
 			JLabel invSlot = new JLabel(invItem);
-
+			invSlot.setText(item.substring(0, 1).toUpperCase() + item.substring(1));
+			
 			invSlot.setFocusable(false);
 			invSlot.setPreferredSize(preferredSize);
 

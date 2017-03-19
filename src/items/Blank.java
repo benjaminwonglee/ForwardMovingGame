@@ -4,7 +4,7 @@ public class Blank implements Item{
 
 	@Override
 	public String getName() {
-		return "blank";
+		return "";
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package gamelogic;
 
+import frames.GameOverScreen;
 import tiles.ItemTile;
 import tiles.Tile;
 

@@ -1,4 +1,4 @@
-package gamelogic;
+package frames;
 
 import java.awt.Color;
 import java.awt.Dimension;

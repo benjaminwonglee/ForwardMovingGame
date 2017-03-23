@@ -24,22 +24,39 @@ public class GameOverScreen extends JFrame {
 	private class GameOverPanel extends JPanel {
 		private static final long serialVersionUID = -8583261398361793225L;
 
-		@Override
 		public void paintComponent(Graphics g) {
-			int inward = 0;
-			for (int i = 0; i < 7; i++) {
-				if (inward % 2 == 1) {
-					g.setColor(new Color(0, 0, 100));
-				} else {
-					g.setColor(new Color(0, 0, 50));
-				}
-				g.fillRect(0 + inward, 0 + inward, this.getWidth() - (inward * 2), this.getHeight() - (inward * 2));
-				inward += 41;
-			}
-			//TODO: Draw random red triangles here
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			g.setColor(new Color(150, 0, 0));
-			//g.fillPolygon(xPoints, yPoints, nPoints);
-			
+			int[] xPoints = new int[3];
+			int[] yPoints = new int[3];
+
+			// Unchanging variables
+			yPoints[0] = 0;
+			yPoints[1] = this.getHeight();
+			yPoints[2] = this.getHeight();
+			xPoints[0] = 0;
+			xPoints[1] = 0;
+
+			for (int i = 0; i < 120; i++) {
+				if (i == 0) {
+					g.setColor(new Color(0, 40, 150));
+				} else if (i == 20) {
+					g.setColor(new Color(0, 0, 6 * i));
+				} else if (i == 40) {
+					g.setColor(new Color(0, 0, 3 * i));
+				} else if (i == 60) {
+					g.setColor(new Color(0, 0, i));
+				} else if (i == 80) {
+					g.setColor(new Color(0, 0, i - 20));
+				} else if (i == 100) {
+					g.setColor(new Color(0, 0, i - 60));
+				} else if (i == 120) {
+					g.setColor(new Color(0, 0, i - 100));
+				}
+				xPoints[2] = this.getWidth() - (i * 6);
+				g.fillPolygon(xPoints, yPoints, 3);
+			}
 		}
 	}
 }

@@ -147,6 +147,7 @@ public class GameFrame {
 		frame.setFocusable(true);
 		frame.requestFocusInWindow();
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
 	}

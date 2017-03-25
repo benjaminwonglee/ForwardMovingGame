@@ -3,23 +3,27 @@ package frames;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class IntroScreen extends JFrame {
+public class IntroScreen extends AbstractWindow {
 
 	private static final long serialVersionUID = -1212029084642314569L;
 
 	public IntroScreen() {
-		setPreferredSize(new Dimension(800, 800));
 		this.setTitle("Forward Moving Game");
 		IntroPanel panel = new IntroPanel();
 		this.add(panel);
-		this.setResizable(false);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		setFrameProperties();
 	}
 
 	private class IntroPanel extends JPanel {
@@ -27,11 +31,10 @@ public class IntroScreen extends JFrame {
 		private static final long serialVersionUID = 7543777692609420096L;
 
 		public IntroPanel() {
-			createButtons();
-		}
-
-		private void createButtons() {
-
+			Set<JButton> buttons = createButtons();
+			for(JButton j: buttons){
+				this.add(j);
+			}
 		}
 
 		@Override

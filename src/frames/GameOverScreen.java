@@ -3,26 +3,34 @@ package frames;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class GameOverScreen extends JFrame {
+public class GameOverScreen extends AbstractWindow {
 	private static final long serialVersionUID = -4909362608024151100L;
 
 	public GameOverScreen() {
-		setPreferredSize(new Dimension(800, 800));
 		this.setTitle("Game Over");
 		GameOverPanel panel = new GameOverPanel();
 		this.add(panel);
-		this.setResizable(false);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		setFrameProperties();
 	}
 
 	private class GameOverPanel extends JPanel {
 		private static final long serialVersionUID = -8583261398361793225L;
+
+		public GameOverPanel() {
+			createButtons();
+		}
 
 		public void paintComponent(Graphics g) {
 			g.setColor(Color.BLACK);

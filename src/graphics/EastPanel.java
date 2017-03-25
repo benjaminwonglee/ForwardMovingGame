@@ -34,7 +34,7 @@ public class EastPanel extends JPanel {
 
 	private ClockRunner clock;
 
-	public EastPanel(Frame frame, Board board, ClockRunner clock) {
+	public EastPanel(GameFrame frame, Board board, ClockRunner clock) {
 		invSlots = new HashSet<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
 		this.clock = clock;
@@ -42,7 +42,7 @@ public class EastPanel extends JPanel {
 		createInventoryLabels(frame, board);
 	}
 
-	private void addButtons(Frame frame, Board board) {
+	private void addButtons(GameFrame frame, Board board) {
 		JButton left = new JButton();
 		JButton right = new JButton();
 
@@ -79,7 +79,7 @@ public class EastPanel extends JPanel {
 		this.add(right, gl);
 	}
 
-	private void createInventoryLabels(Frame frame, Board board) {
+	private void createInventoryLabels(GameFrame frame, Board board) {
 		Dimension preferredSize = new Dimension(130, 130);
 		for (int i = 0; i < maxInventorySize; i++) {
 

@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import javax.swing.JPanel;
 import gamelogic.ClockRunner;
 import gamelogic.Logic;
 
-public class Frame {
+public class GameFrame {
 	private Logic logic;
 	private Drawing drawing;
 	private JFrame frame = null;
@@ -30,7 +32,7 @@ public class Frame {
 	private int eastPanelHeight = frameHeight;
 	private ClockRunner clock;
 
-	public Frame(Logic l) {
+	public GameFrame(Logic l) {
 		this.logic = l;
 		this.frame = new JFrame();
 		this.drawing = new Drawing(frameWidth - eastPanelWidth, frameHeight, logic.getBoard().getWidth(),
@@ -109,12 +111,44 @@ public class Frame {
 	 */
 	private void setFrameProperties() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Walking Game");
+		frame.addWindowListener(new WindowListener() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				System.exit(1);
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+			}
+		});
+		
+		frame.setTitle("Forward Moving Game");
 		frame.setResizable(false);
 		frame.setFocusable(true);
 		frame.requestFocusInWindow();
 		frame.pack();
 		frame.setVisible(true);
+
 	}
 
 	public Drawing getDrawing() {

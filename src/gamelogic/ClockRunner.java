@@ -1,6 +1,6 @@
 package gamelogic;
 
-import graphics.Frame;
+import graphics.GameFrame;
 
 public class ClockRunner {
 
@@ -11,7 +11,7 @@ public class ClockRunner {
 	 * 
 	 * @param frame
 	 */
-	public ClockRunner(Frame frame) {
+	public ClockRunner(GameFrame frame) {
 		while (true) {
 			try {
 				Thread.sleep(980);

@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -18,9 +20,6 @@ import gamelogic.Logic;
 import graphics.GameFrame;
 
 public abstract class AbstractWindow extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2938146749853698812L;
 
 	public void setFrameProperties() {
@@ -61,8 +60,8 @@ public abstract class AbstractWindow extends JFrame {
 		this.setVisible(true);
 	}
 
-	public Set<JButton> createButtons() {
-		Set<JButton> buttons = new HashSet<JButton>();
+	public List<JButton> createButtons() {
+		List<JButton> buttons = new ArrayList<JButton>();
 
 		JButton startGame = new JButton("New Game");
 		JButton quit = new JButton("Quit");
@@ -77,7 +76,8 @@ public abstract class AbstractWindow extends JFrame {
 				GameFrame f = new GameFrame(l);
 				ClockRunner clock = new ClockRunner(f);
 				f.setClock(clock);
-				dispatchClose();
+				
+				//dispatchClose();
 			}
 		});
 

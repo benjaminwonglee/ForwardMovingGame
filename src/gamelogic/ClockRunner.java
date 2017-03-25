@@ -1,5 +1,8 @@
 package gamelogic;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import graphics.GameFrame;
 
 public class ClockRunner {
@@ -12,22 +15,19 @@ public class ClockRunner {
 	 * @param frame
 	 */
 	public ClockRunner(GameFrame frame) {
-		while (true) {
-			try {
-				Thread.sleep(980);
-				// Allow 20ms for repaint
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		Timer t = new Timer();
+		t.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				timeRunning++;
+				frame.getDrawing().repaint();
+				if (frame.getLogic().isGameOver()) {
+					return;
+				}
 			}
-			timeRunning++;
-			frame.getDrawing().repaint();
-			if (frame.getLogic().isGameOver()) {
-				return;
-			}
-		}
+		}, 1000, 1000);
 	}
-	
-	public int getTimeRunning(){
+
+	public int getTimeRunning() {
 		return timeRunning;
 	}
 }

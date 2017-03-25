@@ -2,6 +2,8 @@ package frames;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -23,9 +25,9 @@ public class IntroScreen extends AbstractWindow {
 		private static final long serialVersionUID = 7543777692609420096L;
 
 		public IntroPanel() {
-			Set<JButton> buttons = createButtons();
-			for(JButton j: buttons){
-				this.add(j);
+			List<JButton> buttons = createButtons();
+			for(int i = 0; i < buttons.size(); i++){
+				this.add(buttons.get(i));
 			}
 		}
 

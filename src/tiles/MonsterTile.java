@@ -4,6 +4,11 @@ import gamelogic.Player;
 import items.Item;
 import items.Sword;
 
+/**
+ * A Tile that can only be traversed if the Player has the Sword object.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class MonsterTile extends AbstractTile implements Tile {
 
 	@Override

@@ -1,5 +1,10 @@
 package items;
 
+/**
+ * A Sword allows the Player to traverse MonsterTile Tiles.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Sword implements Item {
 
 	@Override

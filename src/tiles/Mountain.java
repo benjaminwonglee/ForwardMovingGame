@@ -5,6 +5,11 @@ import items.Bike;
 import items.Flippers;
 import items.Item;
 
+/**
+ * A Mountain Tile which can be traversed only with the Bike item.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Mountain extends AbstractTile implements Tile {
 
 	@Override

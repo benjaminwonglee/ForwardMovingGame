@@ -9,6 +9,10 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class IntroScreen extends AbstractWindow {
 
 	private static final long serialVersionUID = -1212029084642314569L;
@@ -26,7 +30,7 @@ public class IntroScreen extends AbstractWindow {
 
 		public IntroPanel() {
 			List<JButton> buttons = createButtons();
-			for(int i = 0; i < buttons.size(); i++){
+			for (int i = 0; i < buttons.size(); i++) {
 				this.add(buttons.get(i));
 			}
 		}

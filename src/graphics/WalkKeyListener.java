@@ -5,6 +5,11 @@ import java.awt.event.KeyListener;
 
 import gamelogic.Board;
 
+/**
+ * The KeyListener for the game. Mainly used for movement of Player.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class WalkKeyListener implements KeyListener {
 	Board board = null;
 	Drawing drawing = null;

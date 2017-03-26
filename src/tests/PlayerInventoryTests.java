@@ -6,14 +6,21 @@ import gamelogic.Logic;
 import gamelogic.Player;
 import items.*;
 
+/**
+ * Tests for the Player inventory.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class PlayerInventoryTests {
 
 	private Logic logic;
 	private boolean debug = true;
 
-	/*
+	/**
 	 * Adds two Sword Items to inventory. Discards second sword item. Inventory
-	 * count should end up as 1 (Not including blanks).
+	 * count should end up as 1 (Not including blanks). Note, this test also
+	 * means that inventory cannot overflow since maxInventoryNumber should
+	 * always be equal to the max number of items in the game.
 	 */
 	@Test
 	public void invalidPlayerInventoryAddDuplicatesTest() {
@@ -47,7 +54,7 @@ public class PlayerInventoryTests {
 		}
 	}
 
-	/*
+	/**
 	 * Adds two items to inventory: Sword and Flippers. Inventory count should
 	 * end up as 2 (Not including blanks).
 	 */
@@ -83,7 +90,7 @@ public class PlayerInventoryTests {
 		}
 	}
 
-	/*
+	/**
 	 * Adds three items to inventory: Sword, Bike, and Flippers. Inventory count
 	 * should end up as 3.
 	 */

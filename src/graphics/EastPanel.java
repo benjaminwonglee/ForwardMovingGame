@@ -23,6 +23,10 @@ import javax.swing.JPanel;
 
 import gamelogic.Board;
 
+/**
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class EastPanel extends JPanel {
 
 	private static final long serialVersionUID = -297177084727878389L;

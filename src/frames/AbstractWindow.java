@@ -16,7 +16,15 @@ import javax.swing.JOptionPane;
 import gamelogic.Logic;
 import graphics.GameFrame;
 
-/** @author Benjamin Wong-Lee */
+/**
+ * Used to create a window with general buttons such as start game and quit.
+ * Sets actions to those buttons. Window is also sized here, along with other
+ * regular setup of frame properties such as visibility, location, and closing
+ * defaults.
+ * 
+ * @author Benjamin Wong-Lee
+ *
+ */
 public abstract class AbstractWindow extends JFrame {
 	private static final long serialVersionUID = 2938146749853698812L;
 

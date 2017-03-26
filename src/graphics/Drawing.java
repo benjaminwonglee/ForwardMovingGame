@@ -16,6 +16,10 @@ import tiles.Mountain;
 import tiles.Plain;
 import tiles.Sea;
 
+/**
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Drawing extends JPanel {
 
 	private static final long serialVersionUID = 6414312707379660792L;

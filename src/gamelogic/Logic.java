@@ -8,6 +8,13 @@ import graphics.GameFrame;
 import tiles.ItemTile;
 import tiles.Tile;
 
+/**
+ * The Logic class constructs the logic of the game. The Board, Player, and
+ * Timer are also created here since the Board relies on Logic to function.
+ * Other game logic such as Player and Timer logic is also located here.
+ *
+ * @author Benjamin Wong-Lee
+ */
 public class Logic {
 	private Player currentPlayer;
 	private Board board;
@@ -17,16 +24,9 @@ public class Logic {
 	// Timer variables
 	private Timer timer;
 	private int timeRunning = 0;
-	
+
 	// TODO: Create a player life function
 
-	/**
-	 * Constructs the Logic of the game. The Board, Player, and ClockRunner
-	 * (Timer) are also created here since the Board relies on Logic to
-	 * function. Other game logic such as ClockRunner logic is also here.
-	 * 
-	 * @author Benjamin Wong-Lee
-	 */
 	public Logic() {
 		this.board = new Board(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
@@ -37,9 +37,9 @@ public class Logic {
 		}
 	}
 
-	
 	/**
-	 * 
+	 * The current actions that the timer is taking every clock tick. Clock tick
+	 * delay set by Timer.
 	 * 
 	 * @author Benjamin Wong-Lee
 	 * 
@@ -61,9 +61,13 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Timer setTimer() {
 		Timer t = new Timer();
-		// This version of Timer Task, Delay, Period. 
+		// This version of Timer Task, Delay, Period.
 		t.scheduleAtFixedRate(new TTask(this), 1000, 1000);
 		return t;
 	}
@@ -121,4 +125,9 @@ public class Logic {
 	public Timer getTimer() {
 		return timer;
 	}
+
+	public int getTimeRunning() {
+		return timeRunning;
+	}
+
 }

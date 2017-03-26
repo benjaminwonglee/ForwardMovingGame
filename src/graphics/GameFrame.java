@@ -19,6 +19,11 @@ import javax.swing.JPanel;
 
 import gamelogic.Logic;
 
+/**
+ * 
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class GameFrame {
 	private Logic logic;
 	private Drawing drawing;

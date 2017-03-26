@@ -1,5 +1,10 @@
 package items;
 
+/**
+ * Allows Player to traverse Sea tiles.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Flippers implements Item {
 
 	@Override

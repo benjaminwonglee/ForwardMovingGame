@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import items.*;
 
+/**
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Player {
 	private int xPos;
 	private List<Item> inventory;
 	private int maxInventorySize;
 	private int life = 3;
 
-	//TODO: Create a player life function
-	
+	// TODO: Create a player life function
+
 	/**
 	 * Creates a new Player with parameters of the Player's initial x position
 	 * (in squares) on the board, and the total number of items allowed in the
@@ -55,7 +59,7 @@ public class Player {
 		}
 		/* Add the item overwriting the first blank */
 		for (int i = 0; i < maxInventorySize; i++) {
-			if (this.inventory.get(i).getName() == "blank") {
+			if (this.inventory.get(i).getName().equals("blank")) {
 				this.inventory.remove(i);
 				this.inventory.add(i, item);
 				return;
@@ -63,21 +67,32 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Checks if the inventory there is space in inventory after addition of new
+	 * item. Checks for Blank spaces in the Player inventory.
+	 * 
+	 * @return true if inventory is not full. i.e. There is a Blank in the
+	 *         inventory.
+	 */
 	private boolean checkMax() {
-		int count = 0;
 		for (int index = 0; index < maxInventorySize; index++) {
 			String name = inventory.get(index).getName();
 			if (name.equals("blank")) {
 				return true;
 			}
-			count++;
 		}
-		if (inventory.size() > count) {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
+	/**
+	 * Checks if Item in parameter already exists in the Player Inventory. This
+	 * game doesn't allow duplicates of items in the inventory.
+	 * 
+	 * @param i
+	 *            The item which was picked up by Player.
+	 * @return true if the item is already in the inventory. False if it isn't
+	 *         in the inventory.
+	 */
 	private boolean checkDuplicates(Item i) {
 		for (Item item : inventory) {
 			String s = item.getName();

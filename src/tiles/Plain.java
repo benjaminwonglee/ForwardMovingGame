@@ -2,6 +2,11 @@ package tiles;
 
 import gamelogic.Player;
 
+/**
+ * A grassy plain. Can be traversed. The most simple tile in the game.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Plain extends AbstractTile implements Tile {
 
 	@Override

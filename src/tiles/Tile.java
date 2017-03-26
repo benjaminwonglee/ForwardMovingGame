@@ -2,6 +2,12 @@ package tiles;
 
 import gamelogic.Player;
 
+/**
+ * A simple interface defining a Tile object in the game. Tiles are the squares
+ * on the Board.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public interface Tile {
 	/**
 	 * Specify the name of the Terrain.

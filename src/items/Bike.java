@@ -1,5 +1,10 @@
 package items;
 
+/**
+ * Allows the Player to traverse Mountain Tiles.
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Bike implements Item {
 
 	@Override

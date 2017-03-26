@@ -2,6 +2,11 @@ package tiles;
 
 import gamelogic.Player;
 
+/**
+ * A simple desert Tile.  
+ * 
+ * @author Benjamin Wong-Lee
+ */
 public class Desert extends AbstractTile implements Tile {
 
 	@Override

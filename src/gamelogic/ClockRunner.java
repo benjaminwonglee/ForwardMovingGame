@@ -14,13 +14,13 @@ public class ClockRunner {
 	 * 
 	 * @param frame
 	 */
-	public ClockRunner(GameFrame frame) {
+	public ClockRunner(Logic l) {
 		Timer t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				timeRunning++;
-				frame.getDrawing().repaint();
-				if (frame.getLogic().isGameOver()) {
+				l.getFrame().getDrawing().repaint();
+				if (l.getFrame().getLogic().isGameOver()) {
 					return;
 				}
 			}

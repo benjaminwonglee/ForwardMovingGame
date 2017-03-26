@@ -1,20 +1,27 @@
 package gamelogic;
 
 import frames.GameOverScreen;
+import graphics.GameFrame;
 import tiles.ItemTile;
 import tiles.Tile;
 
 public class Logic {
 	private Player currentPlayer;
 	private Board board;
+	private GameFrame frame;
 	private boolean gameOver = false;
+	private ClockRunner clock;
 
+	//TODO: Create a player life function
+	
 	/**
-	 * Constructs the Logic of the game. The Board and Player are also created
-	 * here since the Board relies on Logic to function.
+	 * Constructs the Logic of the game. The Board, Player, and ClockRunner
+	 * (Timer) are also created here since the Board relies on Logic to
+	 * function. Other game logic such as ClockRunner logic is also here.
 	 */
 	public Logic() {
 		this.board = new Board(this);
+		this.clock = new ClockRunner(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
 		if (currentPlayer.getLife() == 0) {
 			setGameOver(true);
@@ -52,6 +59,14 @@ public class Logic {
 		this.board = board;
 	}
 
+	public ClockRunner getClock() {
+		return clock;
+	}
+
+	public void setClock(ClockRunner clock) {
+		this.clock = clock;
+	}
+
 	public int getPlayerXPos() {
 		return currentPlayer.getXPos();
 	}
@@ -64,4 +79,11 @@ public class Logic {
 		this.gameOver = gameOver;
 	}
 
+	public GameFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(GameFrame frame) {
+		this.frame = frame;
+	}
 }

@@ -22,6 +22,26 @@ import graphics.GameFrame;
 public abstract class AbstractWindow extends JFrame {
 	private static final long serialVersionUID = 2938146749853698812L;
 
+	/**
+	 * For starting a new game. Everything is created here. Put in
+	 * AbstractWindow since windows with buttons instantiate the game.
+	 * 
+	 * @param startGame
+	 *            The button pressed to initialise a new game
+	 */
+	private void addStartGameAction(JButton startGame) {
+		startGame.addActionListener(new ActionListener() {
+			/* Everything begins here */
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Logic l = new Logic();
+				GameFrame f = new GameFrame(l);
+				l.setFrame(f);
+				// dispatchClose();
+			}
+		});
+	}
+
 	public void setFrameProperties() {
 		setPreferredSize(new Dimension(800, 800));
 		this.addWindowListener(new WindowListener() {
@@ -69,17 +89,7 @@ public abstract class AbstractWindow extends JFrame {
 		buttons.add(startGame);
 		buttons.add(quit);
 
-		startGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logic l = new Logic();
-				GameFrame f = new GameFrame(l);
-				ClockRunner clock = new ClockRunner(f);
-				f.setClock(clock);
-				
-				//dispatchClose();
-			}
-		});
+		this.addStartGameAction(startGame);
 
 		quit.addActionListener(new ActionListener() {
 			@Override

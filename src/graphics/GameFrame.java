@@ -30,8 +30,7 @@ public class GameFrame {
 	private int southPanelHeight = 20;
 	private int eastPanelWidth = 300;
 	private int eastPanelHeight = frameHeight;
-	private ClockRunner clock;
-
+	
 	public GameFrame(Logic l) {
 		this.logic = l;
 		this.frame = new JFrame();
@@ -40,7 +39,7 @@ public class GameFrame {
 
 		frame.setPreferredSize(new Dimension(frameWidth + 100, frameHeight + 100));
 		JPanel southPanel = new JPanel();
-		JPanel eastPanel = new EastPanel(this, l.getBoard(), clock);
+		JPanel eastPanel = new EastPanel(this, l.getBoard(), l.getClock());
 		defineSouthPanel(southPanel);
 		defineEastPanel(eastPanel);
 		JMenuBar jMenuBar = defineJMenuBar();
@@ -158,9 +157,5 @@ public class GameFrame {
 
 	public Logic getLogic() {
 		return logic;
-	}
-
-	public void setClock(ClockRunner clock) {
-		this.clock = clock;
 	}
 }

@@ -10,6 +10,8 @@ public class Player {
 	private int maxInventorySize;
 	private int life = 3;
 
+	//TODO: Create a player life function
+	
 	/**
 	 * Creates a new Player with parameters of the Player's initial x position
 	 * (in squares) on the board, and the total number of items allowed in the
@@ -62,7 +64,6 @@ public class Player {
 	}
 
 	private boolean checkMax() {
-		// TODO: PLS TEST THIS!!!
 		int count = 0;
 		for (int index = 0; index < maxInventorySize; index++) {
 			String name = inventory.get(index).getName();
@@ -78,7 +79,6 @@ public class Player {
 	}
 
 	private boolean checkDuplicates(Item i) {
-		// TODO: PLS TEST THIS!!!
 		for (Item item : inventory) {
 			String s = item.getName();
 			if (s.equals(i.getName())) {

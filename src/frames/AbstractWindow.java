@@ -6,19 +6,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import gamelogic.ClockRunner;
 import gamelogic.Logic;
 import graphics.GameFrame;
 
+/** @author Benjamin Wong-Lee */
 public abstract class AbstractWindow extends JFrame {
 	private static final long serialVersionUID = 2938146749853698812L;
 

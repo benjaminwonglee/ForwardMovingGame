@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -21,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gamelogic.Board;
-import gamelogic.ClockRunner;
 
 public class EastPanel extends JPanel {
 
@@ -32,9 +32,9 @@ public class EastPanel extends JPanel {
 
 	private Set<JLabel> invSlots;
 
-	private ClockRunner clock;
+	private Timer clock;
 
-	public EastPanel(GameFrame frame, Board board, ClockRunner clock) {
+	public EastPanel(GameFrame frame, Board board, Timer clock) {
 		invSlots = new HashSet<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
 		this.clock = clock;

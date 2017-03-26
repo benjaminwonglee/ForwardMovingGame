@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
-
+/** @author Benjamin Wong-Lee */
 public class GameOverScreen extends AbstractWindow {
 	private static final long serialVersionUID = -4909362608024151100L;
 

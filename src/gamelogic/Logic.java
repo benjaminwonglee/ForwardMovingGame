@@ -1,5 +1,8 @@
 package gamelogic;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import frames.GameOverScreen;
 import graphics.GameFrame;
 import tiles.ItemTile;
@@ -10,23 +13,59 @@ public class Logic {
 	private Board board;
 	private GameFrame frame;
 	private boolean gameOver = false;
-	private ClockRunner clock;
 
-	//TODO: Create a player life function
+	// Timer variables
+	private Timer timer;
+	private int timeRunning = 0;
 	
+	// TODO: Create a player life function
+
 	/**
 	 * Constructs the Logic of the game. The Board, Player, and ClockRunner
 	 * (Timer) are also created here since the Board relies on Logic to
 	 * function. Other game logic such as ClockRunner logic is also here.
+	 * 
+	 * @author Benjamin Wong-Lee
 	 */
 	public Logic() {
 		this.board = new Board(this);
-		this.clock = new ClockRunner(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
+		this.timer = setTimer();
 		if (currentPlayer.getLife() == 0) {
 			setGameOver(true);
 			new GameOverScreen();
 		}
+	}
+
+	
+	/**
+	 * 
+	 * 
+	 * @author Benjamin Wong-Lee
+	 * 
+	 */
+	public class TTask extends TimerTask {
+		Logic logic;
+
+		public TTask(Logic l) {
+			this.logic = l;
+		}
+
+		@Override
+		public void run() {
+			timeRunning++;
+			logic.getFrame().getDrawing().repaint();
+			if (logic.isGameOver()) {
+				return;
+			}
+		}
+	}
+
+	public Timer setTimer() {
+		Timer t = new Timer();
+		// This version of Timer Task, Delay, Period. 
+		t.scheduleAtFixedRate(new TTask(this), 1000, 1000);
+		return t;
 	}
 
 	public boolean pickUpItem() {
@@ -59,14 +98,6 @@ public class Logic {
 		this.board = board;
 	}
 
-	public ClockRunner getClock() {
-		return clock;
-	}
-
-	public void setClock(ClockRunner clock) {
-		this.clock = clock;
-	}
-
 	public int getPlayerXPos() {
 		return currentPlayer.getXPos();
 	}
@@ -85,5 +116,9 @@ public class Logic {
 
 	public void setFrame(GameFrame frame) {
 		this.frame = frame;
+	}
+
+	public Timer getTimer() {
+		return timer;
 	}
 }

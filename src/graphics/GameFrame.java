@@ -17,7 +17,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import gamelogic.ClockRunner;
 import gamelogic.Logic;
 
 public class GameFrame {
@@ -39,7 +38,7 @@ public class GameFrame {
 
 		frame.setPreferredSize(new Dimension(frameWidth + 100, frameHeight + 100));
 		JPanel southPanel = new JPanel();
-		JPanel eastPanel = new EastPanel(this, l.getBoard(), l.getClock());
+		JPanel eastPanel = new EastPanel(this, l.getBoard(), l.getTimer());
 		defineSouthPanel(southPanel);
 		defineEastPanel(eastPanel);
 		JMenuBar jMenuBar = defineJMenuBar();

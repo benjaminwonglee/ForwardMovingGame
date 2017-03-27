@@ -23,7 +23,8 @@ public class Board {
 	public Board(Logic l) {
 		this.logic = l;
 		tiles = new Tile[width][height];
-		plainBoard();
+		// plainBoard();
+		plainAndDesert();
 	}
 
 	public void plainBoard() {
@@ -35,6 +36,45 @@ public class Board {
 				// TODO: Make all ItemTiles created with MaxInventoryNumber as
 				// parameter.
 			}
+		}
+	}
+
+	public void plainAndDesert() {
+		/* Construct a running board */
+		for (int row = 0; row < width; row++) {
+			for (int col = 0; col < height; col++) {
+				if ((row + col) % 2 == 1) {
+					tiles[row][col] = new Desert();
+				} else {
+					tiles[row][col] = new Plain();
+				}
+				// TODO: Make more complex
+				// TODO: Make all ItemTiles created with MaxInventoryNumber as
+				// parameter.
+			}
+		}
+	}
+
+	public void createNextTiles(int timeRunning) {
+		// TODO: Make this work properly
+		for (int row = 0; row < width; row++) {
+			for (int col = height - 1; col > 0; col--) {
+				// Every tile becomes its successor.
+				tiles[row][col] = tiles[row][col - 1];
+			}
+		}
+
+		// TODO: Add this in later
+		for (int row = width - 1; row >= 0; row--) {
+			tiles[row][0] = createNewTiles(row, timeRunning);
+		}
+	}
+
+	private Tile createNewTiles(int row, int timeRunning) {
+		if ((row + height + timeRunning) % 2 == 1) {
+			return new Desert();
+		} else {
+			return new Plain();
 		}
 	}
 

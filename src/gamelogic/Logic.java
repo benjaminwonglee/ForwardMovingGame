@@ -30,7 +30,6 @@ public class Logic {
 	public Logic() {
 		this.board = new Board(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
-		this.timer = setTimer();
 		if (currentPlayer.getLife() == 0) {
 			setGameOver(true);
 			new GameOverScreen();
@@ -55,6 +54,7 @@ public class Logic {
 		public void run() {
 			timeRunning++;
 			logic.getFrame().getDrawing().repaint();
+			logic.board.createNextTiles(timeRunning);
 			if (logic.isGameOver()) {
 				return;
 			}
@@ -65,11 +65,11 @@ public class Logic {
 	 * 
 	 * @return
 	 */
-	public Timer setTimer() {
+	public void setTimer() {
 		Timer t = new Timer();
 		// This version of Timer Task, Delay, Period.
 		t.scheduleAtFixedRate(new TTask(this), 1000, 1000);
-		return t;
+		this.timer = t;
 	}
 
 	public boolean pickUpItem() {

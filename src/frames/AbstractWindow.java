@@ -43,6 +43,7 @@ public abstract class AbstractWindow extends JFrame {
 				Logic l = new Logic();
 				GameFrame f = new GameFrame(l);
 				l.setFrame(f);
+				l.setTimer();
 				// dispatchClose();
 			}
 		});

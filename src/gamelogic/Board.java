@@ -24,59 +24,68 @@ public class Board {
 		this.logic = l;
 		tiles = new Tile[width][height];
 		// plainBoard();
-		plainAndDesert();
-	}
 
-	public void plainBoard() {
-		/* Construct a running board */
-		for (int row = 0; row < width; row++) {
-			for (int col = 0; col < height; col++) {
-				tiles[row][col] = new Plain();
-				// TODO: Make more complex
-				// TODO: Make all ItemTiles created with MaxInventoryNumber as
-				// parameter.
+		for (int col = 0; col < height; col++) {
+			for (int row = 0; row < width; row++) {
+				tiles[row][col] = plainAndDesert(row, col, l.getTimeRunning());
 			}
 		}
 	}
 
-	public void plainAndDesert() {
-		/* Construct a running board */
-		for (int row = 0; row < width; row++) {
-			for (int col = 0; col < height; col++) {
-				if ((row + col) % 2 == 1) {
-					tiles[row][col] = new Desert();
-				} else {
-					tiles[row][col] = new Plain();
-				}
-				// TODO: Make more complex
-				// TODO: Make all ItemTiles created with MaxInventoryNumber as
-				// parameter.
-			}
-		}
-	}
-
+	/**
+	 * Creates all the tiles on the Board after 1 iteration. Every tile becomes
+	 * its successor. Height is in reverse positive: Highest value = bottom of
+	 * board. timeRunning in game is used to draw the new board and make the new
+	 * set of tiles.
+	 * 
+	 * @param timeRunning
+	 *            The amount of time the game has been running (seconds).
+	 */
 	public void createNextTiles(int timeRunning) {
-		// TODO: Make this work properly
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
-				// Every tile becomes its successor.
 				tiles[row][col] = tiles[row][col - 1];
 			}
 		}
 
-		// TODO: Add this in later
 		for (int row = width - 1; row >= 0; row--) {
-			tiles[row][0] = createNewTiles(row, timeRunning);
+			tiles[row][0] = plainBoard(row, height, timeRunning);
 		}
 	}
 
-	private Tile createNewTiles(int row, int timeRunning) {
+	/**
+	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
+	 * pattern of the board to create a single row of tiles. Plain and desert style.
+	 * 
+	 * @param row
+	 *            The current row for the tile.
+	 * @param timeRunning
+	 *            The amount of time the game has been running (seconds).
+	 * @return The tile in the row that has been passed in as parameter.
+	 */
+	private Tile plainAndDesert(int row, int height, int timeRunning) {
 		if ((row + height + timeRunning) % 2 == 1) {
 			return new Desert();
 		} else {
 			return new Plain();
 		}
 	}
+	
+	
+	/**
+	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
+	 * pattern of the board to create a single row of tiles. Plain style.
+	 * 
+	 * @param row
+	 *            The current row for the tile.
+	 * @param timeRunning
+	 *            The amount of time the game has been running (seconds).
+	 * @return The tile in the row that has been passed in as parameter.
+	 */
+	public Tile plainBoard(int row, int col, int timeRunning) {
+		return new Plain();
+	}
+
 
 	/**
 	 * Given a string "up", "down", "left", or "right", as well as a player to

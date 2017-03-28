@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -51,7 +50,13 @@ public abstract class AbstractWindow extends JFrame {
 				GameFrame f = new GameFrame(l);
 				l.setFrame(f);
 				l.setTimer();
-				// dispatchClose();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				dispatchClose();
 			}
 		});
 	}
@@ -69,6 +74,7 @@ public abstract class AbstractWindow extends JFrame {
 
 			@Override
 			public void windowDeiconified(WindowEvent e) {
+				e.getWindow().dispose();
 			}
 
 			@Override
@@ -153,7 +159,7 @@ public abstract class AbstractWindow extends JFrame {
 	}
 
 	public void dispatchClose() {
-		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_DEICONIFIED));
 	}
 
 }

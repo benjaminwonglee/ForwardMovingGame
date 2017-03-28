@@ -1,7 +1,9 @@
 package gamelogic;
 
 import frames.GameOverScreen;
-import tiles.*;
+import tiles.Desert;
+import tiles.Plain;
+import tiles.Tile;
 
 /**
  * A class representing the game board. Responsible for movement of Player and

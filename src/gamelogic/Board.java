@@ -25,9 +25,10 @@ public class Board {
 		tiles = new Tile[width][height];
 		// plainBoard();
 
+		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = plainAndDesert(row, col, l.getTimeRunning());
+				tiles[row][col] = plainAndDesertRandom(row, col, l.getTimeRunning());
 			}
 		}
 	}
@@ -42,36 +43,19 @@ public class Board {
 	 *            The amount of time the game has been running (seconds).
 	 */
 	public void createNextTiles(int timeRunning) {
+		// Shifts all tiles down board by 1 tile
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
 				tiles[row][col] = tiles[row][col - 1];
 			}
 		}
 
+		// Set Board pattern and theme here
 		for (int row = width - 1; row >= 0; row--) {
-			tiles[row][0] = plainBoard(row, height, timeRunning);
+			tiles[row][0] = plainAndDesertRandom(row, height, timeRunning);
 		}
 	}
 
-	/**
-	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Plain and desert style.
-	 * 
-	 * @param row
-	 *            The current row for the tile.
-	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
-	 * @return The tile in the row that has been passed in as parameter.
-	 */
-	private Tile plainAndDesert(int row, int height, int timeRunning) {
-		if ((row + height + timeRunning) % 2 == 1) {
-			return new Desert();
-		} else {
-			return new Plain();
-		}
-	}
-	
-	
 	/**
 	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
 	 * pattern of the board to create a single row of tiles. Plain style.
@@ -86,6 +70,44 @@ public class Board {
 		return new Plain();
 	}
 
+	/**
+	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
+	 * pattern of the board to create a single row of tiles. Plain and desert
+	 * Simple pattern style.
+	 * 
+	 * @param row
+	 *            The current row for the tile.
+	 * @param timeRunning
+	 *            The amount of time the game has been running (seconds).
+	 * @return The tile in the row that has been passed in as parameter.
+	 */
+	private Tile plainAndDesertSimple(int row, int height, int timeRunning) {
+		if ((row + height + timeRunning) % 2 == 1) {
+			return new Desert();
+		} else {
+			return new Plain();
+		}
+	}
+
+	/**
+	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
+	 * pattern of the board to create a single row of tiles. Plain and desert
+	 * randomised style.
+	 * 
+	 * @param row
+	 *            The current row for the tile.
+	 * @param timeRunning
+	 *            The amount of time the game has been running (seconds).
+	 * @return The tile in the row that has been passed in as parameter.
+	 */
+	private Tile plainAndDesertRandom(int row, int height, int timeRunning) {
+		int rand = (int) Math.floor(Math.random() * 2);
+		if (rand == 1) {
+			return new Desert();
+		} else {
+			return new Plain();
+		}
+	}
 
 	/**
 	 * Given a string "up", "down", "left", or "right", as well as a player to

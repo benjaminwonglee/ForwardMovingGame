@@ -30,7 +30,7 @@ public class Drawing extends JPanel {
 	private int colorTone = 0;
 	private int colorToneChange = 3;
 	private boolean reverse = false;
-	private boolean debug = true;
+	private boolean debug = false;
 
 	public Drawing(int width, int height, int boardWide, int boardHigh, Logic game) {
 		this.setPreferredSize(new Dimension(width, height));

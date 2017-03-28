@@ -1,6 +1,12 @@
 package frames;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -12,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 
 import gamelogic.Logic;
 import graphics.GameFrame;
@@ -90,15 +97,26 @@ public abstract class AbstractWindow extends JFrame {
 	public List<JButton> createButtons() {
 		List<JButton> buttons = new ArrayList<JButton>();
 
-		JButton startGame = new JButton("New Game");
+		JButton newGame = new JButton("New Game");
 		JButton quit = new JButton("Quit");
 
-		buttons.add(startGame);
+		buttons.add(newGame);
 		buttons.add(quit);
 
-		this.addStartGameAction(startGame);
+		this.addStartGameAction(newGame);
+
+		// approx 600 x 600 window
+		// 1/4 - 1/2 * btnWd, 3/4 - 1/2 * btnWd
+		int btnWd = 150;
+		int btnHt = 100;
+		newGame.setBounds(new Rectangle(200, 300, btnWd, btnHt));
+		quit.setBounds(new Rectangle(450, 300, btnWd, btnHt));
+
+		designButton(newGame, "New Game");
+		designButton(quit, "Quit");
 
 		quit.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int choice = JOptionPane.showOptionDialog(new JDialog(), "Are you sure you want to quit?", "Quit?",
@@ -109,10 +127,34 @@ public abstract class AbstractWindow extends JFrame {
 			}
 		});
 
-		for (JButton j : buttons) {
-			j.setPreferredSize(new Dimension(150, 50));
-		}
 		return buttons;
+	}
+
+	private void designButton(JButton button, String name) {
+		button.setPreferredSize(new Dimension(150, 50));
+		button.setText("");
+		Border border = new Border() {
+			@Override
+			public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+				for (int i = 1; i <= 10; i++) {
+					g.setColor(new Color(i * 10, 0, 0));
+					g.drawRect(x + i, y + i, width - (i * 2), height - (i * 2));
+				}
+				g.setFont(new Font("Lucida Sans", Font.BOLD, 20));
+				g.drawString(name, width / 2 - (g.getFontMetrics().stringWidth(name) / 2), height / 2 + 8);
+			}
+
+			@Override
+			public boolean isBorderOpaque() {
+				return false;
+			}
+
+			@Override
+			public Insets getBorderInsets(Component c) {
+				return new Insets(0, 0, 0, 0);
+			}
+		};
+		button.setBorder(border);
 	}
 
 	public void dispatchClose() {

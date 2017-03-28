@@ -78,9 +78,8 @@ public class EastPanel extends JPanel {
 		left.setFocusable(false);
 		right.setFocusable(false);
 
-		GridLayout gl = new GridLayout();
-		this.add(left, gl);
-		this.add(right, gl);
+		this.add(left);
+		this.add(right);
 	}
 
 	private void createInventoryLabels(GameFrame frame, Board board) {

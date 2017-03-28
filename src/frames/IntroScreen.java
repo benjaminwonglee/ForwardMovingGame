@@ -1,13 +1,18 @@
 package frames;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 /**
  * 
@@ -31,7 +36,8 @@ public class IntroScreen extends AbstractWindow {
 		public IntroPanel() {
 			List<JButton> buttons = createButtons();
 			for (int i = 0; i < buttons.size(); i++) {
-				this.add(buttons.get(i));
+				JButton button = buttons.get(i);
+				this.add(button);
 			}
 		}
 

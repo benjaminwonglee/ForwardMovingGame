@@ -35,8 +35,19 @@ public class IntroScreen extends AbstractWindow {
 
 		public IntroPanel() {
 			List<JButton> buttons = createButtons();
+			// approx 600 x 600 window
+			// 1/4 - 1/2 * btnWd, 3/4 - 1/2 * btnWd
+			int btnWd = 160;
+			int btnHt = 280;
+			this.setLayout(null);
 			for (int i = 0; i < buttons.size(); i++) {
 				JButton button = buttons.get(i);
+				if (i == 0) {
+					button.setBounds(new Rectangle(120, 240, btnWd, btnHt));
+				}
+				if (i == 1) {
+					button.setBounds(new Rectangle(370, 240, btnWd, btnHt));
+				}
 				this.add(button);
 			}
 		}

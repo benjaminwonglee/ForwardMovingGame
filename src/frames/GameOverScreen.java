@@ -2,8 +2,12 @@ package frames;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+
 /**
  * 
  * @author Benjamin Wong-Lee
@@ -23,7 +27,22 @@ public class GameOverScreen extends AbstractWindow {
 		private static final long serialVersionUID = -8583261398361793225L;
 
 		public GameOverPanel() {
-			createButtons();
+			List<JButton> buttons = createButtons();
+			// approx 600 x 600 window
+			// 1/4 - 1/2 * btnWd, 3/4 - 1/2 * btnWd
+			int btnWd = 160;
+			int btnHt = 280;
+			this.setLayout(null);
+			for (int i = 0; i < buttons.size(); i++) {
+				JButton button = buttons.get(i);
+				if (i == 0) {
+					button.setBounds(new Rectangle(300, 240, btnWd, btnHt));
+				}
+				if (i == 1) {
+					button.setBounds(new Rectangle(550, 240, btnWd, btnHt));
+				}
+				this.add(button);
+			}
 		}
 
 		public void paintComponent(Graphics g) {

@@ -105,13 +105,6 @@ public abstract class AbstractWindow extends JFrame {
 
 		this.addStartGameAction(newGame);
 
-		// approx 600 x 600 window
-		// 1/4 - 1/2 * btnWd, 3/4 - 1/2 * btnWd
-		int btnWd = 150;
-		int btnHt = 100;
-		newGame.setBounds(new Rectangle(200, 300, btnWd, btnHt));
-		quit.setBounds(new Rectangle(450, 300, btnWd, btnHt));
-
 		designButton(newGame, "New Game");
 		designButton(quit, "Quit");
 
@@ -131,16 +124,18 @@ public abstract class AbstractWindow extends JFrame {
 	}
 
 	private void designButton(JButton button, String name) {
-		button.setPreferredSize(new Dimension(150, 50));
 		button.setText("");
 		Border border = new Border() {
 			@Override
 			public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-				for (int i = 1; i <= 10; i++) {
-					g.setColor(new Color(i * 10, 0, 0));
-					g.drawRect(x + i, y + i, width - (i * 2), height - (i * 2));
-				}
-				g.setFont(new Font("Lucida Sans", Font.BOLD, 20));
+				g.setColor(new Color(170, 80, 80));
+				g.fillRect(x, y, width, height);
+				g.setColor(new Color(150, 60, 60));
+				g.fillRect(x + 10, y + 10, width - 20, height - 20);
+				g.setColor(new Color(250, 250, 255));
+				g.fillRect(x + 20, y + 20, width - 40, height - 40);
+				g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+				g.setColor(new Color(100, 0, 0));
 				g.drawString(name, width / 2 - (g.getFontMetrics().stringWidth(name) / 2), height / 2 + 8);
 			}
 

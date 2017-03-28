@@ -1,5 +1,6 @@
 package gamelogic;
 
+import frames.GameOverScreen;
 import frames.IntroScreen;
 
 /**
@@ -8,6 +9,7 @@ import frames.IntroScreen;
 public class ForwardMovingGame {
 	public ForwardMovingGame() {
 		new IntroScreen();
+		new GameOverScreen();
 	}
 
 	public static void main(String args[]) {

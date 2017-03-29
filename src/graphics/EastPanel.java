@@ -96,8 +96,8 @@ public class EastPanel extends JPanel {
 
 		left.setBounds(new Rectangle(10, 700, 130, 80));
 		right.setBounds(new Rectangle(160, 700, 130, 80));
-		time.setBounds(new Rectangle(10, 50, 280, 160));
 		this.timeLabel = time;
+		timeLabel.setBounds(new Rectangle(10, 130, 280, 160));
 	}
 
 	private class CreateBorderWithLabel extends AbstractBorder {
@@ -125,9 +125,9 @@ public class EastPanel extends JPanel {
 
 	private class CreateTimeLabel extends AbstractBorder {
 
-		private int time = 0;
+		private String time;
 
-		public CreateTimeLabel(int time) {
+		public CreateTimeLabel(String time) {
 			this.time = time;
 		}
 
@@ -139,9 +139,9 @@ public class EastPanel extends JPanel {
 			g.fillRect(x + 10, y + 10, width - 20, height - 20);
 			g.setColor(new Color(250, 250, 255));
 			g.fillRect(x + 20, y + 20, width - 40, height - 40);
-			g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+			g.setFont(new Font("Lucida Sans", Font.BOLD, 24));
 			g.setColor(new Color(0, 0, 100));
-			g.drawString("" + time, width / 2 - (g.getFontMetrics().stringWidth("" + time) / 2), height / 2 + 8);
+			g.drawString(time, width / 2 - (g.getFontMetrics().stringWidth(time) / 2), height / 2 + 8);
 		}
 	}
 
@@ -224,9 +224,9 @@ public class EastPanel extends JPanel {
 			}
 		}
 
-		timeLabel.setBorder(new CreateTimeLabel(frame.getLogic().getTimeRunning()));
+		timeLabel.setBorder(new CreateTimeLabel(frame.getLogic().getTimeString()));
 		this.add(timeLabel);
-		timeLabel.setBounds(new Rectangle(10, 50, 280, 160));
+		timeLabel.setBounds(new Rectangle(10, 130, 280, 160));
 	}
 
 	public void setMaxInventoryNumber(int i) {

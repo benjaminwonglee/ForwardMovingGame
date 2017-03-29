@@ -49,8 +49,7 @@ public class Logic {
 	 */
 	public class TTask extends TimerTask {
 		Logic logic;
-		int minutes = 0;
-		int hours = 0;
+		int minutes = -1;
 
 		public TTask(Logic l) {
 			this.logic = l;
@@ -71,20 +70,13 @@ public class Logic {
 			if (timeRunning % 60 == 0) {
 				minutes++;
 			}
-			if (minutes % 60 == 0) {
-				hours++;
-			}
-			if (hours > 0) {
-				return hours + ":" + minutes + ":" + (timeRunning % 60);
+			if(timeRunning % 60 < 10){
+				return minutes + ":0" + (timeRunning % 60);		
 			}
 			return minutes + ":" + (timeRunning % 60);
 		}
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public void setTimer() {
 		Timer t = new Timer();
 		this.timer = t;

@@ -26,6 +26,7 @@ public class Logic {
 	// Timer variables
 	private Timer timer;
 	private int timeRunning = -1;
+	private String timeString;
 
 	// TODO: Create a player life function
 
@@ -48,6 +49,8 @@ public class Logic {
 	 */
 	public class TTask extends TimerTask {
 		Logic logic;
+		int minutes = 0;
+		int hours = 0;
 
 		public TTask(Logic l) {
 			this.logic = l;
@@ -56,11 +59,25 @@ public class Logic {
 		@Override
 		public void run() {
 			timeRunning++;
+			timeString = convertTimeToString();
 			logic.getFrame().getDrawing().repaint();
 			logic.board.createNextTiles(timeRunning);
 			if (logic.isGameOver()) {
 				return;
 			}
+		}
+
+		private String convertTimeToString() {
+			if (timeRunning % 60 == 0) {
+				minutes++;
+			}
+			if (minutes % 60 == 0) {
+				hours++;
+			}
+			if (hours > 0) {
+				return hours + ":" + minutes + ":" + (timeRunning % 60);
+			}
+			return minutes + ":" + (timeRunning % 60);
 		}
 	}
 
@@ -134,5 +151,9 @@ public class Logic {
 	public void runTimer() {
 		// This version of Timer Task, Delay, Period.
 		timer.scheduleAtFixedRate(new TTask(this), 1000, 1000);
+	}
+
+	public String getTimeString() {
+		return timeString;
 	}
 }

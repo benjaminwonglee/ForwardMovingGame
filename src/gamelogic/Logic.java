@@ -3,6 +3,8 @@ package gamelogic;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JFrame;
+
 import frames.GameOverScreen;
 import graphics.GameFrame;
 import tiles.ItemTile;
@@ -23,7 +25,7 @@ public class Logic {
 
 	// Timer variables
 	private Timer timer;
-	private int timeRunning = 0;
+	private int timeRunning = -1;
 
 	// TODO: Create a player life function
 
@@ -34,6 +36,7 @@ public class Logic {
 			setGameOver(true);
 			new GameOverScreen();
 		}
+		setTimer();
 	}
 
 	/**
@@ -67,8 +70,6 @@ public class Logic {
 	 */
 	public void setTimer() {
 		Timer t = new Timer();
-		// This version of Timer Task, Delay, Period.
-		t.scheduleAtFixedRate(new TTask(this), 1000, 1000);
 		this.timer = t;
 	}
 
@@ -130,4 +131,8 @@ public class Logic {
 		return timeRunning;
 	}
 
+	public void runTimer() {
+		// This version of Timer Task, Delay, Period.
+		timer.scheduleAtFixedRate(new TTask(this), 1000, 1000);
+	}
 }

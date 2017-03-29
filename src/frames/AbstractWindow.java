@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 import gamelogic.Logic;
+import gamelogic.Logic.TTask;
 import graphics.GameFrame;
 
 /**
@@ -49,11 +50,10 @@ public abstract class AbstractWindow extends JFrame {
 				Logic l = new Logic();
 				GameFrame f = new GameFrame(l);
 				l.setFrame(f);
-				l.setTimer();
+				l.runTimer();
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				dispatchClose();

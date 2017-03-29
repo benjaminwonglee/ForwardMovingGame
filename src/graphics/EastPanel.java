@@ -1,11 +1,12 @@
 package graphics;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.AbstractBorder;
 
 import gamelogic.Board;
 
@@ -35,13 +37,20 @@ public class EastPanel extends JPanel {
 	private int maxInventorySize = 0;
 
 	private Set<JLabel> invSlots;
+	private int timeRunning;
 
-	private Timer clock;
+	private GameFrame frame;
+	private JLabel timeLabel;
 
-	public EastPanel(GameFrame frame, Board board, Timer clock) {
+	public EastPanel(GameFrame frame, Board board, int timeRunning) {
 		invSlots = new HashSet<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
-		this.clock = clock;
+		this.timeRunning = timeRunning;
+		this.frame = frame;
+
+		/* Set bounds or all elements of the panel since layout is null */
+		this.setLayout(null);
+
 		addButtons(frame, board);
 		createInventoryLabels(frame, board);
 	}
@@ -49,14 +58,16 @@ public class EastPanel extends JPanel {
 	private void addButtons(GameFrame frame, Board board) {
 		JButton left = new JButton();
 		JButton right = new JButton();
+		JLabel time = new JLabel();
 
-		left.setFont(new Font("Verdana", Font.ITALIC, 18));
-		right.setFont(new Font("Verdana", Font.ITALIC, 18));
-
-		left.setText("Left");
-		right.setText("Right");
+		left.setText("");
+		right.setText("");
+		time.setPreferredSize(new Dimension(240, 100));
 		left.setPreferredSize(new Dimension(120, 50));
 		right.setPreferredSize(new Dimension(120, 50));
+		time.setBorder(new CreateBorderWithLabel("" + timeRunning));
+		left.setBorder(new CreateBorderWithLabel("Left"));
+		right.setBorder(new CreateBorderWithLabel("Right"));
 
 		left.addActionListener(new ActionListener() {
 			@Override
@@ -77,15 +88,66 @@ public class EastPanel extends JPanel {
 
 		left.setFocusable(false);
 		right.setFocusable(false);
+		time.setFocusable(false);
 
 		this.add(left);
 		this.add(right);
+		this.add(time);
+
+		left.setBounds(new Rectangle(10, 700, 130, 80));
+		right.setBounds(new Rectangle(160, 700, 130, 80));
+		time.setBounds(new Rectangle(10, 50, 280, 160));
+		this.timeLabel = time;
+	}
+
+	private class CreateBorderWithLabel extends AbstractBorder {
+		private static final long serialVersionUID = -2327653635624519881L;
+		private String name = "";
+		private int time = 0;
+
+		public CreateBorderWithLabel(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+			g.setColor(new Color(80, 80, 180));
+			g.fillRect(x, y, width, height);
+			g.setColor(new Color(60, 60, 160));
+			g.fillRect(x + 10, y + 10, width - 20, height - 20);
+			g.setColor(new Color(250, 250, 255));
+			g.fillRect(x + 20, y + 20, width - 40, height - 40);
+			g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+			g.setColor(new Color(0, 0, 100));
+			g.drawString(name, width / 2 - (g.getFontMetrics().stringWidth(name) / 2), height / 2 + 8);
+		}
+	}
+
+	private class CreateTimeLabel extends AbstractBorder {
+
+		private int time = 0;
+
+		public CreateTimeLabel(int time) {
+			this.time = time;
+		}
+
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+			g.setColor(new Color(80, 80, 180));
+			g.fillRect(x, y, width, height);
+			g.setColor(new Color(60, 60, 160));
+			g.fillRect(x + 10, y + 10, width - 20, height - 20);
+			g.setColor(new Color(250, 250, 255));
+			g.fillRect(x + 20, y + 20, width - 40, height - 40);
+			g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+			g.setColor(new Color(0, 0, 100));
+			g.drawString("" + time, width / 2 - (g.getFontMetrics().stringWidth("" + time) / 2), height / 2 + 8);
+		}
 	}
 
 	private void createInventoryLabels(GameFrame frame, Board board) {
 		Dimension preferredSize = new Dimension(130, 130);
 		for (int i = 0; i < maxInventorySize; i++) {
-
 			// TODO: remove once fully tested
 			/* Read the image */
 			BufferedImage invPic = null;
@@ -116,10 +178,15 @@ public class EastPanel extends JPanel {
 			invSlot.setFocusable(false);
 			invSlot.setPreferredSize(preferredSize);
 
+			if (i < 2) {
+				invSlot.setBounds(new Rectangle(-25 + (150 * i), 300, 200, 225));
+			} else if (i < 4) {
+				invSlot.setBounds(new Rectangle(-25 + (145 * (i - 2)), 450, 200, 225));
+			}
+
 			this.add(invSlot, this.getLayout());
 			this.invSlots.add(invSlot);
 		}
-
 	}
 
 	// private void updateInventoryIcons(Frame frame, Board board) {
@@ -156,6 +223,10 @@ public class EastPanel extends JPanel {
 				}
 			}
 		}
+
+		timeLabel.setBorder(new CreateTimeLabel(frame.getLogic().getTimeRunning()));
+		this.add(timeLabel);
+		timeLabel.setBounds(new Rectangle(10, 50, 280, 160));
 	}
 
 	public void setMaxInventoryNumber(int i) {

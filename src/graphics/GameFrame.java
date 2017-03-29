@@ -40,14 +40,13 @@ public class GameFrame {
 		this.frame = new JFrame();
 		this.drawing = new Drawing(frameWidth - eastPanelWidth, frameHeight, logic.getBoard().getWidth(),
 				logic.getBoard().getHeight(), logic);
-
 		frame.setPreferredSize(new Dimension(frameWidth + 100, frameHeight + 100));
 		JPanel southPanel = new JPanel();
-		JPanel eastPanel = new EastPanel(this, l.getBoard(), l.getTimer());
+		JPanel eastPanel = new EastPanel(this, l.getBoard(), l.getTimeRunning());
 		defineSouthPanel(southPanel);
 		defineEastPanel(eastPanel);
 		JMenuBar jMenuBar = defineJMenuBar();
-
+		
 		frame.add(drawing, BorderLayout.CENTER);
 		frame.add(southPanel, BorderLayout.SOUTH);
 		frame.add(eastPanel, BorderLayout.EAST);

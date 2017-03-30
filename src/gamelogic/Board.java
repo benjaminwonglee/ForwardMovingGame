@@ -66,6 +66,11 @@ public class Board {
 			break;
 		case 3:
 			for (int row = width - 1; row >= 0; row--) {
+				tiles[row][0] = plainAndDesertAlt(row, timeRunning);
+			}
+			break;
+		case 4:
+			for (int row = width - 1; row >= 0; row--) {
 				tiles[row][0] = plainAndDesertRandom(row, timeRunning);
 			}
 			break;
@@ -114,6 +119,25 @@ public class Board {
 
 	/**
 	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
+	 * pattern of the board to create a single row of tiles. Plain and desert
+	 * Alt pattern style.
+	 * 
+	 * @param row
+	 *            The current row for the tile.
+	 * @param timeRunning
+	 *            The amount of time the game has been running (seconds).
+	 * @return The tile in the row that has been passed in as parameter.
+	 */
+	public Tile plainAndDesertAlt(int row, int timeRunning) {
+		if ((row + timeRunning) % 2 == 1) {
+			return new Desert();
+		} else {
+			return new Plain();
+		}
+	}
+
+	/**
+	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
 	 * pattern of the board to create a single row of tiles. Universal
 	 * parameters to keep consistency with other themes that may implement row,
 	 * column, and timeRunning. Plain and desert randomised style.
@@ -121,7 +145,7 @@ public class Board {
 	 * @param row
 	 *            The current row for the tile.
 	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds). 
+	 *            The amount of time the game has been running (seconds).
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
 	private Tile plainAndDesertRandom(int row, int timeRunning) {
@@ -191,13 +215,12 @@ public class Board {
 			return 1;
 		} else if (timeRunning < 30) {
 			return 2;
-		} else {
+		} else if (timeRunning < 50) {
 			return 3;
+		} else {
+			return 4;
 		}
 		// TODO: Update this after more themes made
-		// else if(timeRunning < 60 && timeRunning >= 40){
-		// return 3;
-		// }
 	}
 
 	/**

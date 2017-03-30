@@ -34,7 +34,7 @@ public class GameFrame {
 	private int southPanelHeight = 20;
 	private int eastPanelWidth = 300;
 	private int eastPanelHeight = frameHeight;
-	
+
 	public GameFrame(Logic l) {
 		this.logic = l;
 		this.frame = new JFrame();
@@ -46,7 +46,7 @@ public class GameFrame {
 		defineSouthPanel(southPanel);
 		defineEastPanel(eastPanel);
 		JMenuBar jMenuBar = defineJMenuBar();
-		
+
 		frame.add(drawing, BorderLayout.CENTER);
 		frame.add(southPanel, BorderLayout.SOUTH);
 		frame.add(eastPanel, BorderLayout.EAST);
@@ -73,7 +73,17 @@ public class GameFrame {
 		fileNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: new game
+				Logic l = new Logic();
+				GameFrame f = new GameFrame(l);
+				l.setFrame(f);
+				l.runTimer();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				dispatchClose();
+
 			}
 		});
 		fileQuit.addActionListener(new ActionListener() {
@@ -116,7 +126,6 @@ public class GameFrame {
 		frame.addWindowListener(new WindowListener() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				System.exit(1);
 			}
 
 			@Override
@@ -132,18 +141,20 @@ public class GameFrame {
 			}
 
 			@Override
-			public void windowDeiconified(WindowEvent e) {
-			}
-
-			@Override
 			public void windowIconified(WindowEvent e) {
 			}
 
 			@Override
 			public void windowOpened(WindowEvent e) {
 			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				e.getWindow().dispose();
+			}
+
 		});
-		
+
 		frame.setTitle("Forward Moving Game");
 		frame.setResizable(false);
 		frame.setFocusable(true);
@@ -152,6 +163,10 @@ public class GameFrame {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
+	}
+
+	public void dispatchClose() {
+		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_DEICONIFIED));
 	}
 
 	public Drawing getDrawing() {

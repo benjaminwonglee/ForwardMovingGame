@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -101,10 +100,10 @@ public class EastPanel extends JPanel {
 	}
 
 	private class CreateBorderWithLabel extends AbstractBorder {
+		
 		private static final long serialVersionUID = -2327653635624519881L;
 		private String name = "";
-		private int time = 0;
-
+		
 		public CreateBorderWithLabel(String name) {
 			this.name = name;
 		}
@@ -125,6 +124,7 @@ public class EastPanel extends JPanel {
 
 	private class CreateTimeLabel extends AbstractBorder {
 
+		private static final long serialVersionUID = -2506069849287210090L;
 		private String time;
 
 		public CreateTimeLabel(String time) {
@@ -224,6 +224,7 @@ public class EastPanel extends JPanel {
 			}
 		}
 
+		// Draw up timer component 
 		timeLabel.setBorder(new CreateTimeLabel(frame.getLogic().getTimeString()));
 		this.add(timeLabel);
 		timeLabel.setBounds(new Rectangle(10, 130, 280, 160));

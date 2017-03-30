@@ -2,7 +2,6 @@ package tiles;
 
 import gamelogic.Player;
 import items.Bike;
-import items.Flippers;
 import items.Item;
 
 /**

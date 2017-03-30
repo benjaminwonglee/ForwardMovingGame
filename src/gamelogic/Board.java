@@ -25,12 +25,11 @@ public class Board {
 	public Board(Logic l) {
 		this.logic = l;
 		tiles = new Tile[width][height];
-		// plainBoard();
 
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = plainAndDesertRandom(row, col, l.getTimeRunning());
+				tiles[row][col] = plainBoard(row, l.getTimeRunning());
 			}
 		}
 	}
@@ -39,12 +38,12 @@ public class Board {
 	 * Creates all the tiles on the Board after 1 iteration. Every tile becomes
 	 * its successor. Height is in reverse positive: Highest value = bottom of
 	 * board. timeRunning in game is used to draw the new board and make the new
-	 * set of tiles.
+	 * set of tiles. Called from Timer scheduled every second.
 	 * 
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
 	 */
-	public void createNextTiles(int timeRunning) {
+	public void createTiles(int timeRunning) {
 		// Shifts all tiles down board by 1 tile
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
@@ -52,15 +51,37 @@ public class Board {
 			}
 		}
 
+		int level = getCurrentBoardTheme(timeRunning);
 		// Set Board pattern and theme here
-		for (int row = width - 1; row >= 0; row--) {
-			tiles[row][0] = plainAndDesertRandom(row, height, timeRunning);
+		switch (level) {
+		case 1:
+			for (int row = width - 1; row >= 0; row--) {
+				tiles[row][0] = plainBoard(row, timeRunning);
+			}
+			break;
+		case 2:
+			for (int row = width - 1; row >= 0; row--) {
+				tiles[row][0] = plainAndDesertSimple(row, timeRunning);
+			}
+			break;
+		case 3:
+			for (int row = width - 1; row >= 0; row--) {
+				tiles[row][0] = plainAndDesertRandom(row, timeRunning);
+			}
+			break;
+		default:
+			for (int row = width - 1; row >= 0; row--) {
+				tiles[row][0] = plainAndDesertSimple(row, timeRunning);
+			}
+			break;
 		}
 	}
 
 	/**
 	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Plain style.
+	 * pattern of the board to create a single row of tiles. Universal
+	 * parameters to keep consistency with other themes that may implement row,
+	 * column, and timeRunning. Plain style.
 	 * 
 	 * @param row
 	 *            The current row for the tile.
@@ -68,7 +89,7 @@ public class Board {
 	 *            The amount of time the game has been running (seconds).
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	public Tile plainBoard(int row, int col, int timeRunning) {
+	public Tile plainBoard(int row, int timeRunning) {
 		return new Plain();
 	}
 
@@ -83,8 +104,8 @@ public class Board {
 	 *            The amount of time the game has been running (seconds).
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	private Tile plainAndDesertSimple(int row, int height, int timeRunning) {
-		if ((row + height + timeRunning) % 2 == 1) {
+	public Tile plainAndDesertSimple(int row, int timeRunning) {
+		if (timeRunning % 2 == 1) {
 			return new Desert();
 		} else {
 			return new Plain();
@@ -93,16 +114,17 @@ public class Board {
 
 	/**
 	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Plain and desert
-	 * randomised style.
+	 * pattern of the board to create a single row of tiles. Universal
+	 * parameters to keep consistency with other themes that may implement row,
+	 * column, and timeRunning. Plain and desert randomised style.
 	 * 
 	 * @param row
 	 *            The current row for the tile.
 	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
+	 *            The amount of time the game has been running (seconds). 
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	private Tile plainAndDesertRandom(int row, int height, int timeRunning) {
+	private Tile plainAndDesertRandom(int row, int timeRunning) {
 		int rand = (int) Math.floor(Math.random() * 2);
 		if (rand == 1) {
 			return new Desert();
@@ -162,6 +184,20 @@ public class Board {
 		// Change the position of the player and return true
 		player.setXPos(newX);
 		return true;
+	}
+
+	public int getCurrentBoardTheme(int timeRunning) {
+		if (timeRunning < 10) {
+			return 1;
+		} else if (timeRunning < 30) {
+			return 2;
+		} else {
+			return 3;
+		}
+		// TODO: Update this after more themes made
+		// else if(timeRunning < 60 && timeRunning >= 40){
+		// return 3;
+		// }
 	}
 
 	/**

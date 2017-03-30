@@ -3,8 +3,6 @@ package gamelogic;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JFrame;
-
 import frames.GameOverScreen;
 import graphics.GameFrame;
 import tiles.ItemTile;
@@ -60,7 +58,7 @@ public class Logic {
 			timeRunning++;
 			timeString = convertTimeToString();
 			logic.getFrame().getDrawing().repaint();
-			logic.board.createNextTiles(timeRunning);
+			logic.board.createTiles(timeRunning);
 			if (logic.isGameOver()) {
 				return;
 			}
@@ -142,7 +140,7 @@ public class Logic {
 
 	public void runTimer() {
 		// This version of Timer Task, Delay, Period.
-		timer.scheduleAtFixedRate(new TTask(this), 1000, 1000);
+		timer.scheduleAtFixedRate(new TTask(this), 1000, 600);
 	}
 
 	public String getTimeString() {

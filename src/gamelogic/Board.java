@@ -1,7 +1,7 @@
 package gamelogic;
 
-import frames.GameOverScreen;
 import tiles.Desert;
+import tiles.MonsterTile;
 import tiles.Plain;
 import tiles.Tile;
 
@@ -18,6 +18,7 @@ public class Board {
 	private int width = 3;
 	private int height = 6;
 	private static final int maxInventorySize = 3;
+	private int rowMonsterCount = 0;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
@@ -29,7 +30,7 @@ public class Board {
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = plainBoard(row, l.getTimeRunning());
+				tiles[row][col] = plainBoard(row, l.getTimeRunning(), true);
 			}
 		}
 	}
@@ -52,31 +53,63 @@ public class Board {
 		}
 
 		int level = getCurrentBoardTheme(timeRunning);
+
+		// Cannot have too many monsters or 1 on 3 consecutive rows
+		boolean monster = false;
+		if (rowMonsterCount == 2) {
+			monster = true;
+			rowMonsterCount = 0;
+		}
 		// Set Board pattern and theme here
 		switch (level) {
 		case 1:
-			for (int row = width - 1; row >= 0; row--) {
-				tiles[row][0] = plainBoard(row, timeRunning);
+			for (int row = 0; row < width; row++) {
+				Tile t = plainBoard(row, timeRunning, monster);
+				if (t instanceof MonsterTile) {
+					monster = true;
+					rowMonsterCount++;
+				}
+				tiles[row][0] = t;
 			}
 			break;
 		case 2:
-			for (int row = width - 1; row >= 0; row--) {
-				tiles[row][0] = plainAndDesertSimple(row, timeRunning);
+			for (int row = 0; row < width; row++) {
+				Tile t = plainAndDesertSimple(row, timeRunning, monster);
+				if (t instanceof MonsterTile) {
+					monster = true;
+					rowMonsterCount++;
+				}
+				tiles[row][0] = t;
 			}
 			break;
 		case 3:
-			for (int row = width - 1; row >= 0; row--) {
-				tiles[row][0] = plainAndDesertAlt(row, timeRunning);
+			for (int row = 0; row < width; row++) {
+				Tile t = plainAndDesertAlt(row, timeRunning, monster);
+				if (t instanceof MonsterTile) {
+					monster = true;
+					rowMonsterCount++;
+				}
+				tiles[row][0] = t;
 			}
 			break;
 		case 4:
-			for (int row = width - 1; row >= 0; row--) {
-				tiles[row][0] = plainAndDesertRandom(row, timeRunning);
+			for (int row = 0; row < width; row++) {
+				Tile t = plainAndDesertRandom(row, timeRunning, monster);
+				if (t instanceof MonsterTile) {
+					monster = true;
+					rowMonsterCount++;
+				}
+				tiles[row][0] = t;
 			}
 			break;
 		default:
-			for (int row = width - 1; row >= 0; row--) {
-				tiles[row][0] = plainAndDesertSimple(row, timeRunning);
+			for (int row = 0; row < width; row++) {
+				Tile t = plainAndDesertSimple(row, timeRunning, monster);
+				if (t instanceof MonsterTile) {
+					monster = true;
+					rowMonsterCount++;
+				}
+				tiles[row][0] = t;
 			}
 			break;
 		}
@@ -92,10 +125,26 @@ public class Board {
 	 *            The current row for the tile.
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
+	 * @param monster
+	 *            True if there has been a monster in this row.
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	public Tile plainBoard(int row, int timeRunning) {
+	public Tile plainBoard(int row, int timeRunning, boolean monster) {
+		Tile t = monsterGen(monster);
+		if (t != null) {
+			return t;
+		}
 		return new Plain();
+	}
+
+	private Tile monsterGen(boolean monster) {
+		if (!monster) {
+			int rand = (int) Math.floor((Math.random() * 3));
+			if (rand == 1) {
+				return new MonsterTile();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -107,10 +156,16 @@ public class Board {
 	 *            The current row for the tile.
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
+	 * @param monster
+	 *            True if there has been a monster in this row.
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	public Tile plainAndDesertSimple(int row, int timeRunning) {
-		if (timeRunning % 2 == 1) {
+	public Tile plainAndDesertSimple(int row, int timeRunning, boolean monster) {
+		Tile t = monsterGen(monster);
+		if (t != null) {
+			return t;
+		}
+		if (timeRunning % 2 == 0) {
 			return new Desert();
 		} else {
 			return new Plain();
@@ -126,9 +181,15 @@ public class Board {
 	 *            The current row for the tile.
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
+	 * @param monster
+	 *            True if there has been a monster in this row.
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	public Tile plainAndDesertAlt(int row, int timeRunning) {
+	public Tile plainAndDesertAlt(int row, int timeRunning, boolean monster) {
+		Tile t = monsterGen(monster);
+		if (t != null) {
+			return t;
+		}
 		if ((row + timeRunning) % 2 == 1) {
 			return new Desert();
 		} else {
@@ -146,9 +207,15 @@ public class Board {
 	 *            The current row for the tile.
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
+	 * @param monster
+	 *            True if there has been a monster in this row.
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	private Tile plainAndDesertRandom(int row, int timeRunning) {
+	private Tile plainAndDesertRandom(int row, int timeRunning, boolean monster) {
+		Tile t = monsterGen(monster);
+		if (t != null) {
+			return t;
+		}
 		int rand = (int) Math.floor(Math.random() * 2);
 		if (rand == 1) {
 			return new Desert();
@@ -202,7 +269,7 @@ public class Board {
 		}
 		if (!tiles[newX][height - 1].isTraversable(player)) {
 			// new Tile is not traversable
-			new GameOverScreen();
+			// TODO: - Player life
 			return false;
 		}
 		// Change the position of the player and return true
@@ -215,7 +282,7 @@ public class Board {
 			return 1;
 		} else if (timeRunning < 30) {
 			return 2;
-		} else if (timeRunning < 50) {
+		} else if (timeRunning < 40) {
 			return 3;
 		} else {
 			return 4;

@@ -33,6 +33,7 @@ public class Logic {
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
 		if (currentPlayer.getLife() == 0) {
 			setGameOver(true);
+			frame.dispatchClose();
 			new GameOverScreen();
 		}
 		setTimer();
@@ -57,14 +58,15 @@ public class Logic {
 		public void run() {
 			timeRunning++;
 			timeString = convertTimeToString();
-			logic.getFrame().getDrawing().repaint();
 			logic.board.createTiles(timeRunning);
+			logic.getFrame().getDrawing().repaint();
 			if (logic.isGameOver()) {
 				return;
 			}
 		}
 
 		private String convertTimeToString() {
+			
 			if (timeRunning % 60 == 0) {
 				minutes++;
 			}

@@ -9,7 +9,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,38 +61,8 @@ public abstract class AbstractWindow extends JFrame {
 
 	public void setFrameProperties() {
 		setPreferredSize(new Dimension(800, 800));
-		this.addWindowListener(new WindowListener() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				e.getWindow().dispose();
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-			}
-
-			@Override
-			public void windowActivated(WindowEvent e) {
-			}
-		});
 		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -158,7 +127,7 @@ public abstract class AbstractWindow extends JFrame {
 	}
 
 	public void dispatchClose() {
-		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_DEICONIFIED));
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
 }

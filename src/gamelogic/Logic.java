@@ -20,6 +20,7 @@ public class Logic {
 	private Board board;
 	private GameFrame frame;
 	private boolean gameOver = false;
+	private boolean running = true;
 
 	// Timer variables
 	private Timer timer;
@@ -51,22 +52,24 @@ public class Logic {
 
 		@Override
 		public void run() {
-			timeRunning++;
-			timeString = convertTimeToString();
-			logic.board.createTiles(timeRunning);
-			logic.getFrame().getDrawing().repaint();
-			if (logic.isGameOver()) {
-				return;
+			if (running) {
+				timeRunning++;
+				timeString = convertTimeToString();
+				logic.board.createTiles(timeRunning);
+				logic.getFrame().getDrawing().repaint();
+				if (logic.isGameOver()) {
+					return;
+				}
 			}
 		}
 
 		private String convertTimeToString() {
-			
+
 			if (timeRunning % 60 == 0) {
 				minutes++;
 			}
-			if(timeRunning % 60 < 10){
-				return minutes + ":0" + (timeRunning % 60);		
+			if (timeRunning % 60 < 10) {
+				return minutes + ":0" + (timeRunning % 60);
 			}
 			return minutes + ":" + (timeRunning % 60);
 		}
@@ -143,12 +146,18 @@ public class Logic {
 	public String getTimeString() {
 		return timeString;
 	}
-	
-	public void checkGameOver(){
+
+	public void checkGameOver() {
 		if (currentPlayer.getLife() == 0) {
 			setGameOver(true);
-			frame.dispatchClose();
+			setRunning(false);
 			new GameOverScreen();
+			frame.dispatchClose();
 		}
 	}
+	
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
 }

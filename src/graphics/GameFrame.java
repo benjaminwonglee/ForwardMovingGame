@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +23,11 @@ import gamelogic.Logic;
  * 
  * @author Benjamin Wong-Lee
  */
-public class GameFrame {
+public class GameFrame extends JFrame{
+	private static final long serialVersionUID = -6004994995100565980L;
+
 	private Logic logic;
 	private Drawing drawing;
-	private JFrame frame = null;
 	private int frameWidth = 750;
 	private int frameHeight = 860;
 	private int southPanelWidth = frameWidth;
@@ -37,21 +37,20 @@ public class GameFrame {
 
 	public GameFrame(Logic l) {
 		this.logic = l;
-		this.frame = new JFrame();
 		this.drawing = new Drawing(frameWidth - eastPanelWidth, frameHeight, logic.getBoard().getWidth(),
 				logic.getBoard().getHeight(), logic);
-		frame.setPreferredSize(new Dimension(frameWidth + 100, frameHeight + 100));
+		this.setPreferredSize(new Dimension(frameWidth + 100, frameHeight + 100));
 		JPanel southPanel = new JPanel();
 		JPanel eastPanel = new EastPanel(this, l.getBoard(), l.getTimeRunning());
 		defineSouthPanel(southPanel);
 		defineEastPanel(eastPanel);
 		JMenuBar jMenuBar = defineJMenuBar();
 
-		frame.add(drawing, BorderLayout.CENTER);
-		frame.add(southPanel, BorderLayout.SOUTH);
-		frame.add(eastPanel, BorderLayout.EAST);
-		frame.add(jMenuBar, BorderLayout.NORTH);
-		frame.addKeyListener(new WalkKeyListener(l.getBoard(), (Drawing) drawing));
+		this.add(drawing, BorderLayout.CENTER);
+		this.add(southPanel, BorderLayout.SOUTH);
+		this.add(eastPanel, BorderLayout.EAST);
+		this.add(jMenuBar, BorderLayout.NORTH);
+		this.addKeyListener(new WalkKeyListener(l.getBoard(), (Drawing) drawing));
 		setFrameProperties();
 	}
 
@@ -122,51 +121,19 @@ public class GameFrame {
 	 * focus, and visibility.
 	 */
 	private void setFrameProperties() {
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.addWindowListener(new WindowListener() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-			}
-
-			@Override
-			public void windowActivated(WindowEvent e) {
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-			}
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				e.getWindow().dispose();
-			}
-
-		});
-
-		frame.setTitle("Forward Moving Game");
-		frame.setResizable(false);
-		frame.setFocusable(true);
-		frame.requestFocusInWindow();
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setTitle("Forward Moving Game");
+		this.setResizable(false);
+		this.setFocusable(true);
+		this.requestFocusInWindow();
+		this.pack();
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 
 	}
 
 	public void dispatchClose() {
-		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_DEICONIFIED));
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public Drawing getDrawing() {

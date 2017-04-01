@@ -31,11 +31,6 @@ public class Logic {
 	public Logic() {
 		this.board = new Board(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
-		if (currentPlayer.getLife() == 0) {
-			setGameOver(true);
-			frame.dispatchClose();
-			new GameOverScreen();
-		}
 		setTimer();
 	}
 
@@ -147,5 +142,13 @@ public class Logic {
 
 	public String getTimeString() {
 		return timeString;
+	}
+	
+	public void checkGameOver(){
+		if (currentPlayer.getLife() == 0) {
+			setGameOver(true);
+			frame.dispatchClose();
+			new GameOverScreen();
+		}
 	}
 }

@@ -46,12 +46,20 @@ public class Board {
 	 */
 	public void createTiles(int timeRunning) {
 		// Shifts all tiles down board by 1 tile
+		Player player = logic.getCurrentPlayer();
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
+				if (col == height - 1 && row == logic.getCurrentPlayer().getXPos()) {
+					System.out.println(1);
+					if (!tiles[row][col - 1].isTraversable(player)) {
+						System.out.println(2);
+						player.setLife(player.getLife() - 1);
+						logic.checkGameOver();
+					}
+				}
 				tiles[row][col] = tiles[row][col - 1];
 			}
 		}
-
 		int level = getCurrentBoardTheme(timeRunning);
 
 		// Cannot have too many monsters or 1 on 3 consecutive rows
@@ -236,10 +244,8 @@ public class Board {
 	public boolean movePlayerInDirection(String dir) {
 		switch (dir) {
 		case "left":
-			System.out.println("LEFT");
 			return movePlayer(-1);
 		case "right":
-			System.out.println("RIGHT");
 			return movePlayer(1);
 		default:
 			throw new Error("Unexpected argument: " + dir);
@@ -269,7 +275,7 @@ public class Board {
 		}
 		if (!tiles[newX][height - 1].isTraversable(player)) {
 			// new Tile is not traversable
-			logic.getCurrentPlayer().setLife(logic.getCurrentPlayer().getLife() - 1);
+			player.setLife(player.getLife() - 1);
 			logic.checkGameOver();
 			return false;
 		}
@@ -329,10 +335,6 @@ public class Board {
 	 */
 	public int getHeight() {
 		return height;
-	}
-
-	public Player getPlayer() {
-		return logic.getCurrentPlayer();
 	}
 
 	public int getMaxInventorySize() {

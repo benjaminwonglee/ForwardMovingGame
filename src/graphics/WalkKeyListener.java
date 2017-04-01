@@ -21,7 +21,6 @@ public class WalkKeyListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent k) {
-		System.out.println("Pressed");
 		switch (k.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			if (board.movePlayerInDirection("left")) {
@@ -42,7 +41,6 @@ public class WalkKeyListener implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent k) {
-		System.out.println("Typed");
 		switch (k.getKeyChar()) {
 		case 'a':
 		case 'A':

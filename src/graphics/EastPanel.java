@@ -10,12 +10,15 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -39,7 +42,9 @@ public class EastPanel extends JPanel {
 	private int timeRunning;
 
 	private GameFrame frame;
+
 	private JLabel timeLabel;
+	private JLabel lifeLabel;
 
 	public EastPanel(GameFrame frame, Board board, int timeRunning) {
 		invSlots = new HashSet<JLabel>();
@@ -50,21 +55,90 @@ public class EastPanel extends JPanel {
 		/* Set bounds or all elements of the panel since layout is null */
 		this.setLayout(null);
 
+		createLifePanel();
+		createTimePanel();
 		addButtons(frame, board);
 		createInventoryLabels(frame, board);
+	}
+
+	private void createLifePanel() {
+		JLabel life = new JLabel();
+		try {
+			Image img = ImageIO.read(new File("images/life3.bmp"));
+			ImageIcon image = new ImageIcon(img);
+			life.setIcon(image);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		life.setPreferredSize(new Dimension(400, 150));
+		life.setFocusable(false);
+		this.add(life);
+		this.lifeLabel = life;
+		life.setBounds(new Rectangle(10, 10, 280, 100));
+	}
+
+	private void createTimePanel() {
+		JLabel time = new JLabel();
+		time.setPreferredSize(new Dimension(240, 100));
+		time.setBorder(new CreateBorderWithLabel("" + timeRunning));
+		time.setFocusable(false);
+		this.add(time);
+		this.timeLabel = time;
+		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
+	}
+
+	private class CreateBorderWithLabel extends AbstractBorder {
+		private static final long serialVersionUID = -2327653635624519881L;
+		private String name = "";
+
+		public CreateBorderWithLabel(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+			g.setColor(new Color(80, 80, 180));
+			g.fillRect(x, y, width, height);
+			g.setColor(new Color(60, 60, 160));
+			g.fillRect(x + 10, y + 10, width - 20, height - 20);
+			g.setColor(new Color(250, 250, 255));
+			g.fillRect(x + 20, y + 20, width - 40, height - 40);
+			g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+			g.setColor(new Color(0, 0, 100));
+			g.drawString(name, width / 2 - (g.getFontMetrics().stringWidth(name) / 2), height / 2 + 8);
+		}
+	}
+
+	private class CreateTimeLabel extends AbstractBorder {
+		private static final long serialVersionUID = -2506069849287210090L;
+		private String time;
+
+		public CreateTimeLabel(String time) {
+			this.time = time;
+		}
+
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+			g.setColor(new Color(80, 80, 180));
+			g.fillRect(x, y, width, height);
+			g.setColor(new Color(60, 60, 160));
+			g.fillRect(x + 10, y + 10, width - 20, height - 20);
+			g.setColor(new Color(250, 250, 255));
+			g.fillRect(x + 20, y + 20, width - 40, height - 40);
+			g.setFont(new Font("Lucida Sans", Font.BOLD, 24));
+			g.setColor(new Color(0, 0, 100));
+			g.drawString(time, width / 2 - (g.getFontMetrics().stringWidth(time) / 2), height / 2 + 8);
+		}
 	}
 
 	private void addButtons(GameFrame frame, Board board) {
 		JButton left = new JButton();
 		JButton right = new JButton();
-		JLabel time = new JLabel();
 
 		left.setText("");
 		right.setText("");
-		time.setPreferredSize(new Dimension(240, 100));
 		left.setPreferredSize(new Dimension(120, 50));
 		right.setPreferredSize(new Dimension(120, 50));
-		time.setBorder(new CreateBorderWithLabel("" + timeRunning));
 		left.setBorder(new CreateBorderWithLabel("Left"));
 		right.setBorder(new CreateBorderWithLabel("Right"));
 
@@ -87,62 +161,12 @@ public class EastPanel extends JPanel {
 
 		left.setFocusable(false);
 		right.setFocusable(false);
-		time.setFocusable(false);
 
 		this.add(left);
 		this.add(right);
-		this.add(time);
 
-		left.setBounds(new Rectangle(10, 700, 130, 80));
-		right.setBounds(new Rectangle(160, 700, 130, 80));
-		this.timeLabel = time;
-		timeLabel.setBounds(new Rectangle(10, 130, 280, 160));
-	}
-
-	private class CreateBorderWithLabel extends AbstractBorder {
-		
-		private static final long serialVersionUID = -2327653635624519881L;
-		private String name = "";
-		
-		public CreateBorderWithLabel(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(new Color(80, 80, 180));
-			g.fillRect(x, y, width, height);
-			g.setColor(new Color(60, 60, 160));
-			g.fillRect(x + 10, y + 10, width - 20, height - 20);
-			g.setColor(new Color(250, 250, 255));
-			g.fillRect(x + 20, y + 20, width - 40, height - 40);
-			g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-			g.setColor(new Color(0, 0, 100));
-			g.drawString(name, width / 2 - (g.getFontMetrics().stringWidth(name) / 2), height / 2 + 8);
-		}
-	}
-
-	private class CreateTimeLabel extends AbstractBorder {
-
-		private static final long serialVersionUID = -2506069849287210090L;
-		private String time;
-
-		public CreateTimeLabel(String time) {
-			this.time = time;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(new Color(80, 80, 180));
-			g.fillRect(x, y, width, height);
-			g.setColor(new Color(60, 60, 160));
-			g.fillRect(x + 10, y + 10, width - 20, height - 20);
-			g.setColor(new Color(250, 250, 255));
-			g.fillRect(x + 20, y + 20, width - 40, height - 40);
-			g.setFont(new Font("Lucida Sans", Font.BOLD, 24));
-			g.setColor(new Color(0, 0, 100));
-			g.drawString(time, width / 2 - (g.getFontMetrics().stringWidth(time) / 2), height / 2 + 8);
-		}
+		left.setBounds(new Rectangle(10, 760, 130, 100));
+		right.setBounds(new Rectangle(160, 760, 130, 100));
 	}
 
 	private void createInventoryLabels(GameFrame frame, Board board) {
@@ -179,9 +203,9 @@ public class EastPanel extends JPanel {
 			invSlot.setPreferredSize(preferredSize);
 
 			if (i < 2) {
-				invSlot.setBounds(new Rectangle(-25 + (150 * i), 300, 200, 225));
+				invSlot.setBounds(new Rectangle(-25 + (150 * i), 260, 200, 225));
 			} else if (i < 4) {
-				invSlot.setBounds(new Rectangle(-25 + (145 * (i - 2)), 450, 200, 225));
+				invSlot.setBounds(new Rectangle(-25 + (145 * (i - 2)), 410, 200, 225));
 			}
 
 			this.add(invSlot, this.getLayout());
@@ -224,10 +248,33 @@ public class EastPanel extends JPanel {
 			}
 		}
 
-		// Draw up timer component 
+		switch (frame.getLogic().getCurrentPlayer().getLife()) {
+		case 2:
+			try {
+				Image img = ImageIO.read(new File("images/life2.bmp"));
+				ImageIcon image = new ImageIcon(img);
+				lifeLabel.setIcon(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 1:
+			try {
+				Image img = ImageIO.read(new File("images/life1.bmp"));
+				ImageIcon image = new ImageIcon(img);
+				lifeLabel.setIcon(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		default:
+			break;
+		}
+
+		// Draw up timer component
 		timeLabel.setBorder(new CreateTimeLabel(frame.getLogic().getTimeString()));
 		this.add(timeLabel);
-		timeLabel.setBounds(new Rectangle(10, 130, 280, 160));
+		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}
 
 	public void setMaxInventoryNumber(int i) {

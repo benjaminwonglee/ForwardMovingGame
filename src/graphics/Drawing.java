@@ -27,6 +27,8 @@ public class Drawing extends JPanel {
 	private int boardWide;
 	private int boardHigh;
 	private Logic game; // Controller
+	private boolean colorChange1 = false;
+	private boolean colorChange2 = false;
 
 	public Drawing(int width, int height, int boardWide, int boardHigh, Logic game) {
 		this.setPreferredSize(new Dimension(width, height));
@@ -84,10 +86,29 @@ public class Drawing extends JPanel {
 		int x = game.getPlayerXPos();
 		java.awt.Image img = null;
 		try {
-			img = ImageIO.read(new File("images/person.bmp"));
+			img = ImageIO.read(new File("images/person2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		g.drawImage(img, x * w, (boardHigh - 1) * h, w, h, null);
+		for (int i = 7; i >= 0; i--) {
+			g.drawImage(img, x * w, (boardHigh - 1) * h, w - i, h, null);
+		}
 	}
+
+	public boolean getColorChange1() {
+		return colorChange1;
+	}
+
+	public void setColorChange1(boolean colorChange1) {
+		this.colorChange1 = colorChange1;
+	}
+
+	public boolean getColorChange2() {
+		return colorChange2;
+	}
+
+	public void setColorChange2(boolean colorChange2) {
+		this.colorChange2 = colorChange2;
+	}
+
 }

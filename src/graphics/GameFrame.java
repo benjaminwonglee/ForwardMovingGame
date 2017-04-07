@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import gamelogic.Logic;
  * 
  * @author Benjamin Wong-Lee
  */
-public class GameFrame extends JFrame{
+public class GameFrame extends JFrame {
 	private static final long serialVersionUID = -6004994995100565980L;
 
 	private Logic logic;
@@ -34,6 +35,8 @@ public class GameFrame extends JFrame{
 	private int southPanelHeight = 20;
 	private int eastPanelWidth = 300;
 	private int eastPanelHeight = frameHeight;
+	private EastPanel sidePanel;
+	private JMenuBar jMenu;
 
 	public GameFrame(Logic l) {
 		this.logic = l;
@@ -45,6 +48,8 @@ public class GameFrame extends JFrame{
 		defineSouthPanel(southPanel);
 		defineEastPanel(eastPanel);
 		JMenuBar jMenuBar = defineJMenuBar();
+		this.sidePanel = (EastPanel) eastPanel;
+		this.jMenu = jMenuBar;
 
 		this.add(drawing, BorderLayout.CENTER);
 		this.add(southPanel, BorderLayout.SOUTH);
@@ -122,6 +127,49 @@ public class GameFrame extends JFrame{
 	 */
 	private void setFrameProperties() {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				if (!getLogic().isGameOver()) {
+					System.exit(1);
+				}
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		this.setTitle("Forward Moving Game");
 		this.setResizable(false);
 		this.setFocusable(true);
@@ -142,5 +190,13 @@ public class GameFrame extends JFrame{
 
 	public Logic getLogic() {
 		return logic;
+	}
+
+	public EastPanel getSidePanel() {
+		return sidePanel;
+	}
+
+	public JMenuBar getjMenu() {
+		return jMenu;
 	}
 }

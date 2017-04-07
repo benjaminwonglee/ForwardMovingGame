@@ -39,6 +39,8 @@ public class EastPanel extends JPanel {
 	private int timeRunning;
 
 	private GameFrame frame;
+	private boolean colorChange1 = false;
+	private boolean colorChange2 = false;
 
 	private JLabel timeLabel;
 	private JLabel lifeLabel;
@@ -218,7 +220,16 @@ public class EastPanel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(170, 0, 0));
+		if (colorChange1) {
+			// Green
+			g.setColor(new Color(0, 170, 0));
+		} else if (colorChange2) {
+			// Blue
+			g.setColor(new Color(0, 0, 170));
+		} else {
+			// Red
+			g.setColor(new Color(170, 0, 0));
+		}
 		g.fillRect(0, 0, getWidth(), getHeight());
 		int rows = 20;
 		int cols = 10;
@@ -235,7 +246,16 @@ public class EastPanel extends JPanel {
 				}
 				fill = true;
 			}
-			g.setColor(new Color(g.getColor().getRed() + (160 / (rows + 1)), 30, 30));
+			if (colorChange1) {
+				// Green
+				g.setColor(new Color(30, g.getColor().getGreen() + (160 / (rows + 1)), 30));
+			} else if (colorChange2) {
+				// Blue
+				g.setColor(new Color(30, 30, g.getColor().getBlue() + (160 / (rows + 1))));
+			} else {
+				// Red
+				g.setColor(new Color(g.getColor().getRed() + (160 / (rows + 1)), 30, 30));
+			}
 			if (cols % 2 == 1) {
 				if (!fill) {
 					fill = true;
@@ -277,4 +297,21 @@ public class EastPanel extends JPanel {
 	public void setMaxInventoryNumber(int i) {
 		maxInventorySize = i;
 	}
+
+	public boolean getColorChange1() {
+		return colorChange1;
+	}
+
+	public void setColorChange1(boolean colorChange1) {
+		this.colorChange1 = colorChange1;
+	}
+
+	public boolean getColorChange2() {
+		return colorChange2;
+	}
+
+	public void setColorChange2(boolean colorChange2) {
+		this.colorChange2 = colorChange2;
+	}
+
 }

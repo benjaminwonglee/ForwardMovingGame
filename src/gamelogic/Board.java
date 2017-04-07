@@ -1,5 +1,6 @@
 package gamelogic;
 
+import graphics.Drawing;
 import tiles.Desert;
 import tiles.MonsterTile;
 import tiles.Plain;
@@ -68,6 +69,16 @@ public class Board {
 			monster = true;
 			rowMonsterCount = 0;
 		}
+
+		if (level == 2) {
+			logic.getFrame().getSidePanel().setColorChange1(true);
+			logic.getFrame().getSidePanel().repaint();
+		} else if (level == 4) {
+			logic.getFrame().getSidePanel().setColorChange1(false);
+			logic.getFrame().getSidePanel().setColorChange2(true);
+			logic.getFrame().getSidePanel().repaint();
+		}
+
 		// Set Board pattern and theme here
 		switch (level) {
 		case 1:

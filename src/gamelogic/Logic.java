@@ -43,11 +43,11 @@ public class Logic {
 	 * 
 	 */
 	public class TTask extends TimerTask {
-		Logic logic;
-		int minutes = -1;
+		private int minutes = -1;
+		private Logic logic;
 
-		public TTask(Logic l) {
-			this.logic = l;
+		public TTask(Logic logic) {
+			this.logic = logic;
 		}
 
 		@Override
@@ -55,16 +55,19 @@ public class Logic {
 			if (running) {
 				timeRunning++;
 				timeString = convertTimeToString();
-				logic.board.createTiles(timeRunning);
-				logic.getFrame().getDrawing().repaint();
-				if (logic.isGameOver()) {
+				if (logic.gameOver) {
+					timer.cancel();
+					timer.purge();
 					return;
 				}
+			} else {
+				timer.cancel();
+				timer.purge();
+				return;
 			}
 		}
 
 		private String convertTimeToString() {
-
 			if (timeRunning % 60 == 0) {
 				minutes++;
 			}
@@ -72,6 +75,43 @@ public class Logic {
 				return minutes + ":0" + (timeRunning % 60);
 			}
 			return minutes + ":" + (timeRunning % 60);
+		}
+	}
+
+	/**
+	 * The redrawing and creation of a new set of tiles that the timer does
+	 * every clock tick. Clock tick delay set by Timer.
+	 * 
+	 * @author Benjamin Wong-Lee
+	 * 
+	 */
+	public class DrawTask extends TimerTask {
+		private Logic logic;
+		private boolean end = false;
+
+		public DrawTask(Logic l) {
+			this.logic = l;
+		}
+
+		@Override
+		public void run() {
+			if (running && !end) {
+				logic.board.createTiles(timeRunning);
+				logic.getFrame().getDrawing().repaint();
+				if (logic.gameOver) {
+					timer.cancel();
+					timer.purge();
+					return;
+				}
+			} else {
+				timer.cancel();
+				timer.purge();
+				return;
+			}
+		}
+
+		public void setEnd(boolean end) {
+			this.end = end;
 		}
 	}
 
@@ -140,7 +180,22 @@ public class Logic {
 
 	public void runTimer() {
 		// This version of Timer Task, Delay, Period.
-		timer.scheduleAtFixedRate(new TTask(this), 1000, 600);
+		timer.scheduleAtFixedRate(new TTask(this), 1000, 1000);
+	}
+
+	public void runDrawTimer() {
+		DrawTask task = new DrawTask(this);
+		if (board.getLevel() == 0) {
+			timer.scheduleAtFixedRate(task, 1000, 600);
+		} else if (board.getLevel() == 2) {
+			task.setEnd(true);
+			task = new DrawTask(this);
+			timer.scheduleAtFixedRate(task, 1000, 400);
+		} else if (board.getLevel() == 4) {
+			task.setEnd(true);
+			task = new DrawTask(this);
+			timer.scheduleAtFixedRate(task, 1000, 200);
+		}
 	}
 
 	public String getTimeString() {
@@ -155,7 +210,7 @@ public class Logic {
 			frame.dispatchClose();
 		}
 	}
-	
+
 	public void setRunning(boolean running) {
 		this.running = running;
 	}

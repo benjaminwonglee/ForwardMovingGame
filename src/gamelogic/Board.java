@@ -20,6 +20,8 @@ public class Board {
 	private int height = 6;
 	private static final int maxInventorySize = 3;
 	private int rowMonsterCount = 0;
+	private int level = 0;
+	private boolean setSpeed = false;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
@@ -51,10 +53,9 @@ public class Board {
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
 				if (col == height - 1 && row == logic.getCurrentPlayer().getXPos()) {
-					System.out.println(1);
 					if (!tiles[row][col - 1].isTraversable(player)) {
-						System.out.println(2);
 						player.setLife(player.getLife() - 1);
+						drawPlayerDamageImage();
 						logic.checkGameOver();
 					}
 				}
@@ -62,7 +63,7 @@ public class Board {
 			}
 		}
 		int level = getCurrentBoardTheme(timeRunning);
-
+		this.level = level;
 		// Cannot have too many monsters or 1 on 3 consecutive rows
 		boolean monster = false;
 		if (rowMonsterCount == 2) {
@@ -70,12 +71,16 @@ public class Board {
 			rowMonsterCount = 0;
 		}
 
-		if (level == 2) {
+		if (level == 2 && setSpeed) {
+			setSpeed = false;
 			logic.getFrame().getSidePanel().setColorChange1(true);
+			logic.runDrawTimer();
 			logic.getFrame().getSidePanel().repaint();
-		} else if (level == 4) {
+		} else if (level == 4 && setSpeed) {
+			setSpeed = false;
 			logic.getFrame().getSidePanel().setColorChange1(false);
 			logic.getFrame().getSidePanel().setColorChange2(true);
+			logic.runDrawTimer();
 			logic.getFrame().getSidePanel().repaint();
 		}
 
@@ -132,6 +137,11 @@ public class Board {
 			}
 			break;
 		}
+	}
+
+	public void drawPlayerDamageImage() {
+		logic.getFrame().getDrawing().setPlayerDamaged(true);
+		logic.getFrame().getDrawing().repaint();
 	}
 
 	/**
@@ -285,10 +295,13 @@ public class Board {
 			return false;
 		}
 		if (!tiles[newX][height - 1].isTraversable(player)) {
-			// new Tile is not traversable
+			// New Tile is not traversable
 			player.setLife(player.getLife() - 1);
 			logic.checkGameOver();
-			return false;
+			// Let the player move there anyway but loses a life
+			drawPlayerDamageImage();
+			player.setXPos(newX);
+			return true;
 		}
 		// Change the position of the player and return true
 		player.setXPos(newX);
@@ -297,10 +310,12 @@ public class Board {
 
 	public int getCurrentBoardTheme(int timeRunning) {
 		if (timeRunning < 10) {
+			setSpeed = true;
 			return 1;
 		} else if (timeRunning < 30) {
 			return 2;
 		} else if (timeRunning < 40) {
+			setSpeed = true;
 			return 3;
 		} else {
 			return 4;
@@ -350,6 +365,10 @@ public class Board {
 
 	public int getMaxInventorySize() {
 		return maxInventorySize;
+	}
+
+	public int getLevel() {
+		return level;
 	}
 
 }

@@ -49,6 +49,7 @@ public abstract class AbstractWindow extends JFrame {
 				GameFrame f = new GameFrame(l);
 				l.setFrame(f);
 				l.runTimer();
+				l.runDrawTimer();
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {

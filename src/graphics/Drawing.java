@@ -28,6 +28,9 @@ public class Drawing extends JPanel {
 	private int boardHigh;
 	private Logic game; // Controller
 
+	private boolean playerDamaged = false;
+	private int damageIter;
+
 	public Drawing(int width, int height, int boardWide, int boardHigh, Logic game) {
 		this.setPreferredSize(new Dimension(width, height));
 		this.boardWide = boardWide;
@@ -83,8 +86,18 @@ public class Drawing extends JPanel {
 		// Draw current player
 		int x = game.getPlayerXPos();
 		java.awt.Image img = null;
+		String personImg = "";
+		if (playerDamaged) {
+			damageIter--;
+			if (damageIter == 0) {
+				playerDamaged = false;
+			}
+			personImg = "images/person_damage.png";
+		} else {
+			personImg = "images/person.png";
+		}
 		try {
-			img = ImageIO.read(new File("images/person2.png"));
+			img = ImageIO.read(new File(personImg));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -92,4 +105,10 @@ public class Drawing extends JPanel {
 			g.drawImage(img, x * w, (boardHigh - 1) * h, w - i, h, null);
 		}
 	}
+
+	public void setPlayerDamaged(boolean damaged) {
+		this.playerDamaged = damaged;
+		this.damageIter = 2;
+	}
+
 }

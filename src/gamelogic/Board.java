@@ -72,12 +72,10 @@ public class Board {
 
 		if (level == 2) {
 			logic.getFrame().getSidePanel().setColorChange1(true);
-			logic.runDrawTimer();
 			logic.getFrame().getSidePanel().repaint();
 		} else if (level == 4) {
 			logic.getFrame().getSidePanel().setColorChange1(false);
 			logic.getFrame().getSidePanel().setColorChange2(true);
-			logic.runDrawTimer();
 			logic.getFrame().getSidePanel().repaint();
 		}
 

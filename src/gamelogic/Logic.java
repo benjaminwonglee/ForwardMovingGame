@@ -88,6 +88,7 @@ public class Logic {
 	public class DrawTask extends TimerTask {
 		private Logic logic;
 		private int count = 0;
+		private int x;
 
 		public DrawTask(Logic l) {
 			this.logic = l;
@@ -97,14 +98,19 @@ public class Logic {
 		@Override
 		public void run() {
 			if (running && count > 0) {
+				System.out.println("Iteration: " + x);
+				x++;
 				logic.board.createTiles(timeRunning);
 				logic.getFrame().getDrawing().repaint();
+				count--;
 				if (logic.gameOver) {
 					timer.cancel();
 					timer.purge();
 					return;
 				}
 			} else {
+				//TODO: FIX THIS
+				System.out.println("END PLEASE");
 				timer.cancel();
 				timer.purge();
 				logic.runDrawTimer();

@@ -21,7 +21,6 @@ public class Board {
 	private static final int maxInventorySize = 3;
 	private int rowMonsterCount = 0;
 	private int level = 0;
-	private boolean setSpeed = false;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
@@ -71,13 +70,11 @@ public class Board {
 			rowMonsterCount = 0;
 		}
 
-		if (level == 2 && setSpeed) {
-			setSpeed = false;
+		if (level == 2) {
 			logic.getFrame().getSidePanel().setColorChange1(true);
 			logic.runDrawTimer();
 			logic.getFrame().getSidePanel().repaint();
-		} else if (level == 4 && setSpeed) {
-			setSpeed = false;
+		} else if (level == 4) {
 			logic.getFrame().getSidePanel().setColorChange1(false);
 			logic.getFrame().getSidePanel().setColorChange2(true);
 			logic.runDrawTimer();
@@ -310,12 +307,10 @@ public class Board {
 
 	public int getCurrentBoardTheme(int timeRunning) {
 		if (timeRunning < 10) {
-			setSpeed = true;
 			return 1;
 		} else if (timeRunning < 30) {
 			return 2;
 		} else if (timeRunning < 40) {
-			setSpeed = true;
 			return 3;
 		} else {
 			return 4;

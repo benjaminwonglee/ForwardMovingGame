@@ -22,7 +22,7 @@ public class Logic {
 	private boolean gameOver = false;
 	private boolean running = true;
 	private int level = 0;
-	
+
 	// Timer variables
 	private Timer timer;
 	private int timeRunning = -1;
@@ -68,6 +68,11 @@ public class Logic {
 			}
 		}
 
+		/**
+		 * Converts the integer timeRunning into a string.
+		 * 
+		 * @return The string that contains the time played.
+		 */
 		private String convertTimeToString() {
 			if (timeRunning % 60 == 0) {
 				minutes++;
@@ -89,16 +94,15 @@ public class Logic {
 	public class DrawTask extends TimerTask {
 		private Logic logic;
 		private int count = 0;
-		
+
 		public DrawTask(Logic l) {
 			this.logic = l;
-			this.count = 10;
+			this.count = 9;
 		}
 
 		@Override
 		public void run() {
 			if (running && count >= 0) {
-				System.out.println(count);
 				logic.board.createTiles(timeRunning);
 				logic.getFrame().getDrawing().repaint();
 				count--;
@@ -116,11 +120,19 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Creates new timer and assigns it to the timer field in Logic.
+	 */
 	public void setTimer() {
 		Timer t = new Timer();
 		this.timer = t;
 	}
 
+	/**
+	 * Logic for the player picking up an item.
+	 * 
+	 * @return true if the item has been picked up (added to inventory)
+	 */
 	public boolean pickUpItem() {
 		Tile t = checkSquare(board.getHeight(), currentPlayer.getXPos());
 		if (t instanceof ItemTile) {
@@ -131,6 +143,15 @@ public class Logic {
 		return false;
 	}
 
+	/**
+	 * Returns the Tile at the designated row and column of the board.
+	 * 
+	 * @param row
+	 *            specified row on the board
+	 * @param col
+	 *            specified column on the board
+	 * @return Tile object at the designated row and column of the board
+	 */
 	public Tile checkSquare(int row, int col) {
 		return board.returnSquare(row, col);
 	}
@@ -179,11 +200,17 @@ public class Logic {
 		return timeRunning;
 	}
 
+	/**
+	 * Sets the timer, and a task that controls the clock on the side panel.
+	 */
 	public void runTimer() {
 		// This version of Timer Task, Delay, Period.
 		timer.scheduleAtFixedRate(new TTask(this), 1000, 1000);
 	}
 
+	/**
+	 * Sets the timer task that controls the drawing delay.
+	 */
 	public void runDrawTimer() {
 		int speed = 1000 - (timeRunning * 10);
 		if (speed < 200) {
@@ -196,6 +223,10 @@ public class Logic {
 		return timeString;
 	}
 
+	/**
+	 * Checks if the game is over by checking if the Player has 0 life
+	 * remaining. Stops the game and brings up a GameOverScreen.
+	 */
 	public void checkGameOver() {
 		if (currentPlayer.getLife() == 0) {
 			setGameOver(true);
@@ -205,6 +236,12 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Sets the running boolean to say whether the timers should still continue
+	 * or stop.
+	 * 
+	 * @param running
+	 */
 	public void setRunning(boolean running) {
 		this.running = running;
 	}

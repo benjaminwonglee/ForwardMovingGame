@@ -21,7 +21,8 @@ public class Logic {
 	private GameFrame frame;
 	private boolean gameOver = false;
 	private boolean running = true;
-
+	private int level = 0;
+	
 	// Timer variables
 	private Timer timer;
 	private int timeRunning = -1;
@@ -109,6 +110,7 @@ public class Logic {
 			} else {
 				this.cancel();
 				logic.runDrawTimer();
+				logic.setLevel(logic.getLevel() + 1);
 				return;
 			}
 		}
@@ -205,6 +207,14 @@ public class Logic {
 
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 }

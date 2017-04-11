@@ -88,8 +88,7 @@ public class Logic {
 	public class DrawTask extends TimerTask {
 		private Logic logic;
 		private int count = 0;
-		private int x;
-
+		
 		public DrawTask(Logic l) {
 			this.logic = l;
 			this.count = 10;
@@ -97,9 +96,8 @@ public class Logic {
 
 		@Override
 		public void run() {
-			if (running && count > 0) {
-				System.out.println("Iteration: " + x);
-				x++;
+			if (running && count >= 0) {
+				System.out.println(count);
 				logic.board.createTiles(timeRunning);
 				logic.getFrame().getDrawing().repaint();
 				count--;
@@ -109,10 +107,7 @@ public class Logic {
 					return;
 				}
 			} else {
-				//TODO: FIX THIS
-				System.out.println("END PLEASE");
-				timer.cancel();
-				timer.purge();
+				this.cancel();
 				logic.runDrawTimer();
 				return;
 			}
@@ -188,12 +183,11 @@ public class Logic {
 	}
 
 	public void runDrawTimer() {
-		DrawTask task = new DrawTask(this);
-		int speed = 1000 - timeRunning;
-		if (speed < 400) {
-			speed = 400;
+		int speed = 1000 - (timeRunning * 10);
+		if (speed < 200) {
+			speed = 200;
 		}
-		timer.scheduleAtFixedRate(task, 1000, speed);
+		timer.scheduleAtFixedRate(new DrawTask(this), 0, speed);
 	}
 
 	public String getTimeString() {

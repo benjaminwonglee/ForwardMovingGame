@@ -5,8 +5,8 @@ import java.util.TimerTask;
 import gamelogic.Logic;
 
 /**
- * The redrawing and creation of a new set of tiles that the timer does
- * every clock tick. Clock tick delay set by Timer.
+ * The redrawing and creation of a new set of tiles that the timer does every
+ * clock tick. Clock tick delay set by Timer.
  * 
  * @author Benjamin Wong-Lee
  * 
@@ -34,6 +34,7 @@ public class DrawTask extends TimerTask {
 		} else {
 			this.cancel();
 			logic.runDrawTimer();
+			// Level is set here!
 			logic.setLevel(logic.getLevel() + 1);
 			return;
 		}

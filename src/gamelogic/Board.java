@@ -1,5 +1,8 @@
 package gamelogic;
 
+import levels.Level;
+import levels.PlainDesertSimpleLevel;
+import levels.PlainLevel;
 import tiles.Desert;
 import tiles.Lava;
 import tiles.MonsterTile;
@@ -31,7 +34,7 @@ public class Board {
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = plainBoard(row, l.getTimeRunning(), true);
+				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true);
 			}
 		}
 	}
@@ -40,7 +43,8 @@ public class Board {
 	 * Creates all the tiles on the Board after 1 iteration. Every tile becomes
 	 * its successor. Height is in reverse positive: Highest value = bottom of
 	 * board. timeRunning in game is used to draw the new board and make the new
-	 * set of tiles. Called from Timer scheduled every second.
+	 * set of tiles. Called from Timer scheduled every second. The level is set
+	 * in the DrawTask based on number of steps in game.
 	 * 
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
@@ -69,6 +73,7 @@ public class Board {
 			rowMonsterCount = 0;
 		}
 
+		// Change the Color of the side panel when levels increase
 		if (logic.getLevel() == 2) {
 			logic.getFrame().getSidePanel().setColorChange1(true);
 			logic.getFrame().getSidePanel().repaint();
@@ -78,27 +83,14 @@ public class Board {
 			logic.getFrame().getSidePanel().repaint();
 		}
 
+		Level l = null;
 		// Set Board pattern and theme here
 		switch (logic.getLevel()) {
 		case 1:
-			for (int row = 0; row < width; row++) {
-				Tile t = plainBoard(row, timeRunning, monster);
-				if (t instanceof MonsterTile) {
-					monster = true;
-					rowMonsterCount++;
-				}
-				tiles[row][0] = t;
-			}
+			l = new PlainLevel();
 			break;
 		case 2:
-			for (int row = 0; row < width; row++) {
-				Tile t = plainAndDesertSimple(row, timeRunning, monster);
-				if (t instanceof MonsterTile) {
-					monster = true;
-					rowMonsterCount++;
-				}
-				tiles[row][0] = t;
-			}
+			l = new PlainDesertSimpleLevel();
 			break;
 		case 3:
 			for (int row = 0; row < width; row++) {
@@ -131,16 +123,19 @@ public class Board {
 			}
 			break;
 		default:
-			for (int row = 0; row < width; row++) {
-				Tile t = plainAndDesertSimple(row, timeRunning, monster);
-				if (t instanceof MonsterTile) {
-					monster = true;
-					rowMonsterCount++;
-				}
-				tiles[row][0] = t;
-			}
+			l = new PlainDesertSimpleLevel();
 			break;
 		}
+
+		for (int row = 0; row < width; row++) {
+			Tile t = l.board(row, timeRunning, monster);
+			if (t instanceof MonsterTile) {
+				monster = true;
+				rowMonsterCount++;
+			}
+			tiles[row][0] = t;
+		}
+
 	}
 
 	public void drawPlayerDamageImage() {
@@ -148,29 +143,7 @@ public class Board {
 		logic.getFrame().getDrawing().repaint();
 	}
 
-	/**
-	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Universal
-	 * parameters to keep consistency with other themes that may implement row,
-	 * column, and timeRunning. Plain style.
-	 * 
-	 * @param row
-	 *            The current row for the tile.
-	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
-	 * @param monster
-	 *            True if there has been a monster in this row.
-	 * @return The tile in the row that has been passed in as parameter.
-	 */
-	public Tile plainBoard(int row, int timeRunning, boolean monster) {
-		Tile t = monsterGen(monster);
-		if (t != null) {
-			return t;
-		}
-		return new Plain();
-	}
-
-	private Tile monsterGen(boolean monster) {
+	public Tile monsterGen(boolean monster) {
 		if (!monster) {
 			int rand = (int) Math.floor((Math.random() * 3));
 			if (rand == 1) {
@@ -178,31 +151,6 @@ public class Board {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Plain and desert
-	 * Simple pattern style.
-	 * 
-	 * @param row
-	 *            The current row for the tile.
-	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
-	 * @param monster
-	 *            True if there has been a monster in this row.
-	 * @return The tile in the row that has been passed in as parameter.
-	 */
-	public Tile plainAndDesertSimple(int row, int timeRunning, boolean monster) {
-		Tile t = monsterGen(monster);
-		if (t != null) {
-			return t;
-		}
-		if (timeRunning % 2 == 0) {
-			return new Desert();
-		} else {
-			return new Plain();
-		}
 	}
 
 	/**

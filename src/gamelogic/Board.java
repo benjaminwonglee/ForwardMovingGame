@@ -1,6 +1,7 @@
 package gamelogic;
 
 import tiles.Desert;
+import tiles.Lava;
 import tiles.MonsterTile;
 import tiles.Plain;
 import tiles.Tile;
@@ -19,7 +20,7 @@ public class Board {
 	private int height = 6;
 	private static final int maxInventorySize = 3;
 	private int rowMonsterCount = 0;
-	
+
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
 	 */
@@ -50,6 +51,7 @@ public class Board {
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
 				if (col == height - 1 && row == logic.getCurrentPlayer().getXPos()) {
+					// Lose life if the tile is not traversable
 					if (!tiles[row][col - 1].isTraversable(player)) {
 						player.setLife(player.getLife() - 1);
 						drawPlayerDamageImage();
@@ -59,7 +61,7 @@ public class Board {
 				tiles[row][col] = tiles[row][col - 1];
 			}
 		}
-		
+
 		// Cannot have too many monsters or 1 on 3 consecutive rows
 		boolean monster = false;
 		if (rowMonsterCount == 2) {
@@ -111,6 +113,16 @@ public class Board {
 		case 4:
 			for (int row = 0; row < width; row++) {
 				Tile t = plainAndDesertRandom(row, timeRunning, monster);
+				if (t instanceof MonsterTile) {
+					monster = true;
+					rowMonsterCount++;
+				}
+				tiles[row][0] = t;
+			}
+			break;
+		case 5:
+			for (int row = 0; row < width; row++) {
+				Tile t = lavaRandom(row, timeRunning, monster);
 				if (t instanceof MonsterTile) {
 					monster = true;
 					rowMonsterCount++;
@@ -240,6 +252,19 @@ public class Board {
 		int rand = (int) Math.floor(Math.random() * 2);
 		if (rand == 1) {
 			return new Desert();
+		} else {
+			return new Plain();
+		}
+	}
+
+	private Tile lavaRandom(int row, int timeRunning, boolean monster) {
+		Tile t = monsterGen(monster);
+		if (t != null) {
+			return t;
+		}
+		int rand = (int) Math.floor(Math.random() * 4);
+		if (rand == 1) {
+			return new Lava();
 		} else {
 			return new Plain();
 		}

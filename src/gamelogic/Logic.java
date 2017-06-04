@@ -7,6 +7,8 @@ import frames.GameOverScreen;
 import graphics.GameFrame;
 import tiles.ItemTile;
 import tiles.Tile;
+import timertasks.DrawTask;
+import timertasks.TickTask;
 
 /**
  * The Logic class constructs the logic of the game. The Board, Player, and
@@ -28,96 +30,10 @@ public class Logic {
 	private int timeRunning = -1;
 	private String timeString;
 
-	// TODO: Create a player life function
-
 	public Logic() {
 		this.board = new Board(this);
 		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
 		setTimer();
-	}
-
-	/**
-	 * The current actions that the timer is taking every clock tick. Clock tick
-	 * delay set by Timer.
-	 * 
-	 * @author Benjamin Wong-Lee
-	 * 
-	 */
-	public class TTask extends TimerTask {
-		private int minutes = -1;
-		private Logic logic;
-
-		public TTask(Logic logic) {
-			this.logic = logic;
-		}
-
-		@Override
-		public void run() {
-			if (running) {
-				timeRunning++;
-				timeString = convertTimeToString();
-				if (logic.gameOver) {
-					timer.cancel();
-					timer.purge();
-					return;
-				}
-			} else {
-				timer.cancel();
-				timer.purge();
-				return;
-			}
-		}
-
-		/**
-		 * Converts the integer timeRunning into a string.
-		 * 
-		 * @return The string that contains the time played.
-		 */
-		private String convertTimeToString() {
-			if (timeRunning % 60 == 0) {
-				minutes++;
-			}
-			if (timeRunning % 60 < 10) {
-				return minutes + ":0" + (timeRunning % 60);
-			}
-			return minutes + ":" + (timeRunning % 60);
-		}
-	}
-
-	/**
-	 * The redrawing and creation of a new set of tiles that the timer does
-	 * every clock tick. Clock tick delay set by Timer.
-	 * 
-	 * @author Benjamin Wong-Lee
-	 * 
-	 */
-	public class DrawTask extends TimerTask {
-		private Logic logic;
-		private int count = 0;
-
-		public DrawTask(Logic l) {
-			this.logic = l;
-			this.count = 9;
-		}
-
-		@Override
-		public void run() {
-			if (running && count >= 0) {
-				logic.board.createTiles(timeRunning);
-				logic.getFrame().getDrawing().repaint();
-				count--;
-				if (logic.gameOver) {
-					timer.cancel();
-					timer.purge();
-					return;
-				}
-			} else {
-				this.cancel();
-				logic.runDrawTimer();
-				logic.setLevel(logic.getLevel() + 1);
-				return;
-			}
-		}
 	}
 
 	/**
@@ -154,6 +70,60 @@ public class Logic {
 	 */
 	public Tile checkSquare(int row, int col) {
 		return board.returnSquare(row, col);
+	}
+
+	/**
+	 * Sets the timer, and a task that controls the clock on the side panel.
+	 */
+	public void runTimer() {
+		// This version of Timer Task, Delay, Period.
+		timer.scheduleAtFixedRate(new TickTask(this), 1000, 1000);
+	}
+
+	/**
+	 * Sets the timer task that controls the drawing delay.
+	 */
+	public void runDrawTimer() {
+		int speed = 1000 - (timeRunning * 10);
+		if (speed < 200) {
+			speed = 200;
+		}
+		timer.scheduleAtFixedRate(new DrawTask(this), 0, speed);
+	}
+
+	/**
+	 * Checks if the game is over by checking if the Player has 0 life
+	 * remaining. Stops the game and brings up a GameOverScreen.
+	 */
+	public void checkGameOver() {
+		if (currentPlayer.getLife() == 0) {
+			setGameOver(true);
+			setRunning(false);
+			new GameOverScreen();
+			frame.dispatchClose();
+		}
+	}
+
+	/**
+	 * Sets the running boolean to say whether the timers should still continue
+	 * or stop.
+	 * 
+	 * @param running
+	 */
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public Player getCurrentPlayer() {
@@ -196,62 +166,19 @@ public class Logic {
 		return timer;
 	}
 
+	public void setTimeRunning(int timeRunning) {
+		this.timeRunning = timeRunning;
+	}
+
 	public int getTimeRunning() {
 		return timeRunning;
 	}
 
-	/**
-	 * Sets the timer, and a task that controls the clock on the side panel.
-	 */
-	public void runTimer() {
-		// This version of Timer Task, Delay, Period.
-		timer.scheduleAtFixedRate(new TTask(this), 1000, 1000);
-	}
-
-	/**
-	 * Sets the timer task that controls the drawing delay.
-	 */
-	public void runDrawTimer() {
-		int speed = 1000 - (timeRunning * 10);
-		if (speed < 200) {
-			speed = 200;
-		}
-		timer.scheduleAtFixedRate(new DrawTask(this), 0, speed);
+	public void setTimeString(String timeString) {
+		this.timeString = timeString;
 	}
 
 	public String getTimeString() {
 		return timeString;
 	}
-
-	/**
-	 * Checks if the game is over by checking if the Player has 0 life
-	 * remaining. Stops the game and brings up a GameOverScreen.
-	 */
-	public void checkGameOver() {
-		if (currentPlayer.getLife() == 0) {
-			setGameOver(true);
-			setRunning(false);
-			new GameOverScreen();
-			frame.dispatchClose();
-		}
-	}
-
-	/**
-	 * Sets the running boolean to say whether the timers should still continue
-	 * or stop.
-	 * 
-	 * @param running
-	 */
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
 }

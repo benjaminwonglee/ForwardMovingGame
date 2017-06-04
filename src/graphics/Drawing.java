@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import gamelogic.Logic;
 import tiles.Desert;
+import tiles.Lava;
 import tiles.MonsterTile;
 import tiles.Mountain;
 import tiles.Plain;
@@ -57,6 +58,9 @@ public class Drawing extends JPanel {
 				} else if (game.checkSquare(row, col) instanceof Sea) {
 					// Draw a sea panel
 					g.setColor(new Color(0, 0, 220));
+					g.fillRect(row * w, (col * h), w, h);
+				} else if (game.checkSquare(row, col) instanceof Lava) {
+					g.setColor(new Color(200, 30, 30));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
 					// Draw a monster

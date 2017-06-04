@@ -15,7 +15,8 @@ public interface Level {
 	 *            The amount of time the game has been running (seconds).
 	 * @param monster
 	 *            True if there has been a monster in this row.
+	 * @param lava TODO
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	public Tile board(int row, int timeRunning, boolean monster);
+	public Tile board(int row, int timeRunning, boolean monster, boolean lava);
 }

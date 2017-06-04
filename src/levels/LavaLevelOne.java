@@ -3,10 +3,15 @@ package levels;
 import tiles.Plain;
 import tiles.Tile;
 
-public class PlainLevel extends AbstractLevel implements Level {
+public class LavaLevelOne extends AbstractLevel implements Level {
+
 	@Override
 	public Tile board(int row, int timeRunning, boolean monster, boolean lava) {
 		Tile t = monsterGen(monster);
+		if (t != null) {
+			return t;
+		}
+		t = lavaGen(lava);
 		if (t != null) {
 			return t;
 		}

@@ -4,7 +4,7 @@ import tiles.Desert;
 import tiles.Plain;
 import tiles.Tile;
 
-public class PlainDesertSimpleLevel extends AbstractLevel implements Level {
+public class PlainAndDesertRandomLevel extends AbstractLevel implements Level {
 
 	@Override
 	public Tile board(int row, int timeRunning, boolean monster, boolean lava) {
@@ -12,7 +12,8 @@ public class PlainDesertSimpleLevel extends AbstractLevel implements Level {
 		if (t != null) {
 			return t;
 		}
-		if (timeRunning % 2 == 0) {
+		int rand = (int) Math.floor(Math.random() * 2);
+		if (rand == 1) {
 			return new Desert();
 		} else {
 			return new Plain();

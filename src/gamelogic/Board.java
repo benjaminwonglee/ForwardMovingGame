@@ -1,12 +1,13 @@
 package gamelogic;
 
+import levels.LavaLevelOne;
 import levels.Level;
+import levels.PlainAndDesertAlternatingLevel;
+import levels.PlainAndDesertRandomLevel;
 import levels.PlainDesertSimpleLevel;
 import levels.PlainLevel;
-import tiles.Desert;
 import tiles.Lava;
 import tiles.MonsterTile;
-import tiles.Plain;
 import tiles.Tile;
 
 /**
@@ -23,6 +24,7 @@ public class Board {
 	private int height = 6;
 	private static final int maxInventorySize = 3;
 	private int rowMonsterCount = 0;
+	private int rowLavaCount = 0;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
@@ -34,7 +36,7 @@ public class Board {
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true);
+				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true, true);
 			}
 		}
 	}
@@ -66,11 +68,18 @@ public class Board {
 			}
 		}
 
-		// Cannot have too many monsters or 1 on 3 consecutive rows
+		/*
+		 * Cannot have too many monsters/lava or a monster/lava tile on 3
+		 * consecutive rows
+		 */
 		boolean monster = false;
-		if (rowMonsterCount == 2) {
+		boolean lava = false;
+
+		if (rowMonsterCount == 2 || rowLavaCount == 2) {
 			monster = true;
+			lava = true;
 			rowMonsterCount = 0;
+			rowLavaCount = 0;
 		}
 
 		// Change the Color of the side panel when levels increase
@@ -83,8 +92,11 @@ public class Board {
 			logic.getFrame().getSidePanel().repaint();
 		}
 
+		/*
+		 * Set Board pattern and theme here. The level is set by a DrawTask
+		 * object which is determined by timer steps.
+		 */
 		Level l = null;
-		// Set Board pattern and theme here
 		switch (logic.getLevel()) {
 		case 1:
 			l = new PlainLevel();
@@ -93,34 +105,13 @@ public class Board {
 			l = new PlainDesertSimpleLevel();
 			break;
 		case 3:
-			for (int row = 0; row < width; row++) {
-				Tile t = plainAndDesertAlt(row, timeRunning, monster);
-				if (t instanceof MonsterTile) {
-					monster = true;
-					rowMonsterCount++;
-				}
-				tiles[row][0] = t;
-			}
+			l = new PlainAndDesertAlternatingLevel();
 			break;
 		case 4:
-			for (int row = 0; row < width; row++) {
-				Tile t = plainAndDesertRandom(row, timeRunning, monster);
-				if (t instanceof MonsterTile) {
-					monster = true;
-					rowMonsterCount++;
-				}
-				tiles[row][0] = t;
-			}
+			l = new PlainAndDesertRandomLevel();
 			break;
 		case 5:
-			for (int row = 0; row < width; row++) {
-				Tile t = lavaRandom(row, timeRunning, monster);
-				if (t instanceof MonsterTile) {
-					monster = true;
-					rowMonsterCount++;
-				}
-				tiles[row][0] = t;
-			}
+			l = new LavaLevelOne();
 			break;
 		default:
 			l = new PlainDesertSimpleLevel();
@@ -128,10 +119,14 @@ public class Board {
 		}
 
 		for (int row = 0; row < width; row++) {
-			Tile t = l.board(row, timeRunning, monster);
+			Tile t = l.board(row, timeRunning, monster, lava);
 			if (t instanceof MonsterTile) {
 				monster = true;
 				rowMonsterCount++;
+			}
+			if (t instanceof Lava) {
+				lava = true;
+				rowLavaCount++;
 			}
 			tiles[row][0] = t;
 		}
@@ -151,71 +146,6 @@ public class Board {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Plain and desert
-	 * Alt pattern style.
-	 * 
-	 * @param row
-	 *            The current row for the tile.
-	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
-	 * @param monster
-	 *            True if there has been a monster in this row.
-	 * @return The tile in the row that has been passed in as parameter.
-	 */
-	public Tile plainAndDesertAlt(int row, int timeRunning, boolean monster) {
-		Tile t = monsterGen(monster);
-		if (t != null) {
-			return t;
-		}
-		if ((row + timeRunning) % 2 == 1) {
-			return new Desert();
-		} else {
-			return new Plain();
-		}
-	}
-
-	/**
-	 * Creates the new row of tiles at the top, Tile by tile. Uses the current
-	 * pattern of the board to create a single row of tiles. Universal
-	 * parameters to keep consistency with other themes that may implement row,
-	 * column, and timeRunning. Plain and desert randomised style.
-	 * 
-	 * @param row
-	 *            The current row for the tile.
-	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
-	 * @param monster
-	 *            True if there has been a monster in this row.
-	 * @return The tile in the row that has been passed in as parameter.
-	 */
-	private Tile plainAndDesertRandom(int row, int timeRunning, boolean monster) {
-		Tile t = monsterGen(monster);
-		if (t != null) {
-			return t;
-		}
-		int rand = (int) Math.floor(Math.random() * 2);
-		if (rand == 1) {
-			return new Desert();
-		} else {
-			return new Plain();
-		}
-	}
-
-	private Tile lavaRandom(int row, int timeRunning, boolean monster) {
-		Tile t = monsterGen(monster);
-		if (t != null) {
-			return t;
-		}
-		int rand = (int) Math.floor(Math.random() * 4);
-		if (rand == 1) {
-			return new Lava();
-		} else {
-			return new Plain();
-		}
 	}
 
 	/**

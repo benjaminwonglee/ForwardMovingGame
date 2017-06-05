@@ -10,18 +10,12 @@ import tiles.Sea;
 import tiles.Tile;
 
 public abstract class AbstractLevel {
-	private static ArrayList<Item> items = new ArrayList<Item>();
-
-	public Tile itemGen(boolean item) {
-		if (!item) {
-			int rand = (int) Math.floor((Math.random() * 9));
-			if (rand == 1) {
-				Item i = null;
-				for(Item item : items){
-					
-				}
-				return new ItemTile(i);
-			}
+	private int maxInvNum = 3;
+	
+	public Tile itemGen() {
+		int rand = (int) Math.floor((Math.random() * 10));
+		if (rand == 1) {
+			return new ItemTile(maxInvNum);
 		}
 		return null;
 	}

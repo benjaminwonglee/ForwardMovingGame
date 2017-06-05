@@ -8,7 +8,11 @@ public class PlainAndDesertAlternatingLevel extends AbstractLevel implements Lev
 
 	@Override
 	public Tile board(int row, int timeRunning, boolean monster, boolean sea, boolean lava) {
-		Tile t = monsterGen(monster);
+		Tile t = itemGen();
+		if (t != null) {
+			return t;
+		}
+		t = monsterGen(monster);
 		if (t != null) {
 			return t;
 		}

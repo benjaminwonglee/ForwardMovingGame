@@ -1,11 +1,18 @@
 package gamelogic;
 
+import java.util.ArrayList;
+
+import items.Bike;
+import items.Flippers;
+import items.Item;
+import items.Sword;
 import levels.LavaLevelOne;
 import levels.Level;
 import levels.PlainAndDesertAlternatingLevel;
 import levels.PlainAndDesertRandomLevel;
 import levels.PlainDesertSimpleLevel;
 import levels.PlainLevel;
+import tiles.ItemTile;
 import tiles.Lava;
 import tiles.MonsterTile;
 import tiles.Tile;
@@ -32,6 +39,11 @@ public class Board {
 	public Board(Logic l) {
 		this.logic = l;
 		tiles = new Tile[width][height];
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(new Bike());
+		items.add(new Flippers());
+		items.add(new Sword());
+		ItemTile.setItems(items);
 
 		// Setup initial board
 		for (int col = 0; col < height; col++) {

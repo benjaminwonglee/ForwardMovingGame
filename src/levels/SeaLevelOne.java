@@ -7,7 +7,11 @@ public class SeaLevelOne extends AbstractLevel implements Level {
 
 	@Override
 	public Tile board(int row, int timeRunning, boolean monster, boolean sea, boolean lava) {
-		Tile t = monsterGen(monster);
+		Tile t = itemGen();
+		if (t != null) {
+			return t;
+		}
+		t = monsterGen(monster);
 		if (t != null) {
 			return t;
 		}

@@ -1,7 +1,6 @@
 package gamelogic;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import frames.GameOverScreen;
 import graphics.GameFrame;

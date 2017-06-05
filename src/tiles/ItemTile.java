@@ -1,5 +1,7 @@
 package tiles;
 
+import java.util.ArrayList;
+
 import gamelogic.Player;
 import items.Item;
 
@@ -11,6 +13,7 @@ import items.Item;
  */
 public class ItemTile extends AbstractTile implements Tile {
 	private Item item;
+	private static ArrayList<Item> items = new ArrayList<Item>();
 
 	/**
 	 * Requires maxInventoryNumber to select an item at random.
@@ -18,7 +21,20 @@ public class ItemTile extends AbstractTile implements Tile {
 	 * @param maxInvNum
 	 */
 	public ItemTile(int maxInvNum) {
-
+		for (;;) {
+			System.out.println("This is happening");
+			for (Item it : items) {
+				double p = Math.random();
+				if (p < 0.333) {
+					this.item = it;
+					break;
+				}
+			}
+			System.out.println(this.item);
+			if (this.item != null) {
+				break;
+			}
+		}
 	}
 
 	public ItemTile(Item i) {
@@ -47,6 +63,14 @@ public class ItemTile extends AbstractTile implements Tile {
 	 */
 	public Item getItem() {
 		return item;
+	}
+
+	public static ArrayList<Item> getItems() {
+		return items;
+	}
+
+	public static void setItems(ArrayList<Item> items) {
+		ItemTile.items = items;
 	}
 
 }

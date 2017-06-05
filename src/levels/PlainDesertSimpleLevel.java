@@ -7,8 +7,8 @@ import tiles.Tile;
 public class PlainDesertSimpleLevel extends AbstractLevel implements Level {
 
 	@Override
-	public Tile board(int row, int timeRunning, boolean monster, boolean sea, boolean lava) {
-		Tile t = itemGen();
+	public Tile board(int row, int timeRunning, boolean item, boolean monster, boolean sea, boolean lava) {
+		Tile t = itemGen(item);
 		if (t != null) {
 			return t;
 		}

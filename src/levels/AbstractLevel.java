@@ -8,11 +8,13 @@ import tiles.Tile;
 
 public abstract class AbstractLevel {
 	private int maxInvNum = 3;
-	
-	public Tile itemGen() {
-		int rand = (int) Math.floor((Math.random() * 20));
-		if (rand == 1) {
-			return new ItemTile(maxInvNum);
+
+	public Tile itemGen(boolean item) {
+		if (!item) {
+			int rand = (int) Math.floor((Math.random() * 40));
+			if (rand == 1) {
+				return new ItemTile(maxInvNum);
+			}
 		}
 		return null;
 	}

@@ -15,6 +15,7 @@ import levels.PlainLevel;
 import tiles.ItemTile;
 import tiles.Lava;
 import tiles.MonsterTile;
+import tiles.Sea;
 import tiles.Tile;
 
 /**
@@ -32,6 +33,8 @@ public class Board {
 	private static final int maxInventorySize = 3;
 	private int rowMonsterCount = 0;
 	private int rowLavaCount = 0;
+	private int rowSeaCount = 0;
+	private int rowItemCount = 0;
 
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
@@ -48,7 +51,7 @@ public class Board {
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true, true, true);
+				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true, true, true, true);
 			}
 		}
 	}
@@ -84,16 +87,21 @@ public class Board {
 		 * Cannot have too many monsters/lava or a monster/lava tile on 3
 		 * consecutive rows
 		 */
+		boolean item = false;
 		boolean monster = false;
 		boolean sea = false;
 		boolean lava = false;
 
-		if (rowMonsterCount == 2 || rowLavaCount == 2) {
+		if (rowMonsterCount == 2 || rowSeaCount == 2 || rowLavaCount == 2) {
+			item = true;
 			monster = true;
 			sea = true;
 			lava = true;
+			item = true;
 			rowMonsterCount = 0;
 			rowLavaCount = 0;
+			rowSeaCount = 0;
+			rowItemCount = 0;
 		}
 
 		// Change the Color of the side panel when levels increase
@@ -133,7 +141,7 @@ public class Board {
 		}
 
 		for (int row = 0; row < width; row++) {
-			Tile t = l.board(row, timeRunning, monster, sea, lava);
+			Tile t = l.board(row, timeRunning, item, monster, sea, lava);
 			if (t instanceof MonsterTile) {
 				monster = true;
 				rowMonsterCount++;
@@ -141,6 +149,14 @@ public class Board {
 			if (t instanceof Lava) {
 				lava = true;
 				rowLavaCount++;
+			}
+			if (t instanceof Sea) {
+				sea = true;
+				rowSeaCount++;
+			}
+			if (t instanceof ItemTile) {
+				item = true;
+				rowItemCount++;
 			}
 			tiles[row][0] = t;
 		}

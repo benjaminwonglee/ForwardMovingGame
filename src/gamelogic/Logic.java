@@ -53,7 +53,7 @@ public class Logic {
 		Tile t = checkSquare(board.getHeight(), currentPlayer.getXPos());
 		if (t instanceof ItemTile) {
 			ItemTile itemTile = (ItemTile) t;
-			currentPlayer.addToInventory(itemTile.containedItem());
+			currentPlayer.addToInventory(itemTile.getItem());
 			return true;
 		}
 		return false;

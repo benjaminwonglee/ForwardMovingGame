@@ -36,7 +36,7 @@ public class Board {
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true, true);
+				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true, true, true);
 			}
 		}
 	}
@@ -73,10 +73,12 @@ public class Board {
 		 * consecutive rows
 		 */
 		boolean monster = false;
+		boolean sea = false;
 		boolean lava = false;
 
 		if (rowMonsterCount == 2 || rowLavaCount == 2) {
 			monster = true;
+			sea = true;
 			lava = true;
 			rowMonsterCount = 0;
 			rowLavaCount = 0;
@@ -119,7 +121,7 @@ public class Board {
 		}
 
 		for (int row = 0; row < width; row++) {
-			Tile t = l.board(row, timeRunning, monster, lava);
+			Tile t = l.board(row, timeRunning, monster, sea, lava);
 			if (t instanceof MonsterTile) {
 				monster = true;
 				rowMonsterCount++;

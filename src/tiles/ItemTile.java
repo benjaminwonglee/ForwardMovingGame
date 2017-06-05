@@ -10,6 +10,7 @@ import items.Item;
  * @author Benjamin Wong-Lee
  */
 public class ItemTile extends AbstractTile implements Tile {
+	private Item item;
 
 	/**
 	 * Requires maxInventoryNumber to select an item at random.
@@ -18,6 +19,10 @@ public class ItemTile extends AbstractTile implements Tile {
 	 */
 	public ItemTile(int maxInvNum) {
 
+	}
+
+	public ItemTile(Item i) {
+		this.item = i;
 	}
 
 	@Override
@@ -40,8 +45,8 @@ public class ItemTile extends AbstractTile implements Tile {
 	 * 
 	 * @return The Item on the Tile.
 	 */
-	public Item containedItem() {
-
-		return null;
+	public Item getItem() {
+		return item;
 	}
+
 }

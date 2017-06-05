@@ -1,8 +1,5 @@
 package levels;
 
-import java.util.ArrayList;
-
-import items.Item;
 import tiles.ItemTile;
 import tiles.Lava;
 import tiles.MonsterTile;
@@ -13,7 +10,7 @@ public abstract class AbstractLevel {
 	private int maxInvNum = 3;
 	
 	public Tile itemGen() {
-		int rand = (int) Math.floor((Math.random() * 10));
+		int rand = (int) Math.floor((Math.random() * 20));
 		if (rand == 1) {
 			return new ItemTile(maxInvNum);
 		}

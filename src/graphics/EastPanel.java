@@ -175,11 +175,11 @@ public class EastPanel extends JPanel {
 			// TODO: remove once fully tested
 			/* Read the image */
 			BufferedImage invPic = null;
-			String item = player.getInventory().get(i).toString();
+			String item = player.getInventory().get(i).getName();
 			try {
 				invPic = ImageIO.read(new File("images/" + item + ".png"));
 			} catch (IOException e) {
-				System.err.println("There was an error reading an inventory image");
+				System.err.println("There was an error reading an inventory image: " + item);
 				e.printStackTrace();
 			}
 

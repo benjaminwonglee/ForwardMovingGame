@@ -22,7 +22,6 @@ public class ItemTile extends AbstractTile implements Tile {
 	 */
 	public ItemTile(int maxInvNum) {
 		for (;;) {
-			System.out.println("This is happening");
 			for (Item it : items) {
 				double p = Math.random();
 				if (p < 0.333) {
@@ -30,7 +29,6 @@ public class ItemTile extends AbstractTile implements Tile {
 					break;
 				}
 			}
-			System.out.println(this.item);
 			if (this.item != null) {
 				break;
 			}

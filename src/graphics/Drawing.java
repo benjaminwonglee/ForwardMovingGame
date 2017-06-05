@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import gamelogic.Logic;
 import tiles.Desert;
+import tiles.ItemTile;
 import tiles.Lava;
 import tiles.MonsterTile;
 import tiles.Mountain;
@@ -56,12 +57,22 @@ public class Drawing extends JPanel {
 					g.setColor(new Color(180, 180, 0));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof Sea) {
-					// Draw a sea panel
 					g.setColor(new Color(0, 0, 220));
 					g.fillRect(row * w, (col * h), w, h);
 				} else if (game.checkSquare(row, col) instanceof Lava) {
 					g.setColor(new Color(200, 30, 30));
 					g.fillRect(row * w, (col * h), w, h);
+				} else if (game.checkSquare(row, col) instanceof ItemTile) {
+					ItemTile item = (ItemTile) game.checkSquare(row, col);
+					java.awt.Image itemImg = null;
+					try {
+						itemImg = ImageIO.read(new File("images/" + item.getItem().getName() +".png"));
+					} catch (IOException e) {
+						System.err.println("Couldn't read image file of " + item.getName());
+						e.printStackTrace();
+					}
+					g.drawImage(itemImg, row * w, (col * h), w, h, this);
+					
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
 					// Draw a monster
 					java.awt.Image monsterImg = null;

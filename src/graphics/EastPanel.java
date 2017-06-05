@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
 
 import gamelogic.Board;
+import gamelogic.Player;
 
 /**
  * 
@@ -57,13 +58,13 @@ public class EastPanel extends JPanel {
 		createLifePanel();
 		createTimePanel();
 		addButtons(frame, board);
-		createInventoryLabels(frame, board);
+		createInventoryLabels(frame, board, frame.getLogic().getCurrentPlayer());
 	}
 
 	private void createLifePanel() {
 		JLabel life = new JLabel();
 		try {
-			Image img = ImageIO.read(new File("images/life3.bmp"));
+			Image img = ImageIO.read(new File("images/life3.png"));
 			ImageIcon image = new ImageIcon(img);
 			life.setIcon(image);
 		} catch (IOException e) {
@@ -168,15 +169,15 @@ public class EastPanel extends JPanel {
 		right.setBounds(new Rectangle(160, 760, 130, 100));
 	}
 
-	private void createInventoryLabels(GameFrame frame, Board board) {
+	private void createInventoryLabels(GameFrame frame, Board board, Player player) {
 		Dimension preferredSize = new Dimension(130, 130);
 		for (int i = 0; i < maxInventorySize; i++) {
 			// TODO: remove once fully tested
 			/* Read the image */
 			BufferedImage invPic = null;
-			String item = "flippers";
+			String item = player.getInventory().get(i).toString();
 			try {
-				invPic = ImageIO.read(new File("images/" + item + ".bmp"));
+				invPic = ImageIO.read(new File("images/" + item + ".png"));
 			} catch (IOException e) {
 				System.err.println("There was an error reading an inventory image");
 				e.printStackTrace();
@@ -186,7 +187,7 @@ public class EastPanel extends JPanel {
 			// BufferedImage invPic = null;
 			// String item = board.getPlayer().getInventory().get(i).getName();
 			// try {
-			// invPic = ImageIO.read(new File("images/" + item + ".bmp"));
+			// invPic = ImageIO.read(new File("images/" + item + ".png"));
 			// } catch (IOException e) {
 			// e.printStackTrace();
 			// }
@@ -268,7 +269,7 @@ public class EastPanel extends JPanel {
 		switch (frame.getLogic().getCurrentPlayer().getLife()) {
 		case 2:
 			try {
-				Image img = ImageIO.read(new File("images/life2.bmp"));
+				Image img = ImageIO.read(new File("images/life2.png"));
 				ImageIcon image = new ImageIcon(img);
 				lifeLabel.setIcon(image);
 			} catch (IOException e) {
@@ -277,7 +278,7 @@ public class EastPanel extends JPanel {
 			break;
 		case 1:
 			try {
-				Image img = ImageIO.read(new File("images/life1.bmp"));
+				Image img = ImageIO.read(new File("images/life1.png"));
 				ImageIcon image = new ImageIcon(img);
 				lifeLabel.setIcon(image);
 			} catch (IOException e) {

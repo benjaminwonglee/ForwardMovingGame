@@ -66,7 +66,7 @@ public class Drawing extends JPanel {
 					// Draw a monster
 					java.awt.Image monsterImg = null;
 					try {
-						monsterImg = ImageIO.read(new File("images/monster.bmp"));
+						monsterImg = ImageIO.read(new File("images/monster.png"));
 					} catch (IOException e) {
 						System.err.println("Couldn't read image file of monster");
 						e.printStackTrace();

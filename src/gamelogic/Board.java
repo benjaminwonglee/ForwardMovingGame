@@ -15,9 +15,9 @@ import tiles.Tile;
 
 /**
  * A class representing the game board. Responsible for movement of Player and
- * Board. Board represents a Controller in the MVC, with an additional function to store
- * the tiles of the board. Do not store other things here; store in Logic, which
- * represents the Model.
+ * Board. Board represents a Controller in the MVC, with an additional function
+ * to store the tiles of the board. Do not store other things here; store in
+ * Logic, which represents the Model.
  * 
  * @author Benjamin Wong-Lee
  *
@@ -234,7 +234,11 @@ public class Board {
 			return true;
 		} else if (tiles[newX][height - 1] instanceof ItemTile) {
 			// New Tile has an item
-			logic.pickUpItem();
+			if (logic.pickUpItem(newX)) {
+				
+			} else {
+				System.out.println("Not picking up item...");
+			}
 		}
 		// Change the position of the player and return true
 		player.setXPos(newX);

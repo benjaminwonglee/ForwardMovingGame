@@ -49,13 +49,15 @@ public class Logic {
 	 * 
 	 * @return true if the item has been picked up (added to inventory)
 	 */
-	public boolean pickUpItem() {
-		Tile t = checkSquare(board.getHeight() - 1, currentPlayer.getXPos());
+	public boolean pickUpItem(int xPos) {
+		Tile t = checkSquare(xPos, board.getHeight() - 1);
 		if (t instanceof ItemTile) {
 			ItemTile itemTile = (ItemTile) t;
 			currentPlayer.addToInventory(itemTile.getItem());
+			System.out.println(itemTile.getItem().getName());
 			return true;
 		}
+		System.out.println("This is happening: " + t);
 		return false;
 	}
 

@@ -52,27 +52,45 @@ public class Drawing extends JPanel {
 				if (game.checkSquare(row, col) instanceof Plain) {
 					// Draw an empty plain
 					g.setColor(new Color(0, 180, 20));
-					g.fillRect(row * w, (col * h), w, h);
+					g.fillRect(row * w, col * h, w, h);
 				} else if (game.checkSquare(row, col) instanceof Desert) {
 					g.setColor(new Color(180, 180, 0));
-					g.fillRect(row * w, (col * h), w, h);
+					g.fillRect(row * w, col * h, w, h);
 				} else if (game.checkSquare(row, col) instanceof Sea) {
 					g.setColor(new Color(0, 0, 220));
-					g.fillRect(row * w, (col * h), w, h);
+					g.fillRect(row * w, col * h, w, h);
+					g.setColor(new Color(170, 170, 230));
+					for (int i = 0; i < 20; i++) {
+						int xPos = (int) (Math.random() * w);
+						int yPos = (int) (Math.random() * h);
+						if (xPos + 16 > w) {
+							xPos -= 20;
+						}
+						if (yPos - 16 < h) {
+							yPos += 20;
+						}
+						// Draw sea wave lines
+						g.drawLine((row * w) + xPos, (col * h) + yPos, (row * w) + xPos + 8, (col * h) + yPos - 8);
+						g.drawLine((row * w) + xPos + 8, (col * h) + yPos - 8, (row * w) + xPos + 16, (col * h) + yPos);
+						g.drawLine((row * w) + xPos + 1, (col * h) + yPos - 1, (row * w) + xPos + 9,
+								(col * h) + yPos - 9);
+						g.drawLine((row * w) + xPos + 9, (col * h) + yPos - 9, (row * w) + xPos + 17,
+								(col * h) + yPos - 1);
+					}
 				} else if (game.checkSquare(row, col) instanceof Lava) {
 					g.setColor(new Color(200, 30, 30));
-					g.fillRect(row * w, (col * h), w, h);
+					g.fillRect(row * w, col * h, w, h);
 				} else if (game.checkSquare(row, col) instanceof ItemTile) {
 					ItemTile item = (ItemTile) game.checkSquare(row, col);
 					java.awt.Image itemImg = null;
 					try {
-						itemImg = ImageIO.read(new File("images/" + item.getItem().getName() +".png"));
+						itemImg = ImageIO.read(new File("images/" + item.getItem().getName() + ".png"));
 					} catch (IOException e) {
 						System.err.println("Couldn't read image file of " + item.getName());
 						e.printStackTrace();
 					}
 					g.drawImage(itemImg, row * w, (col * h), w, h, this);
-					
+
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
 					// Draw a monster
 					java.awt.Image monsterImg = null;

@@ -22,7 +22,7 @@ public class Logic {
 	private GameFrame frame;
 	private boolean gameOver = false;
 	private boolean running = true;
-	private int level = 0;
+	private int level = 1;
 
 	// Timer variables
 	private Timer timer;

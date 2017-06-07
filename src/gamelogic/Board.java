@@ -6,12 +6,7 @@ import items.Bike;
 import items.Flippers;
 import items.Item;
 import items.Sword;
-import levels.LavaLevelOne;
-import levels.Level;
-import levels.PlainAndDesertAlternatingLevel;
-import levels.PlainAndDesertRandomLevel;
-import levels.PlainDesertSimpleLevel;
-import levels.PlainLevel;
+import levels.*;
 import tiles.ItemTile;
 import tiles.Lava;
 import tiles.MonsterTile;
@@ -34,8 +29,7 @@ public class Board {
 	private int rowMonsterCount = 0;
 	private int rowLavaCount = 0;
 	private int rowSeaCount = 0;
-	private int rowItemCount = 0;
-
+	
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
 	 */
@@ -101,7 +95,6 @@ public class Board {
 			rowMonsterCount = 0;
 			rowLavaCount = 0;
 			rowSeaCount = 0;
-			rowItemCount = 0;
 		}
 
 		// Change the Color of the side panel when levels increase
@@ -135,8 +128,12 @@ public class Board {
 		case 5:
 			l = new LavaLevelOne();
 			break;
+		case 6:
+			l = new SeaLevelOne();
+			break;
 		default:
-			l = new PlainDesertSimpleLevel();
+			l = new SeaLevelOne();
+			//l = new PlainDesertSimpleLevel();
 			break;
 		}
 
@@ -156,7 +153,6 @@ public class Board {
 			}
 			if (t instanceof ItemTile) {
 				item = true;
-				rowItemCount++;
 			}
 			tiles[row][0] = t;
 		}

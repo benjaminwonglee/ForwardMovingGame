@@ -54,10 +54,8 @@ public class Logic {
 		if (t instanceof ItemTile) {
 			ItemTile itemTile = (ItemTile) t;
 			currentPlayer.addToInventory(itemTile.getItem());
-			System.out.println(itemTile.getItem().getName());
 			return true;
 		}
-		System.out.println("This is happening: " + t);
 		return false;
 	}
 

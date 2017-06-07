@@ -65,15 +65,19 @@ public class GameFrame extends JFrame {
 	 * @return The JMenuBar for the main Frame.
 	 */
 	private JMenuBar defineJMenuBar() {
+		Font font = new Font("Times New Roman", Font.BOLD, 18);
 		/* Construct file JMenu and its items */
 		JMenu file = new JMenu("File");
-		file.setFont(new Font("Monospace", 0, 17));
+		file.setFont(font);
 		JMenuItem fileNew = new JMenuItem("New");
+		fileNew.setFont(font);
 		JMenuItem fileQuit = new JMenuItem("Quit");
+		fileQuit.setFont(font);
 		/*
 		 * On pressing the JMenu item on the JMenu, perform its respective
 		 * action here.
 		 */
+		// TODO: New Game still needs fixing
 		fileNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -120,7 +124,7 @@ public class GameFrame extends JFrame {
 	private void defineEastPanel(JPanel eastPanel) {
 		eastPanel.setPreferredSize(new Dimension(eastPanelWidth, eastPanelHeight));
 	}
-	
+
 	public void invUpdate() {
 		sidePanel.updateInventoryLabels(logic);
 	}

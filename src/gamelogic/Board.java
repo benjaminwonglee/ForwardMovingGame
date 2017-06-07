@@ -117,32 +117,32 @@ public class Board {
 		Level l = null;
 		switch (logic.getLevel()) {
 		case 1:
-		case 2:
 			l = new PlainLevel();
 			break;
+		case 2:
 		case 3:
-		case 4:
 			l = new PlainDesertSimpleLevel();
 			break;
+		case 4:
 		case 5:
-		case 6:
 			l = new PlainAndDesertAlternatingLevel();
 			break;
+		case 6:
 		case 7:
-		case 8:
 			l = new PlainAndDesertRandomLevel();
 			break;
+		case 8:
 		case 9:
 		case 10:
-			l = new LavaLevelOne();
+			l = new SeaLevelOne();
 			break;
 		case 11:
 		case 12:
-			l = new SeaLevelOne();
+		case 13:
+			l = new LavaLevelOne();
 			break;
 		default:
-			l = new SeaLevelOne();
-			// l = new PlainDesertSimpleLevel();
+			l = new LavaLevelOne();
 			break;
 		}
 

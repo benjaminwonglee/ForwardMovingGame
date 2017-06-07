@@ -4,14 +4,14 @@ import gamelogic.Player;
 
 /**
  * A Lava Tile that cannot be traversed.
- * 
+ *
  * @author Benjamin Wong-Lee
  */
 public class Lava extends AbstractTile implements Tile {
 
 		@Override
 		public String getName() {
-			return "Lava";
+			return "lava";
 		}
 
 		@Override

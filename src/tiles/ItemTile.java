@@ -8,7 +8,7 @@ import items.Item;
 /**
  * A Tile containing an Item. Should be made to be a reasonably rare occurrence
  * in the game.
- * 
+ *
  * @author Benjamin Wong-Lee
  */
 public class ItemTile extends AbstractTile implements Tile {
@@ -17,7 +17,7 @@ public class ItemTile extends AbstractTile implements Tile {
 
 	/**
 	 * Requires maxInventoryNumber to select an item at random.
-	 * 
+	 *
 	 * @param maxInvNum
 	 */
 	public ItemTile(int maxInvNum) {
@@ -41,7 +41,7 @@ public class ItemTile extends AbstractTile implements Tile {
 
 	@Override
 	public String getName() {
-		return "Item Tile";
+		return "item_tile";
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class ItemTile extends AbstractTile implements Tile {
 
 	/**
 	 * This method returns the item which is on the tile.
-	 * 
+	 *
 	 * @return The Item on the Tile.
 	 */
 	public Item getItem() {

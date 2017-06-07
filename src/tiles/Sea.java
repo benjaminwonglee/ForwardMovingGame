@@ -6,14 +6,14 @@ import items.Item;
 
 /**
  * A Sea Tile that can only be traversed with the Flippers item.
- * 
+ *
  * @author Benjamin Wong-Lee
  */
 public class Sea extends AbstractTile implements Tile {
 
 	@Override
 	public String getName() {
-		return "Sea";
+		return "sea";
 	}
 
 	@Override

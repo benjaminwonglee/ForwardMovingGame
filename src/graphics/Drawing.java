@@ -19,6 +19,7 @@ import tiles.Plain;
 import tiles.Sea;
 
 /**
+ * The main view of the game. Draws everything in the main game.
  * 
  * @author Benjamin Wong-Lee
  */
@@ -60,7 +61,7 @@ public class Drawing extends JPanel {
 					g.setColor(new Color(0, 0, 220));
 					g.fillRect(row * w, col * h, w, h);
 					g.setColor(new Color(170, 170, 230));
-					for (int i = 0; i < 20; i++) {
+					for (int i = 0; i < 10; i++) {
 						int xPos = (int) (Math.random() * w);
 						int yPos = (int) (Math.random() * h);
 						if (xPos + 16 > w) {
@@ -80,6 +81,21 @@ public class Drawing extends JPanel {
 				} else if (game.checkSquare(row, col) instanceof Lava) {
 					g.setColor(new Color(200, 30, 30));
 					g.fillRect(row * w, col * h, w, h);
+					g.setColor(new Color(200, 150, 150));
+					for (int i = 0; i < 5; i++) {
+						int xPos = (int) (Math.random() * w);
+						int yPos = (int) (Math.random() * h);
+						int bubSize = 20;
+						if (xPos + bubSize > w) {
+							xPos -= (bubSize + 4);
+						}
+						if (yPos - bubSize < h) {
+							yPos += (bubSize + 4);
+						}
+						// Draw lava bubbles
+						g.fillOval((row * w) + xPos, (col * h) + yPos, bubSize, bubSize);
+					}
+
 				} else if (game.checkSquare(row, col) instanceof ItemTile) {
 					ItemTile item = (ItemTile) game.checkSquare(row, col);
 					java.awt.Image itemImg = null;
@@ -90,7 +106,6 @@ public class Drawing extends JPanel {
 						e.printStackTrace();
 					}
 					g.drawImage(itemImg, row * w, (col * h), w, h, this);
-
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
 					// Draw a monster
 					java.awt.Image monsterImg = null;

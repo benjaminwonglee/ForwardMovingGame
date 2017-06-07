@@ -15,7 +15,9 @@ import tiles.Tile;
 
 /**
  * A class representing the game board. Responsible for movement of Player and
- * Board.
+ * Board. Board represents a Controller in the MVC, with an additional function to store
+ * the tiles of the board. Do not store other things here; store in Logic, which
+ * represents the Model.
  * 
  * @author Benjamin Wong-Lee
  *
@@ -26,10 +28,11 @@ public class Board {
 	private int width = 3;
 	private int height = 6;
 	private static final int maxInventorySize = 3;
+	// Level Flags
 	private int rowMonsterCount = 0;
 	private int rowLavaCount = 0;
 	private int rowSeaCount = 0;
-	
+
 	/**
 	 * Constructs a board, calls a method to fill the board with tiles.
 	 */
@@ -98,10 +101,10 @@ public class Board {
 		}
 
 		// Change the Color of the side panel when levels increase
-		if (logic.getLevel() == 2) {
+		if (logic.getLevel() == 5) {
 			logic.getFrame().getSidePanel().setColorChange1(true);
 			logic.getFrame().getSidePanel().repaint();
-		} else if (logic.getLevel() == 4) {
+		} else if (logic.getLevel() == 10) {
 			logic.getFrame().getSidePanel().setColorChange1(false);
 			logic.getFrame().getSidePanel().setColorChange2(true);
 			logic.getFrame().getSidePanel().repaint();
@@ -114,26 +117,32 @@ public class Board {
 		Level l = null;
 		switch (logic.getLevel()) {
 		case 1:
+		case 2:
 			l = new PlainLevel();
 			break;
-		case 2:
+		case 3:
+		case 4:
 			l = new PlainDesertSimpleLevel();
 			break;
-		case 3:
+		case 5:
+		case 6:
 			l = new PlainAndDesertAlternatingLevel();
 			break;
-		case 4:
+		case 7:
+		case 8:
 			l = new PlainAndDesertRandomLevel();
 			break;
-		case 5:
+		case 9:
+		case 10:
 			l = new LavaLevelOne();
 			break;
-		case 6:
+		case 11:
+		case 12:
 			l = new SeaLevelOne();
 			break;
 		default:
 			l = new SeaLevelOne();
-			//l = new PlainDesertSimpleLevel();
+			// l = new PlainDesertSimpleLevel();
 			break;
 		}
 
@@ -223,6 +232,9 @@ public class Board {
 			drawPlayerDamageImage();
 			player.setXPos(newX);
 			return true;
+		} else if (tiles[newX][height - 1] instanceof ItemTile) {
+			// New Tile has an item
+			logic.pickUpItem();
 		}
 		// Change the position of the player and return true
 		player.setXPos(newX);

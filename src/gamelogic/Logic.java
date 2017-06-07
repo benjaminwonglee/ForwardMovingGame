@@ -12,7 +12,8 @@ import timertasks.TickTask;
 /**
  * The Logic class constructs the logic of the game. The Board, Player, and
  * Timer are also created here since the Board relies on Logic to function.
- * Other game logic such as Player and Timer logic is also located here.
+ * Other game logic such as Player and Timer logic is also located here. Logic
+ * is the Model of the program in the MVC.
  *
  * @author Benjamin Wong-Lee
  */
@@ -49,7 +50,7 @@ public class Logic {
 	 * @return true if the item has been picked up (added to inventory)
 	 */
 	public boolean pickUpItem() {
-		Tile t = checkSquare(board.getHeight(), currentPlayer.getXPos());
+		Tile t = checkSquare(board.getHeight() - 1, currentPlayer.getXPos());
 		if (t instanceof ItemTile) {
 			ItemTile itemTile = (ItemTile) t;
 			currentPlayer.addToInventory(itemTile.getItem());

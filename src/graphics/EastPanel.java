@@ -26,6 +26,7 @@ import gamelogic.Board;
 import gamelogic.Player;
 
 /**
+ * Draws everything on the side panel. Stores all the buttons on there as well.
  * 
  * @author Benjamin Wong-Lee
  */

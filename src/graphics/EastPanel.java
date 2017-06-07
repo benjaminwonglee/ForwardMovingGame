@@ -24,6 +24,7 @@ import javax.swing.border.AbstractBorder;
 
 import gamelogic.Board;
 import gamelogic.Player;
+import items.Item;
 
 /**
  * Draws everything on the side panel. Stores all the buttons on there as well.
@@ -39,6 +40,7 @@ public class EastPanel extends JPanel {
 
 	private Set<JLabel> invSlots;
 	private int timeRunning;
+	private Dimension invIconSize = new Dimension(130, 130);
 
 	private GameFrame frame;
 	private boolean colorChange1 = false;
@@ -171,9 +173,7 @@ public class EastPanel extends JPanel {
 	}
 
 	private void createInventoryLabels(GameFrame frame, Board board, Player player) {
-		Dimension preferredSize = new Dimension(130, 130);
 		for (int i = 0; i < maxInventorySize; i++) {
-			// TODO: remove once fully tested
 			/* Read the image */
 			BufferedImage invPic = null;
 			String item = player.getInventory().get(i).getName();
@@ -184,29 +184,23 @@ public class EastPanel extends JPanel {
 				e.printStackTrace();
 			}
 
-			// /* Read the image */
-			// BufferedImage invPic = null;
-			// String item = board.getPlayer().getInventory().get(i).getName();
-			// try {
-			// invPic = ImageIO.read(new File("images/" + item + ".png"));
-			// } catch (IOException e) {
-			// e.printStackTrace();
-			// }
-
 			/* Scale the image */
 			Image img = (Image) invPic;
-			Image scaled = img.getScaledInstance(preferredSize.width, preferredSize.height, 0);
+			Image scaled = img.getScaledInstance(invIconSize.width, invIconSize.height, 0);
 
 			ImageIcon invItem = new ImageIcon(scaled);
 			JLabel invSlot = new JLabel(invItem);
 
 			invSlot.setFocusable(false);
-			invSlot.setPreferredSize(preferredSize);
+			invSlot.setPreferredSize(invIconSize);
 
 			if (i < 2) {
-				invSlot.setBounds(new Rectangle(-25 + (150 * i), 260, 200, 225));
+				invSlot.setBounds(new Rectangle(invIconSize.width * i + 10 + (15 * i), 300, invIconSize.width,
+						invIconSize.height));
 			} else if (i < 4) {
-				invSlot.setBounds(new Rectangle(-25 + (145 * (i - 2)), 410, 200, 225));
+				// Same as above but -2 from i and increase height
+				invSlot.setBounds(new Rectangle(invIconSize.width * (i - 2) + 10 + (15 * (i - 2)),
+						300 + invIconSize.height + 15, invIconSize.width, invIconSize.height));
 			}
 
 			this.add(invSlot, this.getLayout());
@@ -214,11 +208,29 @@ public class EastPanel extends JPanel {
 		}
 	}
 
-	// private void updateInventoryIcons(Frame frame, Board board) {
-	// // TODO: Change as player picks up items
-	// for (Item i : board.getPlayer().getInventory()) {
-	// }
-	// }
+	private void updateInventoryLabels(GameFrame frame, Board board, Player player) {
+		// TODO: Change as player picks up items
+		for (Item i : player.getInventory()) {
+			/* Read the image */
+			BufferedImage invPic = null;
+			try {
+				invPic = ImageIO.read(new File("images/" + i.getName() + ".png"));
+			} catch (IOException e) {
+				System.err.println("There was an error reading an inventory image: " + i.getName());
+				e.printStackTrace();
+			}
+			/* Scale the image */
+			Image img = (Image) invPic;
+			Image scaled = img.getScaledInstance(invIconSize.width, invIconSize.height, 0);
+
+			ImageIcon invItem = new ImageIcon(scaled);
+			JLabel invSlot = new JLabel(invItem);
+
+			for (JLabel j : invSlots) {
+
+			}
+		}
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {

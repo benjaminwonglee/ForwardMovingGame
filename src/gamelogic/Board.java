@@ -234,11 +234,10 @@ public class Board {
 			return true;
 		} else if (tiles[newX][height - 1] instanceof ItemTile) {
 			// New Tile has an item
-			if (logic.pickUpItem(newX)) {
-				
-			} else {
-				System.out.println("Not picking up item...");
-			}
+			logic.pickUpItem(newX);
+			// Ask the inventory panel to update
+			logic.getFrame().invUpdate();
+
 		}
 		// Change the position of the player and return true
 		player.setXPos(newX);

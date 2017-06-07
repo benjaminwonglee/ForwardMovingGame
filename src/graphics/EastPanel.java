@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,8 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
 
 import gamelogic.Board;
+import gamelogic.Logic;
 import gamelogic.Player;
-import items.Item;
 
 /**
  * Draws everything on the side panel. Stores all the buttons on there as well.
@@ -38,7 +38,7 @@ public class EastPanel extends JPanel {
 	// Total number of items in game (not including Blank), board holds this.
 	private int maxInventorySize = 0;
 
-	private Set<JLabel> invSlots;
+	private List<JLabel> invSlots;
 	private int timeRunning;
 	private Dimension invIconSize = new Dimension(130, 130);
 
@@ -50,7 +50,7 @@ public class EastPanel extends JPanel {
 	private JLabel lifeLabel;
 
 	public EastPanel(GameFrame frame, Board board, int timeRunning) {
-		invSlots = new HashSet<JLabel>();
+		invSlots = new ArrayList<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
 		this.timeRunning = timeRunning;
 		this.frame = frame;
@@ -194,29 +194,33 @@ public class EastPanel extends JPanel {
 			invSlot.setFocusable(false);
 			invSlot.setPreferredSize(invIconSize);
 
+			int startHt = 290;
 			if (i < 2) {
-				invSlot.setBounds(new Rectangle(invIconSize.width * i + 10 + (15 * i), 300, invIconSize.width,
+				invSlot.setBounds(new Rectangle(invIconSize.width * i + 10 + (15 * i), startHt, invIconSize.width,
 						invIconSize.height));
 			} else if (i < 4) {
 				// Same as above but -2 from i and increase height
 				invSlot.setBounds(new Rectangle(invIconSize.width * (i - 2) + 10 + (15 * (i - 2)),
-						300 + invIconSize.height + 15, invIconSize.width, invIconSize.height));
+						startHt + invIconSize.height + 15, invIconSize.width, invIconSize.height));
 			}
 
-			this.add(invSlot, this.getLayout());
+			this.add(invSlot);
 			this.invSlots.add(invSlot);
 		}
 	}
 
-	private void updateInventoryLabels(GameFrame frame, Board board, Player player) {
+	public void updateInventoryLabels(Logic l) {
+		Player p = l.getCurrentPlayer();
 		// TODO: Change as player picks up items
-		for (Item i : player.getInventory()) {
+		for (int i = 0; i < p.getInventory().size(); i++) {
+			String item = p.getInventory().get(i).getName();
 			/* Read the image */
 			BufferedImage invPic = null;
 			try {
-				invPic = ImageIO.read(new File("images/" + i.getName() + ".png"));
+				invPic = ImageIO.read(new File("images/" + item + ".png"));
 			} catch (IOException e) {
-				System.err.println("There was an error reading an inventory image: " + i.getName());
+				System.err
+						.println("There was an error reading an inventory image: " + p.getInventory().get(i).getName());
 				e.printStackTrace();
 			}
 			/* Scale the image */
@@ -224,12 +228,11 @@ public class EastPanel extends JPanel {
 			Image scaled = img.getScaledInstance(invIconSize.width, invIconSize.height, 0);
 
 			ImageIcon invItem = new ImageIcon(scaled);
-			JLabel invSlot = new JLabel(invItem);
-
-			for (JLabel j : invSlots) {
-
-			}
+			JLabel label = invSlots.get(i);
+			label.setIcon(invItem);
 		}
+		// This will cause problem?
+		this.repaint();
 	}
 
 	@Override

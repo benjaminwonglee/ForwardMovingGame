@@ -120,6 +120,10 @@ public class GameFrame extends JFrame {
 	private void defineEastPanel(JPanel eastPanel) {
 		eastPanel.setPreferredSize(new Dimension(eastPanelWidth, eastPanelHeight));
 	}
+	
+	public void invUpdate() {
+		sidePanel.updateInventoryLabels(logic);
+	}
 
 	/**
 	 * Final stages of setting up the properties of the frame such as the title,
@@ -128,29 +132,20 @@ public class GameFrame extends JFrame {
 	private void setFrameProperties() {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.addWindowListener(new WindowListener() {
-
 			@Override
 			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
@@ -166,8 +161,6 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 		this.setTitle("Forward Moving Game");
@@ -177,7 +170,6 @@ public class GameFrame extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-
 	}
 
 	public void dispatchClose() {

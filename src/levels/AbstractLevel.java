@@ -2,6 +2,7 @@ package levels;
 
 import tiles.ItemTile;
 import tiles.Lava;
+import tiles.LifeTile;
 import tiles.MonsterTile;
 import tiles.Sea;
 import tiles.Tile;
@@ -14,6 +15,16 @@ public abstract class AbstractLevel {
 			int rand = (int) Math.floor((Math.random() * 40));
 			if (rand == 1) {
 				return new ItemTile(maxInvNum);
+			}
+		}
+		return null;
+	}
+
+	public Tile lifeGen(boolean item) {
+		if (!item) {
+			int rand = (int) Math.floor((Math.random() * 50));
+			if (rand == 1) {
+				return new LifeTile();
 			}
 		}
 		return null;

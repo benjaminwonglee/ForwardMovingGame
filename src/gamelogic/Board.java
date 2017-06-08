@@ -237,7 +237,6 @@ public class Board {
 			logic.pickUpItem(newX);
 			// Ask the inventory panel to update
 			logic.getFrame().invUpdate();
-
 		}
 		// Change the position of the player and return true
 		player.setXPos(newX);

@@ -13,6 +13,7 @@ import gamelogic.Logic;
 import tiles.Desert;
 import tiles.ItemTile;
 import tiles.Lava;
+import tiles.LifeTile;
 import tiles.MonsterTile;
 import tiles.Mountain;
 import tiles.Plain;
@@ -20,7 +21,7 @@ import tiles.Sea;
 
 /**
  * The main view of the game. Draws everything in the main game.
- * 
+ *
  * @author Benjamin Wong-Lee
  */
 public class Drawing extends JPanel {
@@ -106,6 +107,16 @@ public class Drawing extends JPanel {
 						e.printStackTrace();
 					}
 					g.drawImage(itemImg, row * w, (col * h), w, h, this);
+				} else if (game.checkSquare(row, col) instanceof LifeTile) {
+					java.awt.Image lifeImg = null;
+					try {
+						lifeImg = ImageIO.read(new File("images/life1.png"));
+					} catch (IOException e) {
+						System.err.println("Couldn't read image file of images/life1.png");
+						e.printStackTrace();
+					}
+					g.drawImage(lifeImg, row * w, (col * h), w, h, this);
+
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
 					// Draw a monster
 					java.awt.Image monsterImg = null;

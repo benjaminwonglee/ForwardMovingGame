@@ -6,9 +6,16 @@ import items.Bike;
 import items.Flippers;
 import items.Item;
 import items.Sword;
-import levels.*;
+import levels.LavaLevelOne;
+import levels.Level;
+import levels.PlainAndDesertAlternatingLevel;
+import levels.PlainAndDesertRandomLevel;
+import levels.PlainDesertSimpleLevel;
+import levels.PlainLevel;
+import levels.SeaLevelOne;
 import tiles.ItemTile;
 import tiles.Lava;
+import tiles.LifeTile;
 import tiles.MonsterTile;
 import tiles.Sea;
 import tiles.Tile;
@@ -174,6 +181,11 @@ public class Board {
 		} else if (tiles[row][col - 1] instanceof ItemTile) {
 			// New Tile has an item
 			logic.pickUpItem((ItemTile) tiles[row][col - 1]);
+		} else if (tiles[row][col - 1] instanceof LifeTile) {
+			if (player.getLife() != 3) {
+				player.setLife(player.getLife() + 1);
+				
+			}
 		}
 	}
 

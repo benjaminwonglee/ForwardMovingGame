@@ -283,6 +283,15 @@ public class EastPanel extends JPanel {
 		}
 
 		switch (frame.getLogic().getCurrentPlayer().getLife()) {
+		case 3:
+			try {
+				Image img = ImageIO.read(new File("images/life3.png"));
+				ImageIcon image = new ImageIcon(img);
+				lifeLabel.setIcon(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		case 2:
 			try {
 				Image img = ImageIO.read(new File("images/life2.png"));

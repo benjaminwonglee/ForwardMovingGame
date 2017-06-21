@@ -110,13 +110,12 @@ public class Drawing extends JPanel {
 				} else if (game.checkSquare(row, col) instanceof LifeTile) {
 					java.awt.Image lifeImg = null;
 					try {
-						lifeImg = ImageIO.read(new File("images/life1.png"));
+						lifeImg = ImageIO.read(new File("images/life.png"));
 					} catch (IOException e) {
-						System.err.println("Couldn't read image file of images/life1.png");
+						System.err.println("Couldn't read image file of images/life.png");
 						e.printStackTrace();
 					}
 					g.drawImage(lifeImg, row * w, (col * h), w, h, this);
-
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
 					// Draw a monster
 					java.awt.Image monsterImg = null;
@@ -169,5 +168,4 @@ public class Drawing extends JPanel {
 		this.playerDamaged = damaged;
 		this.damageIter = 2;
 	}
-
 }

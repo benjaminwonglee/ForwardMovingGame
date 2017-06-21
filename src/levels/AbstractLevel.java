@@ -12,7 +12,7 @@ public abstract class AbstractLevel {
 
 	public Tile itemGen(boolean item) {
 		if (!item) {
-			int rand = (int) Math.floor((Math.random() * 40));
+			int rand = (int) Math.floor((Math.random() * 10));
 			if (rand == 1) {
 				return new ItemTile(maxInvNum);
 			}
@@ -22,7 +22,7 @@ public abstract class AbstractLevel {
 
 	public Tile lifeGen(boolean item) {
 		if (!item) {
-			int rand = (int) Math.floor((Math.random() * 50));
+			int rand = (int) Math.floor((Math.random() * 10));
 			if (rand == 1) {
 				return new LifeTile();
 			}

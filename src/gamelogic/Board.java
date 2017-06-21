@@ -65,16 +65,10 @@ public class Board {
 	 */
 	public void createTiles(int timeRunning) {
 		// Shifts all tiles down board by 1 tile
-		Player player = logic.getCurrentPlayer();
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
 				if (col == height - 1 && row == logic.getCurrentPlayer().getXPos()) {
-					// Lose life if the tile is not traversable
-					if (!tiles[row][col - 1].isTraversable(player)) {
-						player.setLife(player.getLife() - 1);
-						drawPlayerDamageImage();
-						logic.checkGameOver();
-					}
+					checkTileEffect(row, col);
 				}
 				tiles[row][col] = tiles[row][col - 1];
 			}
@@ -168,6 +162,21 @@ public class Board {
 
 	}
 
+	public void checkTileEffect(int row, int col) {
+		Player player = logic.getCurrentPlayer();
+		// Lose life if the tile is not traversable
+		if (!tiles[row][col - 1].isTraversable(player)) {
+			// New Tile is not traversable
+			player.setLife(player.getLife() - 1);
+			// Let the player move there anyway but loses a life
+			drawPlayerDamageImage();
+			logic.checkGameOver();
+		} else if (tiles[row][col - 1] instanceof ItemTile) {
+			// New Tile has an item
+			logic.pickUpItem((ItemTile) tiles[row][col - 1]);
+		}
+	}
+
 	public void drawPlayerDamageImage() {
 		logic.getFrame().getDrawing().setPlayerDamaged(true);
 		logic.getFrame().getDrawing().repaint();
@@ -215,6 +224,7 @@ public class Board {
 	 */
 	private boolean movePlayer(int x) {
 		Player player = logic.getCurrentPlayer();
+		// Change the position of the player and return true
 		int newX = x + player.getXPos();
 		// Check for invalid inputs
 		if (newX > tiles.length - 1) {
@@ -224,21 +234,7 @@ public class Board {
 			// Less than board dimensions
 			return false;
 		}
-		if (!tiles[newX][height - 1].isTraversable(player)) {
-			// New Tile is not traversable
-			player.setLife(player.getLife() - 1);
-			logic.checkGameOver();
-			// Let the player move there anyway but loses a life
-			drawPlayerDamageImage();
-			player.setXPos(newX);
-			return true;
-		} else if (tiles[newX][height - 1] instanceof ItemTile) {
-			// New Tile has an item
-			logic.pickUpItem(newX);
-			// Ask the inventory panel to update
-			logic.getFrame().invUpdate();
-		}
-		// Change the position of the player and return true
+		checkTileEffect(newX, height);
 		player.setXPos(newX);
 		return true;
 	}

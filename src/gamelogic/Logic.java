@@ -54,9 +54,24 @@ public class Logic {
 		if (t instanceof ItemTile) {
 			ItemTile itemTile = (ItemTile) t;
 			currentPlayer.addToInventory(itemTile.getItem());
+			// Ask the inventory panel to update
+			getFrame().invUpdate();
 			return true;
+		} else {
+			System.err.println("The tile was not an item. Cannot pick up: " + t.getName());
 		}
+
 		return false;
+	}
+
+	/**
+	 * Player picking up a specified item. Only for use if the board is reading
+	 * wrong because of the timing error of picking up an item.
+	 */
+	public void pickUpItem(ItemTile itemTile) {
+		currentPlayer.addToInventory(itemTile.getItem());
+		// Ask the inventory panel to update
+		getFrame().invUpdate();
 	}
 
 	/**

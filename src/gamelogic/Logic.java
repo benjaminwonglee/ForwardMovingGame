@@ -46,7 +46,7 @@ public class Logic {
 
 	/**
 	 * Logic for the player picking up an item.
-	 * 
+	 *
 	 * @return true if the item has been picked up (added to inventory)
 	 */
 	public boolean pickUpItem(int xPos) {
@@ -76,7 +76,7 @@ public class Logic {
 
 	/**
 	 * Returns the Tile at the designated row and column of the board.
-	 * 
+	 *
 	 * @param row
 	 *            specified row on the board
 	 * @param col
@@ -122,7 +122,7 @@ public class Logic {
 	/**
 	 * Sets the running boolean to say whether the timers should still continue
 	 * or stop.
-	 * 
+	 *
 	 * @param running
 	 */
 	public void setRunning(boolean running) {

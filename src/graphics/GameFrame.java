@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import gamelogic.Logic;
+import main.ForwardMovingGame;
 
 /**
- * 
- * 
+ *
+ *
  * @author Benjamin Wong-Lee
  */
 public class GameFrame extends JFrame {
@@ -61,7 +61,7 @@ public class GameFrame extends JFrame {
 
 	/**
 	 * Defines the JMenuBar on the main frame.
-	 * 
+	 *
 	 * @return The JMenuBar for the main Frame.
 	 */
 	private JMenuBar defineJMenuBar() {
@@ -85,13 +85,12 @@ public class GameFrame extends JFrame {
 				GameFrame f = new GameFrame(l);
 				l.setFrame(f);
 				l.runTimer();
+				l.runDrawTimer();
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				dispatchClose();
-
 			}
 		});
 		fileQuit.addActionListener(new ActionListener() {
@@ -116,6 +115,10 @@ public class GameFrame extends JFrame {
 		return jmenubar;
 	}
 
+	public void dispatchClose() {
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+	}
+
 	private void defineSouthPanel(JPanel southPanel) {
 		southPanel.setPreferredSize(new Dimension(southPanelWidth, southPanelHeight));
 		southPanel.setBackground(new Color(100, 100, 100));
@@ -135,38 +138,7 @@ public class GameFrame extends JFrame {
 	 */
 	private void setFrameProperties() {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.addWindowListener(new WindowListener() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				if (!getLogic().isGameOver()) {
-					System.exit(1);
-				}
-			}
-
-			@Override
-			public void windowActivated(WindowEvent e) {
-			}
-		});
+		this.addWindowListener(new GameWindowListener(this));
 		this.setTitle("Forward Moving Game");
 		this.setResizable(false);
 		this.setFocusable(true);
@@ -174,10 +146,6 @@ public class GameFrame extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-	}
-
-	public void dispatchClose() {
-		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public Drawing getDrawing() {

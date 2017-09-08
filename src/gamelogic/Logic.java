@@ -32,7 +32,7 @@ public class Logic {
 
 	public Logic() {
 		this.board = new Board(this);
-		this.currentPlayer = new Player(board.getWidth() / 2, board.getMaxInventorySize());
+		this.currentPlayer = new Player(board.getWidth() / 2, Board.getMaxInventorySize());
 		setTimer();
 	}
 

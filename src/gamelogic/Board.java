@@ -59,10 +59,11 @@ public class Board {
 	}
 
 	/**
-	 * Creates all the tiles on the Board. Every tile becomes its the tile in
-	 * front of it. Height is in reverse positive: Highest value = bottom of
-	 * board. timeRunning in game is used to draw the new board and make the new
-	 * set of tiles. Called from Timer scheduled every second.
+	 * Creates all the tiles on the Board. Each tile becomes the tile in front
+	 * of it; except the top row which is newly tiled. Height is in reverse
+	 * positive: Highest value = bottom of board. timeRunning in game is used to
+	 * draw the new board and make the new set of tiles. Called from Timer
+	 * scheduled every second.
 	 * 
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
@@ -110,6 +111,7 @@ public class Board {
 		 * Counts the number of obstacles in the new row.
 		 */
 		for (int row = 0; row < width; row++) {
+			//Tiles the top row with new tiles
 			Tile t = l.tileBoardTopRow(row, logic.getTimeRunning(), item, monster, sea, lava);
 			if (t instanceof MonsterTile) {
 				monster = true;
@@ -318,7 +320,7 @@ public class Board {
 		return height;
 	}
 
-	public int getMaxInventorySize() {
+	public static int getMaxInventorySize() {
 		return maxInventorySize;
 	}
 }

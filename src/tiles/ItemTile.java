@@ -20,7 +20,7 @@ public class ItemTile extends AbstractTile implements Tile {
 	 *
 	 * @param maxInvNum
 	 */
-	public ItemTile(int maxInvNum) {
+	public ItemTile() {
 		for (;;) {
 			for (Item it : items) {
 				double p = Math.random();

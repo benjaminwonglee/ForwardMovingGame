@@ -58,7 +58,7 @@ public class EastPanel extends JPanel {
 	 */
 	public EastPanel(GameFrame frame, Board board, int timeRunning) {
 		invSlots = new ArrayList<JLabel>();
-		maxInventorySize = board.getMaxInventorySize();
+		maxInventorySize = Board.getMaxInventorySize();
 		this.timeRunning = timeRunning;
 		this.frame = frame;
 

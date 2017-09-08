@@ -83,18 +83,18 @@ public class EastPanel extends JPanel {
 	private void createTimePanel() {
 		JLabel time = new JLabel();
 		time.setPreferredSize(new Dimension(240, 100));
-		time.setBorder(new CreateBorderWithLabel("" + timeRunning));
+		time.setBorder(new BorderWithLabel("" + timeRunning));
 		time.setFocusable(false);
 		this.add(time);
 		this.timeLabel = time;
 		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}
 
-	private class CreateBorderWithLabel extends AbstractBorder {
+	private class BorderWithLabel extends AbstractBorder {
 		private static final long serialVersionUID = -2327653635624519881L;
 		private String name = "";
 
-		public CreateBorderWithLabel(String name) {
+		public BorderWithLabel(String name) {
 			this.name = name;
 		}
 
@@ -112,11 +112,11 @@ public class EastPanel extends JPanel {
 		}
 	}
 
-	private class CreateTimeLabel extends AbstractBorder {
+	private class TimeLabel extends AbstractBorder {
 		private static final long serialVersionUID = -2506069849287210090L;
 		private String time;
 
-		public CreateTimeLabel(String time) {
+		public TimeLabel(String time) {
 			this.time = time;
 		}
 
@@ -142,8 +142,8 @@ public class EastPanel extends JPanel {
 		right.setText("");
 		left.setPreferredSize(new Dimension(120, 50));
 		right.setPreferredSize(new Dimension(120, 50));
-		left.setBorder(new CreateBorderWithLabel("Left"));
-		right.setBorder(new CreateBorderWithLabel("Right"));
+		left.setBorder(new BorderWithLabel("Left"));
+		right.setBorder(new BorderWithLabel("Right"));
 
 		left.addActionListener(new ActionListener() {
 			@Override
@@ -281,7 +281,6 @@ public class EastPanel extends JPanel {
 				}
 			}
 		}
-
 		switch (frame.getLogic().getCurrentPlayer().getLife()) {
 		case 3:
 			try {
@@ -315,7 +314,7 @@ public class EastPanel extends JPanel {
 		}
 
 		// Draw up timer component
-		timeLabel.setBorder(new CreateTimeLabel(frame.getLogic().getTimeString()));
+		timeLabel.setBorder(new TimeLabel(frame.getLogic().getTimeString()));
 		this.add(timeLabel);
 		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}

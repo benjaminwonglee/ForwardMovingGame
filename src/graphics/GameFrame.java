@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +15,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import gamelogic.Logic;
-import main.ForwardMovingGame;
+import menuitems.JMenuNew;
+import menuitems.JMenuQuit;
 
 /**
- *
+ * The main frame for the actual game. Holds most of the in-game graphics
+ * components.
  *
  * @author Benjamin Wong-Lee
  */
@@ -69,37 +69,8 @@ public class GameFrame extends JFrame {
 		/* Construct file JMenu and its items */
 		JMenu file = new JMenu("File");
 		file.setFont(font);
-		JMenuItem fileNew = new JMenuItem("New");
-		fileNew.setFont(font);
-		JMenuItem fileQuit = new JMenuItem("Quit");
-		fileQuit.setFont(font);
-		/*
-		 * On pressing the JMenu item on the JMenu, perform its respective
-		 * action here.
-		 */
-		// TODO: New Game still needs fixing
-		fileNew.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logic l = new Logic();
-				GameFrame f = new GameFrame(l);
-				l.setFrame(f);
-				l.runTimer();
-				l.runDrawTimer();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		fileQuit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(1);
-			}
-		});
-
+		JMenuItem fileNew = new JMenuNew("New", font);
+		JMenuItem fileQuit = new JMenuQuit("Quit", font);
 		List<JMenuItem> fileJMenuItems = new ArrayList<JMenuItem>();
 		fileJMenuItems.add(fileNew);
 		fileJMenuItems.add(fileQuit);
@@ -111,10 +82,13 @@ public class GameFrame extends JFrame {
 			file.add(fileJMenuItems.get(i));
 		}
 		jmenubar.add(file);
-
 		return jmenubar;
 	}
 
+	/**
+	 * Give the ability to close this window when this is called from another
+	 * window.
+	 */
 	public void dispatchClose() {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}

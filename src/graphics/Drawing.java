@@ -64,23 +64,9 @@ public class Drawing extends JPanel {
 				} else if (game.checkSquare(row, col) instanceof LifeTile) {
 					drawLife(g, row, col, wd, ht);
 				} else if (game.checkSquare(row, col) instanceof MonsterTile) {
-					// Draw a monster
-					java.awt.Image monsterImg = null;
-					try {
-						monsterImg = ImageIO.read(new File("images/monster.png"));
-					} catch (IOException e) {
-						System.err.println("Couldn't read image file of monster");
-						e.printStackTrace();
-					}
-					g.drawImage(monsterImg, row * wd, (col * ht), wd, ht, this);
+					drawMonster(g, row, col, wd, ht);
 				} else if (game.checkSquare(row, col) instanceof Mountain) {
-					// Draw a mountain
-					g.setColor(new Color(150, 120, 50));
-					g.fillRect(row * wd, col * ht, wd, ht);
-					g.setColor(new Color(180, 120, 50));
-					g.fillRect(row * wd + wd / 5, col * ht + ht / 5, wd - (wd / 5 * 2), ht - (ht / 5 * 2));
-					g.setColor(new Color(245, 245, 245));
-					g.fillOval(row * wd + (wd / 5 * 2), col * ht + (ht / 5 * 2), wd - (wd / 5 * 4), ht - (ht / 5 * 4));
+					drawMountain(g, row, col, wd, ht);
 				}
 				// Draw grid by outlining individual square
 				g.setColor(new Color(70, 70, 70));
@@ -90,8 +76,6 @@ public class Drawing extends JPanel {
 		drawPlayer(g, wd, ht);
 	}
 
-	
-	
 	/**
 	 * Draws the player on the tile
 	 * 
@@ -257,9 +241,9 @@ public class Drawing extends JPanel {
 		}
 		g.drawImage(itemImg, row * wd, (col * ht), wd, ht, this);
 	}
-	
+
 	/**
-	 * Draws an life item on the tile. 
+	 * Draws an life item on the tile.
 	 * 
 	 * @param g
 	 *            Graphics object of the component
@@ -281,6 +265,56 @@ public class Drawing extends JPanel {
 			e.printStackTrace();
 		}
 		g.drawImage(lifeImg, row * wd, (col * ht), wd, ht, this);
+	}
+
+	/**
+	 * Draws a monster image on the tile. Relies on monster image to be in the
+	 * root images directory of the project.
+	 * 
+	 * @param g
+	 *            Graphics object of the component
+	 * @param row
+	 *            The current row
+	 * @param col
+	 *            The current column
+	 * @param wd
+	 *            The width of the square
+	 * @param ht
+	 *            The height of the square
+	 */
+	private void drawMonster(Graphics g, int row, int col, int wd, int ht) {
+		java.awt.Image monsterImg = null;
+		try {
+			monsterImg = ImageIO.read(new File("images/monster.png"));
+		} catch (IOException e) {
+			System.err.println("Couldn't read image file of monster");
+			e.printStackTrace();
+		}
+		g.drawImage(monsterImg, row * wd, (col * ht), wd, ht, this);
+
+	}
+	
+	/**
+	 * Draws a mountain terrain on the tile.
+	 * 
+	 * @param g
+	 *            Graphics object of the component
+	 * @param row
+	 *            The current row
+	 * @param col
+	 *            The current column
+	 * @param wd
+	 *            The width of the square
+	 * @param ht
+	 *            The height of the square
+	 */
+	private void drawMountain(Graphics g, int row, int col, int wd, int ht) {	
+		g.setColor(new Color(150, 120, 50));
+		g.fillRect(row * wd, col * ht, wd, ht);
+		g.setColor(new Color(180, 120, 50));
+		g.fillRect(row * wd + wd / 5, col * ht + ht / 5, wd - (wd / 5 * 2), ht - (ht / 5 * 2));
+		g.setColor(new Color(245, 245, 245));
+		g.fillOval(row * wd + (wd / 5 * 2), col * ht + (ht / 5 * 2), wd - (wd / 5 * 4), ht - (ht / 5 * 4));		
 	}
 
 

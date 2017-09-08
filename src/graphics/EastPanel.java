@@ -49,13 +49,24 @@ public class EastPanel extends JPanel {
 	private JLabel timeLabel;
 	private JLabel lifeLabel;
 
+	/**
+	 * Creates the main game menu panel on the right of the game.
+	 * 
+	 * @param frame
+	 * @param board
+	 * @param timeRunning
+	 */
 	public EastPanel(GameFrame frame, Board board, int timeRunning) {
 		invSlots = new ArrayList<JLabel>();
 		maxInventorySize = board.getMaxInventorySize();
 		this.timeRunning = timeRunning;
 		this.frame = frame;
 
-		/* Set bounds or all elements of the panel since layout is null */
+		/*
+		 * Set bounds of all elements of the panel since layout is null. May not
+		 * be the best design, but nice for customized design; being able to
+		 * place elements in the actual defined positions.
+		 */
 		this.setLayout(null);
 
 		createLifePanel();
@@ -64,6 +75,9 @@ public class EastPanel extends JPanel {
 		createInventoryLabels(frame, board, frame.getLogic().getCurrentPlayer());
 	}
 
+	/**
+	 * Creates the panel displaying how much life the player has left.
+	 */
 	private void createLifePanel() {
 		JLabel life = new JLabel();
 		try {
@@ -80,22 +94,34 @@ public class EastPanel extends JPanel {
 		life.setBounds(new Rectangle(10, 10, 280, 100));
 	}
 
+	/**
+	 * Creates the panel displaying how much time has passed from the start of
+	 * the game.
+	 */
 	private void createTimePanel() {
 		JLabel time = new JLabel();
 		time.setPreferredSize(new Dimension(240, 100));
-		time.setBorder(new BorderWithLabel("" + timeRunning));
+		time.setBorder(new BorderWithLabel("" + timeRunning, new Font("Lucida Sans", Font.BOLD, 24)));
 		time.setFocusable(false);
 		this.add(time);
 		this.timeLabel = time;
 		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}
 
-	private class BorderWithLabel extends AbstractBorder {
+	/**
+	 * Creates a label over a component which displays a string. Drawn as a
+	 * border over the entire button.
+	 * 
+	 * @author Benjamin Wong-Lee
+	 */
+	public class BorderWithLabel extends AbstractBorder {
 		private static final long serialVersionUID = -2327653635624519881L;
 		private String name = "";
+		private Font font;
 
-		public BorderWithLabel(String name) {
+		public BorderWithLabel(String name, Font font) {
 			this.name = name;
+			this.font = font;
 		}
 
 		@Override
@@ -106,44 +132,22 @@ public class EastPanel extends JPanel {
 			g.fillRect(x + 10, y + 10, width - 20, height - 20);
 			g.setColor(new Color(250, 250, 255));
 			g.fillRect(x + 20, y + 20, width - 40, height - 40);
-			g.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+			g.setFont(font);
 			g.setColor(new Color(0, 0, 100));
 			g.drawString(name, width / 2 - (g.getFontMetrics().stringWidth(name) / 2), height / 2 + 8);
-		}
-	}
-
-	private class TimeLabel extends AbstractBorder {
-		private static final long serialVersionUID = -2506069849287210090L;
-		private String time;
-
-		public TimeLabel(String time) {
-			this.time = time;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(new Color(80, 80, 180));
-			g.fillRect(x, y, width, height);
-			g.setColor(new Color(60, 60, 160));
-			g.fillRect(x + 10, y + 10, width - 20, height - 20);
-			g.setColor(new Color(250, 250, 255));
-			g.fillRect(x + 20, y + 20, width - 40, height - 40);
-			g.setFont(new Font("Lucida Sans", Font.BOLD, 24));
-			g.setColor(new Color(0, 0, 100));
-			g.drawString(time, width / 2 - (g.getFontMetrics().stringWidth(time) / 2), height / 2 + 8);
 		}
 	}
 
 	private void addButtons(GameFrame frame, Board board) {
 		JButton left = new JButton();
 		JButton right = new JButton();
-
+		Font buttonFont = new Font("Lucida Sans", Font.BOLD, 18);
 		left.setText("");
 		right.setText("");
 		left.setPreferredSize(new Dimension(120, 50));
 		right.setPreferredSize(new Dimension(120, 50));
-		left.setBorder(new BorderWithLabel("Left"));
-		right.setBorder(new BorderWithLabel("Right"));
+		left.setBorder(new BorderWithLabel("Left", buttonFont));
+		right.setBorder(new BorderWithLabel("Right", buttonFont));
 
 		left.addActionListener(new ActionListener() {
 			@Override
@@ -314,7 +318,7 @@ public class EastPanel extends JPanel {
 		}
 
 		// Draw up timer component
-		timeLabel.setBorder(new TimeLabel(frame.getLogic().getTimeString()));
+		timeLabel.setBorder(new BorderWithLabel(frame.getLogic().getTimeString(), new Font("Lucida Sans", Font.BOLD, 24)));
 		this.add(timeLabel);
 		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}

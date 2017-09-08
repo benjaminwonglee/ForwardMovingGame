@@ -20,5 +20,5 @@ public interface Level {
 	 * @param lava TODO
 	 * @return The tile in the row that has been passed in as parameter.
 	 */
-	public Tile board(int row, int timeRunning, boolean item, boolean monster, boolean sea, boolean lava);
+	public Tile tileBoardTopRow(int row, int timeRunning, boolean item, boolean monster, boolean sea, boolean lava);
 }

@@ -35,7 +35,7 @@ public class EastPanel extends JPanel {
 
 	private static final long serialVersionUID = -297177084727878389L;
 
-	// Total number of items in game (not including Blank), board holds this.
+	// Total number of items in game (not including Blank), Board holds this.
 	private int maxInventorySize = 0;
 
 	private List<JLabel> invSlots;
@@ -126,10 +126,10 @@ public class EastPanel extends JPanel {
 
 		@Override
 		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(new Color(80, 80, 180));
-			g.fillRect(x, y, width, height);
-			g.setColor(new Color(60, 60, 160));
-			g.fillRect(x + 10, y + 10, width - 20, height - 20);
+			for (int i = 0; i < 10; i++) {
+				g.setColor(new Color(80 - i*2, 80 - i*2, 180));
+				g.fillRect(x + i, y + i, width - (i * 2), height - (i * 2));
+			}
 			g.setColor(new Color(250, 250, 255));
 			g.fillRect(x + 20, y + 20, width - 40, height - 40);
 			g.setFont(font);
@@ -142,8 +142,6 @@ public class EastPanel extends JPanel {
 		JButton left = new JButton();
 		JButton right = new JButton();
 		Font buttonFont = new Font("Lucida Sans", Font.BOLD, 18);
-		left.setText("");
-		right.setText("");
 		left.setPreferredSize(new Dimension(120, 50));
 		right.setPreferredSize(new Dimension(120, 50));
 		left.setBorder(new BorderWithLabel("Left", buttonFont));
@@ -318,7 +316,8 @@ public class EastPanel extends JPanel {
 		}
 
 		// Draw up timer component
-		timeLabel.setBorder(new BorderWithLabel(frame.getLogic().getTimeString(), new Font("Lucida Sans", Font.BOLD, 24)));
+		timeLabel.setBorder(
+				new BorderWithLabel(frame.getLogic().getTimeString(), new Font("Lucida Sans", Font.BOLD, 24)));
 		this.add(timeLabel);
 		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}

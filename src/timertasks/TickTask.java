@@ -22,14 +22,18 @@ public class TickTask extends TimerTask {
 	@Override
 	public void run() {
 		if (logic.isRunning()) {
+			// Update timer by 1 second
 			logic.setTimeRunning(logic.getTimeRunning() + 1);
+			// Display the new time
 			logic.setTimeString(convertTimeToString());
 			if (logic.isGameOver()) {
+				// End state, Game Over.
 				logic.getTimer().cancel();
 				logic.getTimer().purge();
 				return;
 			}
 		} else {
+			// Ended state, After Game Over.
 			logic.getTimer().cancel();
 			logic.getTimer().purge();
 			return;

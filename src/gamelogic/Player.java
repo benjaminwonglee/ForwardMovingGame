@@ -5,6 +5,7 @@ import java.util.List;
 import items.*;
 
 /**
+ * Represents the player in the game. Has inventory and life as main functions.
  * 
  * @author Benjamin Wong-Lee
  */
@@ -13,8 +14,6 @@ public class Player {
 	private List<Item> inventory;
 	private int maxInventorySize;
 	private int life = 3;
-
-	// TODO: Create a player life function
 
 	/**
 	 * Creates a new Player with parameters of the Player's initial x position

@@ -11,9 +11,9 @@ import timertasks.TickTask;
 
 /**
  * The Logic class constructs the logic of the game. The Board, Player, and
- * Timer are also created here since the Board relies on Logic to function.
- * Other game logic such as Player and Timer logic is also located here. Logic
- * is the Model of the program in the MVC.
+ * Timer are also created here. Additionally, other game logic such as Player
+ * and Timer logic is also located here. Logic is the Controller of the program
+ * in an MVC Pattern.
  *
  * @author Benjamin Wong-Lee
  */
@@ -60,7 +60,6 @@ public class Logic {
 		} else {
 			System.err.println("The tile was not an item. Cannot pick up: " + t.getName());
 		}
-
 		return false;
 	}
 
@@ -99,6 +98,7 @@ public class Logic {
 	 * Sets the timer task that controls the drawing delay.
 	 */
 	public void runDrawTimer() {
+		// Logic defines the speed by adjusting time running.
 		int speed = 1000 - (timeRunning * 10);
 		if (speed < 200) {
 			speed = 200;

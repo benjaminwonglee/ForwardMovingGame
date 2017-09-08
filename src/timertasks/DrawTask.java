@@ -23,7 +23,7 @@ public class DrawTask extends TimerTask {
 	@Override
 	public void run() {
 		if (logic.isRunning() && count >= 0) {
-			logic.getBoard().createTiles(logic.getTimeRunning());
+			logic.getBoard().createTiles();
 			logic.getFrame().getDrawing().repaint();
 			count--;
 			if (logic.isGameOver()) {

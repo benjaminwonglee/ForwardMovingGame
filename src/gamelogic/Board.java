@@ -22,9 +22,7 @@ import tiles.Tile;
 
 /**
  * A class representing the game board. Responsible for movement of Player and
- * Board. Board represents a Controller in the MVC, with an additional function
- * to store the tiles of the board. Do not store other things here; store in
- * Logic, which represents the Model.
+ * Board. Board represents a Model in the MVC.
  * 
  * @author Benjamin Wong-Lee
  *
@@ -55,22 +53,21 @@ public class Board {
 		// Setup initial board
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
-				tiles[row][col] = new PlainLevel().board(row, l.getTimeRunning(), true, true, true, true);
+				tiles[row][col] = new PlainLevel().tileBoardTopRow(row, l.getTimeRunning(), true, true, true, true);
 			}
 		}
 	}
 
 	/**
-	 * Creates all the tiles on the Board after 1 iteration. Every tile becomes
-	 * its successor. Height is in reverse positive: Highest value = bottom of
+	 * Creates all the tiles on the Board. Every tile becomes its the tile in
+	 * front of it. Height is in reverse positive: Highest value = bottom of
 	 * board. timeRunning in game is used to draw the new board and make the new
-	 * set of tiles. Called from Timer scheduled every second. The level is set
-	 * in the DrawTask based on number of steps in game.
+	 * set of tiles. Called from Timer scheduled every second.
 	 * 
 	 * @param timeRunning
 	 *            The amount of time the game has been running (seconds).
 	 */
-	public void createTiles(int timeRunning) {
+	public void createTiles() {
 		// Shifts all tiles down board by 1 tile
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
@@ -81,6 +78,16 @@ public class Board {
 			}
 		}
 
+		adjustSidePanelColor();
+		Level l = setLevelTheme();
+		countObstacles(l);
+	}
+
+	/**
+	 * Checks the number of obstacles in each row to determine whether the row
+	 * is passable without getting hurt too badly
+	 */
+	private void countObstacles(Level l) {
 		/*
 		 * Cannot have too many monsters/lava or a monster/lava tile on 3
 		 * consecutive rows
@@ -89,7 +96,6 @@ public class Board {
 		boolean monster = false;
 		boolean sea = false;
 		boolean lava = false;
-
 		if (rowMonsterCount == 2 || rowSeaCount == 2 || rowLavaCount == 2) {
 			item = true;
 			monster = true;
@@ -100,8 +106,34 @@ public class Board {
 			rowLavaCount = 0;
 			rowSeaCount = 0;
 		}
+		/*
+		 * Counts the number of obstacles in the new row.
+		 */
+		for (int row = 0; row < width; row++) {
+			Tile t = l.tileBoardTopRow(row, logic.getTimeRunning(), item, monster, sea, lava);
+			if (t instanceof MonsterTile) {
+				monster = true;
+				rowMonsterCount++;
+			}
+			if (t instanceof Lava) {
+				lava = true;
+				rowLavaCount++;
+			}
+			if (t instanceof Sea) {
+				sea = true;
+				rowSeaCount++;
+			}
+			if (t instanceof ItemTile) {
+				item = true;
+			}
+			tiles[row][0] = t;
+		}
+	}
 
-		// Change the Color of the side panel when levels increase
+	/**
+	 * Changes the Color of the side panel when levels increase
+	 */
+	private void adjustSidePanelColor() {
 		if (logic.getLevel() == 5) {
 			logic.getFrame().getSidePanel().setColorChange1(true);
 			logic.getFrame().getSidePanel().repaint();
@@ -110,11 +142,14 @@ public class Board {
 			logic.getFrame().getSidePanel().setColorChange2(true);
 			logic.getFrame().getSidePanel().repaint();
 		}
+	}
 
-		/*
-		 * Set Board pattern and theme here. The level is set by a DrawTask
-		 * object which is determined by timer steps.
-		 */
+	/**
+	 * Set Board pattern and theme here. The level is set by a DrawTask object
+	 * which is determined by timer steps. Determined in Logic, updated on
+	 * Board.
+	 */
+	private Level setLevelTheme() {
 		Level l = null;
 		switch (logic.getLevel()) {
 		case 1:
@@ -146,29 +181,17 @@ public class Board {
 			l = new LavaLevelOne();
 			break;
 		}
-
-		for (int row = 0; row < width; row++) {
-			Tile t = l.board(row, timeRunning, item, monster, sea, lava);
-			if (t instanceof MonsterTile) {
-				monster = true;
-				rowMonsterCount++;
-			}
-			if (t instanceof Lava) {
-				lava = true;
-				rowLavaCount++;
-			}
-			if (t instanceof Sea) {
-				sea = true;
-				rowSeaCount++;
-			}
-			if (t instanceof ItemTile) {
-				item = true;
-			}
-			tiles[row][0] = t;
-		}
-
+		return l;
 	}
 
+	/**
+	 * Checks the effect of tile the Player is on.
+	 * 
+	 * @param row
+	 *            The row of the next tile that the player will be on
+	 * @param col
+	 *            The column of the next tile that the player will be on
+	 */
 	public void checkTileEffect(int row, int col) {
 		Player player = logic.getCurrentPlayer();
 		// Lose life if the tile is not traversable
@@ -184,11 +207,15 @@ public class Board {
 		} else if (tiles[row][col - 1] instanceof LifeTile) {
 			if (player.getLife() != 3) {
 				player.setLife(player.getLife() + 1);
-				
+
 			}
 		}
 	}
 
+	/**
+	 * Draws a new image on the player when indicated that the player has been
+	 * damaged. Updates View (Drawing).
+	 */
 	public void drawPlayerDamageImage() {
 		logic.getFrame().getDrawing().setPlayerDamaged(true);
 		logic.getFrame().getDrawing().repaint();

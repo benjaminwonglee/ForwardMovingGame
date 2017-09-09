@@ -55,7 +55,7 @@ public class Logic {
 			ItemTile itemTile = (ItemTile) t;
 			currentPlayer.addToInventory(itemTile.getItem());
 			// Ask the inventory panel to update
-			getFrame().invUpdate();
+			frame.getSidePanel().updateInventoryLabels(getPlayer());
 			return true;
 		} else {
 			System.err.println("The tile was not an item. Cannot pick up: " + t.getName());
@@ -70,7 +70,7 @@ public class Logic {
 	public void pickUpItem(ItemTile itemTile) {
 		currentPlayer.addToInventory(itemTile.getItem());
 		// Ask the inventory panel to update
-		getFrame().invUpdate();
+		frame.getSidePanel().updateInventoryLabels(getPlayer());
 	}
 
 	/**

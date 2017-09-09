@@ -38,6 +38,13 @@ public class GameFrame extends JFrame {
 	private EastPanel sidePanel;
 	private JMenuBar jMenu;
 
+	/**
+	 * Main constructor of game graphics components is done here.
+	 * 
+	 * @param l
+	 *            The logic to be used as the connection between the user input
+	 *            and view.
+	 */
 	public GameFrame(Logic l) {
 		this.logic = l;
 		this.drawing = new Drawing(frameWidth - eastPanelWidth, frameHeight, logic.getBoard().getWidth(),
@@ -93,17 +100,26 @@ public class GameFrame extends JFrame {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
+	/**
+	 * Defines aspects of the SouthPanel which is effectively a status bar.
+	 * 
+	 * @param southPanel
+	 *            The South Panel to define
+	 */
 	private void defineSouthPanel(JPanel southPanel) {
 		southPanel.setPreferredSize(new Dimension(southPanelWidth, southPanelHeight));
 		southPanel.setBackground(new Color(100, 100, 100));
 	}
 
+	/**
+	 * Defines aspects of the EastPanel which is the main menu bar in the game
+	 * on the east of the main game screen.
+	 * 
+	 * @param EastPanel
+	 *            The East Panel to define
+	 */
 	private void defineEastPanel(JPanel eastPanel) {
 		eastPanel.setPreferredSize(new Dimension(eastPanelWidth, eastPanelHeight));
-	}
-
-	public void invUpdate() {
-		sidePanel.updateInventoryLabels(logic.getPlayer());
 	}
 
 	/**

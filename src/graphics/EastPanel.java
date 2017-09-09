@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
 
 import gamelogic.Board;
-import gamelogic.Logic;
 import gamelogic.Player;
 
 /**
@@ -71,7 +70,7 @@ public class EastPanel extends JPanel {
 
 		createLifePanel();
 		createTimePanel();
-		addButtons(frame, board);
+		addLeftAndRightButtons(board);
 		createInventoryLabels(frame.getLogic().getPlayer());
 	}
 
@@ -138,7 +137,13 @@ public class EastPanel extends JPanel {
 		}
 	}
 
-	private void addButtons(GameFrame frame, Board board) {
+	/**
+	 * Adds the left and right buttons on the side panel
+	 * 
+	 * @param board
+	 *            The board to adjust when the player moves left or right.
+	 */
+	private void addLeftAndRightButtons(Board board) {
 		JButton left = new JButton();
 		JButton right = new JButton();
 		Font buttonFont = new Font("Lucida Sans", Font.BOLD, 18);
@@ -261,7 +266,7 @@ public class EastPanel extends JPanel {
 	}
 
 	/**
-	 *  Draws up the timer component visible to the user.
+	 * Draws up the timer component visible to the user.
 	 */
 	private void updateTimerVisual() {
 		timeLabel.setBorder(

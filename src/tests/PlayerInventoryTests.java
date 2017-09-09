@@ -25,7 +25,7 @@ public class PlayerInventoryTests {
 	@Test
 	public void invalidPlayerInventoryAddDuplicatesTest() {
 		reset();
-		Player p = logic.getCurrentPlayer();
+		Player p = logic.getPlayer();
 		p.addToInventory(new Sword());
 		p.addToInventory(new Sword());
 		int count = 0;
@@ -61,7 +61,7 @@ public class PlayerInventoryTests {
 	@Test
 	public void validPlayerInventoryAddTest() {
 		reset();
-		Player p = logic.getCurrentPlayer();
+		Player p = logic.getPlayer();
 		p.addToInventory(new Sword());
 		p.addToInventory(new Flippers());
 		int count = 0;
@@ -97,7 +97,7 @@ public class PlayerInventoryTests {
 	@Test
 	public void validFullInventoryTest() {
 		reset();
-		Player p = logic.getCurrentPlayer();
+		Player p = logic.getPlayer();
 		p.addToInventory(new Sword());
 		p.addToInventory(new Flippers());
 		p.addToInventory(new Bike());

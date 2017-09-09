@@ -72,7 +72,7 @@ public class Board {
 		// Shifts all tiles down board by 1 tile
 		for (int row = 0; row < width; row++) {
 			for (int col = height - 1; col > 0; col--) {
-				if (col == height - 1 && row == logic.getCurrentPlayer().getXPos()) {
+				if (col == height - 1 && row == logic.getPlayer().getXPos()) {
 					checkTileEffect(row, col);
 				}
 				tiles[row][col] = tiles[row][col - 1];
@@ -111,7 +111,7 @@ public class Board {
 		 * Counts the number of obstacles in the new row.
 		 */
 		for (int row = 0; row < width; row++) {
-			//Tiles the top row with new tiles
+			// Tiles the top row with new tiles
 			Tile t = l.tileBoardTopRow(row, logic.getTimeRunning(), item, monster, sea, lava);
 			if (t instanceof MonsterTile) {
 				monster = true;
@@ -195,7 +195,7 @@ public class Board {
 	 *            The column of the next tile that the player will be on
 	 */
 	public void checkTileEffect(int row, int col) {
-		Player player = logic.getCurrentPlayer();
+		Player player = logic.getPlayer();
 		// Lose life if the tile is not traversable
 		if (!tiles[row][col - 1].isTraversable(player)) {
 			// New Tile is not traversable
@@ -212,6 +212,7 @@ public class Board {
 
 			}
 		}
+		logic.getFrame().getSidePanel().updateLifePanel();
 	}
 
 	/**
@@ -264,7 +265,7 @@ public class Board {
 	 * @return true if player can move to the new position.
 	 */
 	private boolean movePlayer(int x) {
-		Player player = logic.getCurrentPlayer();
+		Player player = logic.getPlayer();
 		// Change the position of the player and return true
 		int newX = x + player.getXPos();
 		// Check for invalid inputs

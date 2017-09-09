@@ -103,7 +103,7 @@ public class GameFrame extends JFrame {
 	}
 
 	public void invUpdate() {
-		sidePanel.updateInventoryLabels(logic);
+		sidePanel.updateInventoryLabels(logic.getPlayer());
 	}
 
 	/**

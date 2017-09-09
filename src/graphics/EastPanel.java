@@ -72,7 +72,7 @@ public class EastPanel extends JPanel {
 		createLifePanel();
 		createTimePanel();
 		addButtons(frame, board);
-		createInventoryLabels(frame, board, frame.getLogic().getCurrentPlayer());
+		createInventoryLabels(frame.getLogic().getPlayer());
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class EastPanel extends JPanel {
 		@Override
 		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 			for (int i = 0; i < 10; i++) {
-				g.setColor(new Color(80 - i*2, 80 - i*2, 180));
+				g.setColor(new Color(80 - i * 2, 80 - i * 2, 180));
 				g.fillRect(x + i, y + i, width - (i * 2), height - (i * 2));
 			}
 			g.setColor(new Color(250, 250, 255));
@@ -174,71 +174,147 @@ public class EastPanel extends JPanel {
 		right.setBounds(new Rectangle(160, 760, 130, 100));
 	}
 
-	private void createInventoryLabels(GameFrame frame, Board board, Player player) {
+	/**
+	 * Creates the boxes for inventory pickup items. The amount of slots depends
+	 * on the maximum inventory size. Changes depending on the items in the
+	 * players inventory.
+	 * 
+	 * @param player
+	 *            The player that has the inventory.
+	 */
+	private void createInventoryLabels(Player player) {
 		for (int i = 0; i < maxInventorySize; i++) {
-			/* Read the image */
-			BufferedImage invPic = null;
 			String item = player.getInventory().get(i).getName();
-			try {
-				invPic = ImageIO.read(new File("images/" + item + ".png"));
-			} catch (IOException e) {
-				System.err.println("There was an error reading an inventory image: " + item);
-				e.printStackTrace();
-			}
-
-			/* Scale the image */
-			Image img = (Image) invPic;
-			Image scaled = img.getScaledInstance(invIconSize.width, invIconSize.height, 0);
-
-			ImageIcon invItem = new ImageIcon(scaled);
-			JLabel invSlot = new JLabel(invItem);
+			/* Read and scale the image */
+			Image scaled = readAndScaleImage(item, invIconSize.width, invIconSize.height);
+			JLabel invSlot = new JLabel(new ImageIcon(scaled));
 
 			invSlot.setFocusable(false);
 			invSlot.setPreferredSize(invIconSize);
 
 			int startHt = 290;
+			int multiplier = 0;
 			if (i < 2) {
-				invSlot.setBounds(new Rectangle(invIconSize.width * i + 10 + (15 * i), startHt, invIconSize.width,
-						invIconSize.height));
+				multiplier = i;
 			} else if (i < 4) {
 				// Same as above but -2 from i and increase height
-				invSlot.setBounds(new Rectangle(invIconSize.width * (i - 2) + 10 + (15 * (i - 2)),
-						startHt + invIconSize.height + 15, invIconSize.width, invIconSize.height));
+				multiplier = i - 2;
+				startHt = 290 + invIconSize.height + 15;
+			} else if (i < 6) {
+				multiplier = i - 4;
+				startHt = 290 + invIconSize.height * 2 + 30;
 			}
-
+			invSlot.setBounds(new Rectangle(invIconSize.width * multiplier + 10 + (15 * multiplier), startHt,
+					invIconSize.width, invIconSize.height));
 			this.add(invSlot);
 			this.invSlots.add(invSlot);
 		}
+
 	}
 
-	public void updateInventoryLabels(Logic l) {
-		Player p = l.getCurrentPlayer();
-		// TODO: Change as player picks up items
-		for (int i = 0; i < p.getInventory().size(); i++) {
-			String item = p.getInventory().get(i).getName();
-			/* Read the image */
-			BufferedImage invPic = null;
-			try {
-				invPic = ImageIO.read(new File("images/" + item + ".png"));
-			} catch (IOException e) {
-				System.err
-						.println("There was an error reading an inventory image: " + p.getInventory().get(i).getName());
-				e.printStackTrace();
-			}
-			/* Scale the image */
-			Image img = (Image) invPic;
-			Image scaled = img.getScaledInstance(invIconSize.width, invIconSize.height, 0);
+	/**
+	 * Reads the image from the images folder
+	 * 
+	 * @param item
+	 *            The string that is the name of the item
+	 * @param width
+	 *            The width to scale the image at
+	 * @param height
+	 *            The height to scale the image at
+	 * @return
+	 */
+	private Image readAndScaleImage(String item, int width, int height) {
+		BufferedImage invPic = null;
+		try {
+			invPic = ImageIO.read(new File("images/" + item + ".png"));
+		} catch (IOException e) {
+			System.err.println("There was an error reading an inventory image: " + item);
+			e.printStackTrace();
+		}
+		Image img = (Image) invPic;
+		Image scaled = img.getScaledInstance(width, height, 0);
+		return scaled;
+	}
 
+	/**
+	 * Updates the visual inventory. Called after a player picks up an item.
+	 * 
+	 * @param player
+	 *            The player whose inventory will be read.
+	 */
+	public void updateInventoryLabels(Player player) {
+		for (int i = 0; i < player.getInventory().size(); i++) {
+			String item = player.getInventory().get(i).getName();
+			// Read and scale the image
+			Image scaled = readAndScaleImage(item, invIconSize.width, invIconSize.height);
 			ImageIcon invItem = new ImageIcon(scaled);
 			JLabel label = invSlots.get(i);
 			label.setIcon(invItem);
 		}
-		// This will cause problem?
 		this.repaint();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
+		drawPatternOnSidePanel(g);
+		updateTimerVisual();
+	}
+
+	/**
+	 *  Draws up the timer component visible to the user.
+	 */
+	private void updateTimerVisual() {
+		timeLabel.setBorder(
+				new BorderWithLabel(frame.getLogic().getTimeString(), new Font("Lucida Sans", Font.BOLD, 24)));
+		this.add(timeLabel);
+		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
+	}
+
+	/**
+	 * Updates the life panel on the side panel. Called when life needs to be
+	 * updated.
+	 */
+	public void updateLifePanel() {
+		switch (frame.getLogic().getPlayer().getLife()) {
+		case 3:
+			try {
+				Image img = ImageIO.read(new File("images/life3.png"));
+				ImageIcon image = new ImageIcon(img);
+				lifeLabel.setIcon(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			try {
+				Image img = ImageIO.read(new File("images/life2.png"));
+				ImageIcon image = new ImageIcon(img);
+				lifeLabel.setIcon(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 1:
+			try {
+				Image img = ImageIO.read(new File("images/life1.png"));
+				ImageIcon image = new ImageIcon(img);
+				lifeLabel.setIcon(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * Draw the background pattern on the SidePanel (EastPanel).
+	 * 
+	 * @param g
+	 *            The graphics object to draw the pattern
+	 */
+	private void drawPatternOnSidePanel(Graphics g) {
 		if (colorChange1) {
 			// Green
 			g.setColor(new Color(0, 170, 0));
@@ -283,43 +359,6 @@ public class EastPanel extends JPanel {
 				}
 			}
 		}
-		switch (frame.getLogic().getCurrentPlayer().getLife()) {
-		case 3:
-			try {
-				Image img = ImageIO.read(new File("images/life3.png"));
-				ImageIcon image = new ImageIcon(img);
-				lifeLabel.setIcon(image);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case 2:
-			try {
-				Image img = ImageIO.read(new File("images/life2.png"));
-				ImageIcon image = new ImageIcon(img);
-				lifeLabel.setIcon(image);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case 1:
-			try {
-				Image img = ImageIO.read(new File("images/life1.png"));
-				ImageIcon image = new ImageIcon(img);
-				lifeLabel.setIcon(image);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		default:
-			break;
-		}
-
-		// Draw up timer component
-		timeLabel.setBorder(
-				new BorderWithLabel(frame.getLogic().getTimeString(), new Font("Lucida Sans", Font.BOLD, 24)));
-		this.add(timeLabel);
-		timeLabel.setBounds(new Rectangle(10, 120, 280, 160));
 	}
 
 	public void setMaxInventoryNumber(int i) {

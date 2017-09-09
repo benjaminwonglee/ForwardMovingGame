@@ -141,7 +141,7 @@ public class Logic {
 		this.level = level;
 	}
 
-	public Player getCurrentPlayer() {
+	public Player getPlayer() {
 		return currentPlayer;
 	}
 

@@ -1,17 +1,13 @@
 package menuitems;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JMenuItem;
-
 import gamelogic.Logic;
 import graphics.GameFrame;
+import graphics.ImageHandler;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class JMenuNew extends JMenuItem {
-
-	private static final long serialVersionUID = 839389142548172867L;
 
 	/**
 	 * Defines the JMenuItem for a new game
@@ -19,24 +15,20 @@ public class JMenuNew extends JMenuItem {
 	 * @param string
 	 * @param font
 	 */
-	public JMenuNew(String string, Font font) {
+	public JMenuNew(String string, Font font, ImageHandler imageHandler) {
 		setFont(font);
-		//TODO: Still needs fixing
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logic l = new Logic();
-				GameFrame f = new GameFrame(l);
-				l.setFrame(f);
-				l.runTimer();
-				l.runDrawTimer();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
+		addActionListener(e -> {
+            Logic l = new Logic();
+            GameFrame f = new GameFrame(l, imageHandler);
+            l.setFrame(f);
+            l.runTimer();
+            l.runDrawTimer();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                throw new RuntimeException("Couldn't start game. Initialization interrupted");
+            }
+        });
 	}
 
 }

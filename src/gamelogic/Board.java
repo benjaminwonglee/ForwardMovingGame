@@ -28,11 +28,16 @@ import tiles.Tile;
  *
  */
 public class Board {
-	private Logic logic = null;
+
+	public static final int maxInventorySize = 3;
+
+	private static final int width = 3;
+	private static final int height = 6;
+
+	private final Logic logic;
+
 	private Tile[][] tiles;
-	private int width = 3;
-	private int height = 6;
-	private static final int maxInventorySize = 3;
+
 	// Level Flags
 	private int rowMonsterCount = 0;
 	private int rowLavaCount = 0;
@@ -64,9 +69,6 @@ public class Board {
 	 * positive: Highest value = bottom of board. timeRunning in game is used to
 	 * draw the new board and make the new set of tiles. Called from Timer
 	 * scheduled every second.
-	 * 
-	 * @param timeRunning
-	 *            The amount of time the game has been running (seconds).
 	 */
 	public void createTiles() {
 		// Shifts all tiles down board by 1 tile

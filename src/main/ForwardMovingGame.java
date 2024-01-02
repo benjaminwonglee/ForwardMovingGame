@@ -2,6 +2,8 @@ package main;
 
 import frames.IntroScreen;
 
+import javax.swing.*;
+
 /**
  * @author Benjamin Wong-Lee
  */
@@ -10,7 +12,7 @@ public class ForwardMovingGame {
 		new IntroScreen();
 	}
 
-	public static void main(String args[]) {
-		new ForwardMovingGame();
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(ForwardMovingGame::new);
 	}
 }

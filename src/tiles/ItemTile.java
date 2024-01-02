@@ -1,9 +1,9 @@
 package tiles;
 
-import java.util.ArrayList;
-
 import gamelogic.Player;
 import items.Item;
+
+import java.util.ArrayList;
 
 /**
  * A Tile containing an Item. Should be made to be a reasonably rare occurrence
@@ -15,11 +15,6 @@ public class ItemTile extends AbstractTile implements Tile {
 	private Item item;
 	private static ArrayList<Item> items = new ArrayList<Item>();
 
-	/**
-	 * Requires maxInventoryNumber to select an item at random.
-	 *
-	 * @param maxInvNum
-	 */
 	public ItemTile() {
 		for (;;) {
 			for (Item it : items) {
@@ -61,6 +56,15 @@ public class ItemTile extends AbstractTile implements Tile {
 	 */
 	public Item getItem() {
 		return item;
+	}
+
+	/**
+	 * This method returns the item which is on the tile.
+	 *
+	 * @return The Item on the Tile.
+	 */
+	public String getItemName() {
+		return item == null ? null : item.getName();
 	}
 
 	public static ArrayList<Item> getItems() {

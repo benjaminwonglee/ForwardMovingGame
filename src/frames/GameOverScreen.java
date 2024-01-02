@@ -1,22 +1,19 @@
 package frames;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 /**
- * 
+ *
  * @author Benjamin Wong-Lee
  *
  */
 public class GameOverScreen extends AbstractWindow {
-	private static final long serialVersionUID = -4909362608024151100L;
 
 	public GameOverScreen() {
+		super();
+
 		this.setTitle("Game Over");
 		GameOverPanel panel = new GameOverPanel();
 		this.add(panel);
@@ -24,7 +21,6 @@ public class GameOverScreen extends AbstractWindow {
 	}
 
 	private class GameOverPanel extends JPanel {
-		private static final long serialVersionUID = -8583261398361793225L;
 
 		public GameOverPanel() {
 			List<JButton> buttons = createButtons();
@@ -52,28 +48,25 @@ public class GameOverScreen extends AbstractWindow {
 			int[] xPoints = new int[3];
 			int[] yPoints = new int[3];
 
-			// Unchanging variables
-			yPoints[0] = 0;
+			// Unchanging coordinate variables that are no 0
 			yPoints[1] = this.getHeight();
 			yPoints[2] = this.getHeight();
-			xPoints[0] = 0;
-			xPoints[1] = 0;
 
-			for (int i = 0; i < 120; i++) {
-				if (i == 0) {
-					g.setColor(new Color(0, 40, 150));
-				} else if (i == 20) {
-					g.setColor(new Color(0, 0, 6 * i));
-				} else if (i == 40) {
-					g.setColor(new Color(0, 0, 3 * i));
-				} else if (i == 60) {
-					g.setColor(new Color(0, 0, i));
-				} else if (i == 80) {
-					g.setColor(new Color(0, 0, i - 20));
-				} else if (i == 100) {
-					g.setColor(new Color(0, 0, i - 60));
-				} else if (i == 120) {
-					g.setColor(new Color(0, 0, i - 100));
+			for (int i = 0; i <= 120; i++) {
+				if (i % 20 == 0) {
+					if (i == 0) {
+						g.setColor(new Color(0, 40, 150));
+					} else if (i == 20) {
+						g.setColor(new Color(0, 0, 120));
+					} else if (i == 40) {
+						g.setColor(new Color(0, 0, 100));
+					} else if (i == 60) {
+						g.setColor(new Color(0, 0, 80));
+					} else if (i == 80) {
+						g.setColor(new Color(0, 0, 60));
+					} else if (i == 100) {
+						g.setColor(new Color(0, 0, 40));
+					}
 				}
 				xPoints[2] = this.getWidth() - (i * 6);
 				g.fillPolygon(xPoints, yPoints, 3);

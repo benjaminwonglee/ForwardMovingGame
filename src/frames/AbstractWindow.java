@@ -1,62 +1,56 @@
 package frames;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import gamelogic.Logic;
+import graphics.GameFrame;
+import graphics.ImageHandler;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.border.Border;
-
-import gamelogic.Logic;
-import graphics.GameFrame;
 
 /**
  * Used to create a window with general buttons such as start game and quit.
  * Sets actions to those buttons. Window is also sized here, along with other
  * regular setup of frame properties such as visibility, location, and closing
  * defaults.
- * 
+ *
+ *
  * @author Benjamin Wong-Lee
  *
  */
 public abstract class AbstractWindow extends JFrame {
-	private static final long serialVersionUID = 2938146749853698812L;
+
+	private final ImageHandler imageHandler;
+
+	public AbstractWindow() throws HeadlessException {
+		super();
+
+		imageHandler = new ImageHandler();
+	}
 
 	/**
 	 * For starting a new game. Everything is created here. Put in
 	 * AbstractWindow since windows with buttons instantiate the game.
-	 * 
-	 * @param startGame
-	 *            The button pressed to initialise a new game
+	 *
+	 * @param startGame  The button pressed to initialise a new game
 	 */
 	private void addStartGameAction(JButton startGame) {
-		startGame.addActionListener(new ActionListener() {
+		startGame.addActionListener((actionEvent) -> {
 			/* Everything begins here */
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Logic l = new Logic();
-				GameFrame f = new GameFrame(l);
-				l.setFrame(f);
-				l.runTimer();
-				l.runDrawTimer();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				dispatchClose();
+			Logic l = new Logic();
+			GameFrame f = new GameFrame(l, imageHandler);
+			l.setFrame(f);
+			l.runTimer();
+			l.runDrawTimer();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				throw new RuntimeException("Couldn't start game. Initialization interrupted");
 			}
+			dispatchClose();
 		});
 	}
 
@@ -70,30 +64,27 @@ public abstract class AbstractWindow extends JFrame {
 	}
 
 	public List<JButton> createButtons() {
-		List<JButton> buttons = new ArrayList<JButton>();
+		List<JButton> buttons = new ArrayList<>();
 
 		JButton newGame = new JButton("New Game");
 		JButton quit = new JButton("Quit");
 
 		buttons.add(newGame);
-		buttons.add(quit);
-
-		this.addStartGameAction(newGame);
-
+		addStartGameAction(newGame);
 		designButton(newGame, "New Game");
-		designButton(quit, "Quit");
 
-		quit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int choice = JOptionPane.showOptionDialog(new JDialog(), "Are you sure you want to quit?", "Quit?",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				if (choice == JOptionPane.YES_OPTION) {
-					System.exit(1);
-				}
+		buttons.add(quit);
+		quit.addActionListener((actionEvent) -> {
+			UIManager.put("OptionPane.messageFont", new Font ("Lucida Sans Regular", Font.PLAIN, 16));
+			JDialog dialog = new JDialog();
+			int choice = JOptionPane.showOptionDialog(dialog, "Are you sure you want to quit?", "Quit?",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			dialog.dispose();
+			if (choice == JOptionPane.YES_OPTION) {
+				System.exit(0);
 			}
 		});
+		designButton(quit, "Quit");
 
 		return buttons;
 	}

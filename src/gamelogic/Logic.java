@@ -1,13 +1,13 @@
 package gamelogic;
 
-import java.util.Timer;
-
 import frames.GameOverScreen;
 import graphics.GameFrame;
 import tiles.ItemTile;
 import tiles.Tile;
 import timertasks.DrawTask;
 import timertasks.TickTask;
+
+import java.util.Timer;
 
 /**
  * The Logic class constructs the logic of the game. The Board, Player, and
@@ -49,7 +49,7 @@ public class Logic {
 	 *
 	 * @return true if the item has been picked up (added to inventory)
 	 */
-	public boolean pickUpItem(int xPos) {
+	public boolean pickUpItem(int xPos) throws GameError {
 		Tile t = checkSquare(xPos, board.getHeight() - 1);
 		if (t instanceof ItemTile) {
 			ItemTile itemTile = (ItemTile) t;
@@ -58,9 +58,8 @@ public class Logic {
 			frame.getSidePanel().updateInventoryLabels(getPlayer());
 			return true;
 		} else {
-			System.err.println("The tile was not an item. Cannot pick up: " + t.getName());
+			throw new GameError("The tile was not an item. Could not pick up: " + t.getName());
 		}
-		return false;
 	}
 
 	/**
